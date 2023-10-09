@@ -10,7 +10,7 @@ class AnalyseController extends AbstractController
 {
     #[Route('/analyse', name: 'app_analyse')]
     public function index(): Response {return $this->render('analyse/index.html.twig', ['controller_name' => 'AnalyseController',]);}
-
+ 
     #[Route('/', name: 'home')]
     public function home(){return $this->render('analyse/home.html.twig',['title'=>"Monsieur x", 'age'=>17]);}
 
