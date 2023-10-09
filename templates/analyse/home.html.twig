@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %} 
+{% block body %}
+
+<h1> Analyseur de votre progression</h1>
+
+{{title}}
+
+{% if age>18 %} 
+affiche ceci est cela si age est > 18
+{% else %}
+<p>Tu es mineur !</p>
+<a href="{{path('app_essai')}}">essai</a>
+{% endif %}
+
+ 
+
+
+{% endblock %}
+
