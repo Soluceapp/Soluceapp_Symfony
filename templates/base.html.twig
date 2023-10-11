@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Mooc.soluceapp.com{% endblock %}</title>
-          {% block stylesheets %}
+        {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
             <link rel="stylesheet" type="text/css" media="" href="{{asset('css/style1.css')}}">
             <link rel="icon" type="image/png" href="{{asset('images/favicon.png') }}">
@@ -16,12 +16,10 @@
         {% endblock %}
     </head>
     <body style="background-image:url(images/fond1.jpg)">
-        {% block body %}
-        
-       
+        {% block header %}{% include"partials/_header.html.twig" %}{% endblock %}
+    
+        {% block body %}{% endblock %}
 
-        
-        
-        {% endblock %}
+        {% block footer %}{% include"partials/_footer.html.twig" %}{% endblock %}
     </body>
 </html>
