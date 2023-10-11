@@ -14,9 +14,5 @@ class BaseController extends AbstractController
     #[Route('/', name: 'home')]
     public function home(){return $this->render('base/accueil.html.twig');}
 
-    #[Route('/menux', name: 'route_menux')]
-    public function menu1(){return $this->render('base/menu1.html.twig');}
 
-    #[Route('/menuy', name: 'route_menuy')]
-    public function menu2(){return $this->render('base/menu2.html.twig');}
 }
