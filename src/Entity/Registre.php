@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RegistreRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RegistreRepository::class)]
 class Registre
@@ -18,6 +19,7 @@ class Registre
     private ?string $dutil = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min:12,max:255)]
     private ?string $dmp = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
