@@ -7,6 +7,8 @@
 /public/bundles/
 /var/
 /vendor/
+/tests/
+/translations/
 .env
 .env.test
 soluceapp_symfony.code-workspace
