@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %} 
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Mooc.soluceapp.com{% endblock %}
 
 {% block body %}
 <form method="post">
@@ -13,18 +13,20 @@
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-<div style="border-style:solid; margin:30 px; margin-inline: 30px; text-align:center">
+<div style="margin:20px"><div style="border-style:solid; margin-inline: 15px; padding:20px; height:auto; text-align:center;display:block; justify-content:center; align-items:center">
     <h3 class="h3 mb-3 font-weight-normal">Connexion VIP</h3>
 
-    <label for="inputEmail">Identifiant</label>
+    <label for="inputEmail">Identifiant &nbsp;</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
     <br><br>
-    <label for="inputPassword">Mot de passe</label>
+    <label for="inputPassword">Mot de passe &nbsp;</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
     <br><br>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
     <button class="btn btn-lg btn-primary" type="submit">Valider</button>
+    <input type="button" onclick="sub_menu33()" value="Mot de passe oublié">
+    <input type="button" onclick="sub_menu34()" value="Mentions légales">
     <br><br>
-</div>
+</div></div>
 </form>
 {% endblock %}
