@@ -1,5 +1,5 @@
 @charset "UTF8";
-body {background-image:url(./public/images/fond1.jpg);background-attachment:fixed;width:auto;color:white;font-family:"verdana"; margin-left:5%;margin-right:10%}
+body {background-image:url('../images/fond1.jpg');background-attachment:fixed;width:auto;color:white;font-family:"verdana"; margin-left:5%;margin-right:10%}
 div {position: relative;animation: mouvement 4s;animation-direction: alternate;}
 @keyframes mouvement {  from {left: 200px;}  to {left: 0px;}}
 

@@ -8,14 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PartialsController extends AbstractController
 {
-    #[Route('/partials', name: 'app_partials')]
-    public function index(): Response
-    {
-        return $this->render('partials/index.html.twig', [
-            'controller_name' => 'PartialsController',
-        ]);
-    }
-
+   
     #[Route('/menux', name: 'route_menux')]
     public function menu1(){return $this->render('partials/_header.html.twig');}
 

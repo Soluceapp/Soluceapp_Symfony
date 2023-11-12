@@ -4,7 +4,7 @@ function sub_menu3() {window.location.assign("https://palissy.soluceapp.com/html
 function sub_menu4() {window.location.assign("https://palissy.soluceapp.com/html/memory.html");}
 function sub_menu5() {document.getElementById("myDropdown5").classList.toggle("show");}
 function sub_menu6() {document.getElementById("myDropdown6").classList.toggle("show"); } 
-function sub_menu7() {window.location.assign("../html/connect.php");}
+function sub_menu7() {window.location.assign("{{path('/connexion')}}");}
 function sub_menu8() {window.location.assign("https://palissy.soluceapp.com/html/motsmeles.html");}
 function sub_menu10() {window.location.assign("https://palissy.soluceapp.com/html/musique.html");}
 function sub_menu11() {window.location.assign("https://palissy.soluceapp.com/html/courtmetrage.html");}
