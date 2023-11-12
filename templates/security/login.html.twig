@@ -10,10 +10,10 @@
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
         </div>
     {% endif %}
-<div style="margin:20px"><div style="border-style:solid; margin-inline: 15px; padding:20px; height:auto; text-align:center;display:block; justify-content:center; align-items:center">
+<div style="margin:20px"><div class="style25">
     <h3 class="h3 mb-3 font-weight-normal">Connexion VIP</h3>
 
     <label for="inputEmail">Identifiant &nbsp;</label>
@@ -23,7 +23,7 @@
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
     <br><br>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-    <button class="btn btn-lg btn-primary" type="submit">Valider</button>
+    <button  type="submit">Valider</button>
     <input type="button" onclick="sub_menu33()" value="Mot de passe oublié">
     <input type="button" onclick="sub_menu34()" value="Mentions légales">
     <br><br>

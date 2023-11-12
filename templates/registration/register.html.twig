@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}mooc.soluceapp.com{% endblock %}
+
+{% block body %}
+<div style="margin:20px"><div class="style25">
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <h3>Inscription au VIP</h3>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        <fieldset>
+            <legend>Mon identité</legend>
+            {{ form_row(registrationForm.nom) }}<br>
+            {{ form_row(registrationForm.prenom) }}<br>
+            {{ form_row(registrationForm.email) }}
+        </fieldset>
+        <br>
+        {{ form_row(registrationForm.plainPassword, { label: 'Mot de passe'}) }}<br>
+        {{ form_row(registrationForm.pseudo) }}<br>
+        <input type="button" onclick="sub_menu34()" value="Mentions légales">
+        {{ form_row(registrationForm.LuLesMentions) }}<br>
+
+        <button type="submit" class="btn btn-primary btn-lg">Valider</button>
+
+    {{ form_end(registrationForm) }}
+</div></div>
+{% endblock %}
