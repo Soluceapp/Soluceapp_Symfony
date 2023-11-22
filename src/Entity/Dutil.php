@@ -35,7 +35,7 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $Prenom = null;
 
-    #[ORM\OneToOne(mappedBy: 'id', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: "App\Entity\Student", mappedBy: 'dutil', cascade: ['persist', 'remove'])]
     private ?Student $student = null;
 
     #[ORM\Column(length: 50)]
