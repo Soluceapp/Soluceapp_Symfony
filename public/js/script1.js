@@ -1,17 +1,7 @@
-function sub_menu1() {window.location.assign("https://palissy.soluceapp.com/html/accueil.html"); }
-function sub_menu2() {window.location.assign("https://palissy.soluceapp.com/html/petitchevaux.html"); }
-function sub_menu3() {window.location.assign("https://palissy.soluceapp.com/html/motcroises.html"); }
-function sub_menu4() {window.location.assign("https://palissy.soluceapp.com/html/memory.html");}
-function sub_menu5() {document.getElementById("myDropdown5").classList.toggle("show");}
-function sub_menu6() {document.getElementById("myDropdown6").classList.toggle("show"); } 
+function sub_menu8() {window.location.assign("http://localhost:8000");}
 function sub_menu7() {window.location.assign("http://localhost:8000/connexion");}
-function sub_menu8() {window.location.assign("https://palissy.soluceapp.com/html/motsmeles.html");}
-function sub_menu10() {window.location.assign("https://palissy.soluceapp.com/html/musique.html");}
-function sub_menu11() {window.location.assign("https://palissy.soluceapp.com/html/courtmetrage.html");}
-function sub_menu12() {window.location.assign("https://palissy.soluceapp.com/html/escapem.html");}
-function sub_menu13() {window.location.assign("https://palissy.soluceapp.com/html/entreprise_virtuelle.html");}
-function sub_menu14() {window.location.assign("https://palissy.soluceapp.com/html/vervischapp.html");}
-function sub_menu15() {window.location.assign("https://palissy.soluceapp.com/html/musee3D.html");}
+function sub_menu9() {window.location.assign("http://localhost:8000/inscription");}
+function sub_menu10() {window.location.assign("http://localhost:8000/logout");}
 function sub_menu16() {console.log(alert("Mot de passe ou utilisateur incorrect."));}
 function sub_menu17() {window.location.assign("../vip/compta1.php");}
 function sub_menu18() {window.location.assign("../vip/base.php");}

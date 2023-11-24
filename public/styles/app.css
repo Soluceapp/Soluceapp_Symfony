@@ -78,7 +78,8 @@ div.order9{order:9;flex-grow:1; width:100%;text-align: center;}
 
 .style23{display:flex;justify-content:center;align-items:center; }
 .style25{border-style:solid; margin-inline: 15px; padding:20px; height:auto; text-align:center;display:block; justify-content:center; align-items:center}
-	
+.style26{margin:15px;}
+
 /* Apparence du bouton */
 .dropbtn {
   background-color: rgba(34,31,179,0.8);
