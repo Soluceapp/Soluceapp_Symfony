@@ -18,16 +18,17 @@ class ClassStudent
     #[ORM\Column(length: 255)]
     private ?string $NameClass = null;
 
-    #[ORM\ManyToMany(targetEntity: ActivityStudent::class, inversedBy: 'classStudents')]
-    private Collection $NameActivity;
-
+   
     #[ORM\OneToMany(mappedBy: 'NameClass', targetEntity: Student::class)]
     private Collection $students;
 
+    #[ORM\OneToMany(mappedBy: 'classStudent', targetEntity: activity::class)]
+    private Collection $activity_id;
+
     public function __construct()
     {
-        $this->NameActivity = new ArrayCollection();
         $this->students = new ArrayCollection();
+        $this->activity_id = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,29 +48,7 @@ class ClassStudent
         return $this;
     }
 
-    /**
-     * @return Collection<int, ActivityStudent>
-     */
-    public function getNameActivity(): Collection
-    {
-        return $this->NameActivity;
-    }
 
-    public function addNameActivity(ActivityStudent $nameActivity): static
-    {
-        if (!$this->NameActivity->contains($nameActivity)) {
-            $this->NameActivity->add($nameActivity);
-        }
-
-        return $this;
-    }
-
-    public function removeNameActivity(ActivityStudent $nameActivity): static
-    {
-        $this->NameActivity->removeElement($nameActivity);
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Student>
@@ -95,6 +74,36 @@ class ClassStudent
             // set the owning side to null (unless already changed)
             if ($student->getNameClass() === $this) {
                 $student->setNameClass(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, activity>
+     */
+    public function getActivityId(): Collection
+    {
+        return $this->activity_id;
+    }
+
+    public function addActivityId(activity $activityId): static
+    {
+        if (!$this->activity_id->contains($activityId)) {
+            $this->activity_id->add($activityId);
+            $activityId->setClassStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivityId(activity $activityId): static
+    {
+        if ($this->activity_id->removeElement($activityId)) {
+            // set the owning side to null (unless already changed)
+            if ($activityId->getClassStudent() === $this) {
+                $activityId->setClassStudent(null);
             }
         }
 
