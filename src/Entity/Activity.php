@@ -25,6 +25,12 @@ class Activity
     #[ORM\ManyToOne(inversedBy: 'activity_id')]
     private ?ClassStudent $classStudent = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $name_activity = null;
+
+    #[ORM\Column]
+    private ?int $coefficient = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +80,30 @@ class Activity
     public function setClassStudent(?ClassStudent $classStudent): static
     {
         $this->classStudent = $classStudent;
+
+        return $this;
+    }
+
+    public function getNameActivity(): ?string
+    {
+        return $this->name_activity;
+    }
+
+    public function setNameActivity(string $name_activity): static
+    {
+        $this->name_activity = $name_activity;
+
+        return $this;
+    }
+
+    public function getCoefficient(): ?int
+    {
+        return $this->coefficient;
+    }
+
+    public function setCoefficient(int $coefficient): static
+    {
+        $this->coefficient = $coefficient;
 
         return $this;
     }

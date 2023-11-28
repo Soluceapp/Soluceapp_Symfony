@@ -25,6 +25,9 @@ class ClassStudent
     #[ORM\OneToMany(mappedBy: 'classStudent', targetEntity: activity::class)]
     private Collection $activity_id;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $moyenne_activity = null;
+
     public function __construct()
     {
         $this->students = new ArrayCollection();
@@ -106,6 +109,18 @@ class ClassStudent
                 $activityId->setClassStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMoyenneActivity(): ?float
+    {
+        return $this->moyenne_activity;
+    }
+
+    public function setMoyenneActivity(?float $moyenne_activity): static
+    {
+        $this->moyenne_activity = $moyenne_activity;
 
         return $this;
     }
