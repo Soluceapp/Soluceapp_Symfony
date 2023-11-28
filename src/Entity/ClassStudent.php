@@ -22,7 +22,7 @@ class ClassStudent
     #[ORM\OneToMany(mappedBy: 'NameClass', targetEntity: Student::class)]
     private Collection $students;
 
-    #[ORM\OneToMany(mappedBy: 'classStudent', targetEntity: activity::class)]
+    #[ORM\OneToMany(mappedBy: 'classStudent', targetEntity: Activity::class)]
     private Collection $activity_id;
 
     #[ORM\Column(nullable: true)]
@@ -84,14 +84,14 @@ class ClassStudent
     }
 
     /**
-     * @return Collection<int, activity>
+     * @return Collection<int, Activity>
      */
     public function getActivityId(): Collection
     {
         return $this->activity_id;
     }
 
-    public function addActivityId(activity $activityId): static
+    public function addActivityId(Activity $activityId): static
     {
         if (!$this->activity_id->contains($activityId)) {
             $this->activity_id->add($activityId);
@@ -101,7 +101,7 @@ class ClassStudent
         return $this;
     }
 
-    public function removeActivityId(activity $activityId): static
+    public function removeActivityId(Activity $activityId): static
     {
         if ($this->activity_id->removeElement($activityId)) {
             // set the owning side to null (unless already changed)
