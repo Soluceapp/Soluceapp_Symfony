@@ -13,7 +13,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
        //$faker = Factory\Factory::create('fr_FR');    $faker->name()
-
+/*
         for ($i=1; $i < 50; ++$i) { 
             $registre = new Registre();
             $registre->setDutil('Elève '.$i);
@@ -25,7 +25,7 @@ class AppFixtures extends Fixture
             $manager->persist($registre);
         }
             
-        
+      */  
         $manager->flush();
     }
 }
