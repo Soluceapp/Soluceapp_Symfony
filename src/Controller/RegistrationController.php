@@ -18,6 +18,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use App\Controller\MailerController;
+use App\Services\MailerService;
 
 class RegistrationController extends AbstractController
 {
@@ -28,8 +32,9 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('/inscription', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, DutilAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    #[Route('/registration', name: 'app_register')]
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, DutilAuthenticator $authenticator, EntityManagerInterface $entityManager, 
+    MailerService $mailer): Response
     {
         $user = new Dutil();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -46,18 +51,21 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-/*
-            // generate a signed url and email it to the user
+
+            $mailer->sendEmail();
+
+       /*     
+
+          // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('contact@soluceapp.com', 'Soluceapp Bot'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->from(new Address('noreply@soluceapp.com', 'Soluceapp Bot'))
+                    ->to($user->getEmail())   // {{ app.user.email }}
+                    ->subject('Confirmation d\'inscription chez mooc.soluceapp.com')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-*/
-            // do anything else you need here, like send an email
-
+            ); 
+          */  
+            
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
@@ -69,6 +77,7 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
 
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator, DutilRepository $dutilRepository): Response
@@ -86,7 +95,7 @@ class RegistrationController extends AbstractController
         }
 
         // validate email confirmation link, sets User::isVerified=true and persists
-        try {
+       try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));

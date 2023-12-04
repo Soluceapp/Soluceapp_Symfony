@@ -9,6 +9,8 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+use App\Entity\Dutil;
+
 
 class EmailVerifier
 {
@@ -18,13 +20,14 @@ class EmailVerifier
         private EntityManagerInterface $entityManager
     ) {
     }
-/*
+
     public function sendEmailConfirmation(string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email): void
     {
-        $signatureComponents = $this->verifyEmailHelper->generateSignature(
+  /*     $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
-            $user->getId(),
-            $user->getEmail(),
+            
+           $user->getId(),
+            $user->getUserIdentifier(),
             ['id' => $user->getId()]
         );
 
@@ -35,21 +38,24 @@ class EmailVerifier
 
         $email->context($context);
 
-        $this->mailer->send($email);
+        $this->mailer->send($email); */
     }
-*/
+
     /**
      * @throws VerifyEmailExceptionInterface
      */
-/*
+
     public function handleEmailConfirmation(Request $request, UserInterface $user): void
     {
-        $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
+   /*     
+        $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId()
+        , $user->getEmail());
 
         $user->setIsVerified(true);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+     */   
     }
-*/
+
 }
