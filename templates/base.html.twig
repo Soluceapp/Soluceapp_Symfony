@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Mooc.soluceapp.com{% endblock %}</title>
-        <link rel"stylesheet" href="{{asset('styles/bootstrap.min.css') }}">
         {% block stylesheets %}
             <link rel="stylesheet" href="{{asset('styles/app.css') }}">
             <link rel="icon" type="image/png" href="{{asset('images/favicon.png') }}">
@@ -13,6 +12,12 @@
         {% block javascripts %}
             <script src="{{asset('js/script1.js')}}"></script>
             <script src="{{asset('js/script2.js')}}"></script>
+              {% if app.user and app.user.isVerified == true%}
+            <script src="{{asset('js/script3.js')}}"></script>
+              {%endif%}
+              {% if app.user and app.user.isVerified == true%}
+            <script src="{{asset('js/script4.js')}}"></script>
+              {%endif%}
         {% endblock %}
     </head>
     <body >

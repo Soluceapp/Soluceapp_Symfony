@@ -11,7 +11,7 @@ class UsersController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(): Response
-    { $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+    { $this->denyAccessUnlessGranted('IS_AUTHENTICATED','ROLE_ADMIN');
         return $this->render('admin/users/index.html.twig', [
             'controller_name' => 'UsersController',
         ]);

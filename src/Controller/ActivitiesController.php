@@ -16,4 +16,12 @@ class ActivitiesController extends AbstractController
         return $this->render('activities/index.html.twig');
     }
 
+    #[Route('/activities/comptafacil', name: 'app_compta')]
+    public function comptafacil(): Response
+    { 
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        return $this->render('activities/comptafacil.html.twig');
+    }
+
+
 }
