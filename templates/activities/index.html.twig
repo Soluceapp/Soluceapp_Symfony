@@ -1,9 +1,8 @@
-
-
 {% extends 'base.html.twig' %} 
 
 
 {% block body %}
+
 
 
 <div   class="container-grid-maitre" > 
@@ -12,7 +11,7 @@
 <section class="style2">
 
 <div style="margin:20px"><div class="style25">
-    Vous êtes connecté {{ app.user.pseudo }}
+    Vous êtes connecté {{ app.user.pseudo }}  
 {% if app.user and app.user.isVerified == false%}
 <br>mais il faut valider sur votre boite mail<br>votre mail pour accéder aux activités
 {%include "partials/_flash.html.twig"%}
