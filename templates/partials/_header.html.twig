@@ -9,19 +9,29 @@
 
     <div class="container-flex-onglets">
     {% if app.user %}
-    <div class="item-flex order4" class="style8" class="dropdown"><button onclick="sub_menu10()" class="dropbtn">Accès<br>accueil</button><div id="myDropdown6" class="dropdown-content"></div></div>
+    <div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu10()" class="dropbtn">Accès<br>accueil</button><div id="myDropdown6" class="dropdown-content"></div></div>
     {%else%}
-     <div class="item-flex order4" class="style8" class="dropdown"><button onclick="sub_menu8()" class="dropbtn">Accès<br>accueil</button><div id="myDropdown6" class="dropdown-content"></div></div>        
+     <div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu8()" class="dropbtn">Accès<br>accueil</button><div id="myDropdown6" class="dropdown-content"></div></div>        
     {%endif%} 
     {% if app.user %}
-    <div class="item-flex order5" class="style8" class="dropdown"><button onclick="sub_menu10()" class="dropbtn">Se<br>déconnecter</button><div id="myDropdown6" class="dropdown-content"></div></div>
+    <div class="item-flex order7" class="style8" class="dropdown"><button onclick="sub_menu10()" class="dropbtn">Se<br>déconnecter</button><div id="myDropdown6" class="dropdown-content"></div></div>
     {%else%}
-    <div class="item-flex order6" class="style8" class="dropdown"><button onclick="sub_menu7()" class="dropbtn">Se<br>connecter</button><div id="myDropdown7" class="dropdown-content"></div></div></div>
+    <div class="item-flex order5" class="style8" class="dropdown"><button onclick="sub_menu7()" class="dropbtn">Se<br>connecter</button><div id="myDropdown7" class="dropdown-content"></div></div></div>
     {%endif%} 
+
+  
+    {% if app.user and app.user.isVerified == true%}{% for role in app.user.roles %}
+        {% if role == "ROLE_ADMIN" %}
+   <div class="item-flex order6" class="style8" class="dropdown"><button onclick="sub_menu36()" class="dropbtn">Accéder à<br>l'administration</button><div id="myDropdown6" class="dropdown-content"></div></div>
+        {% endif %}
+    {% endfor %}{%endif%} 
+
+
     {% if app.user and app.user.isVerified == true%}
-   <div class="item-flex order7" class="style8" class="dropdown"><button onclick="sub_menu34()" class="dropbtn">Choisir une<br>activité</button><div id="myDropdown6" class="dropdown-content">
+   <div class="item-flex order6" class="style8" class="dropdown"><button onclick="sub_menu34()" class="dropbtn">Choisir une<br>activité</button><div id="myDropdown6" class="dropdown-content">
    <a onclick="sub_menu12()" class="style12">Comptafacil</a><a onclick="sub_menu13()" class="style12">Droitfacil</a><a onclick="sub_menu14()" class="style12">Avoir&Escompte</a><a onclick="sub_menu15()" class="style12">Musée 3D</a></div></div>
     {%endif%} 
+    
 
 
 </header>
