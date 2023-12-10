@@ -13,7 +13,7 @@
 <div style="margin:20px"><div class="style25">
     Vous êtes connecté {{ app.user.pseudo }}  
 {% if app.user and app.user.isVerified == false%}
-<br>mais il faut valider sur votre boite mail<br>votre mail pour accéder aux activités
+<br>mais il faut valider sur votre boite mail<br>votre mail pour accéder aux activités<br>Cliquez deux fois ensuite pour accéder.
 {%include "partials/_flash.html.twig"%}
 {%elseif app.user and app.user.isVerified == true%}
 <br>vous pouvez choisir une activité.

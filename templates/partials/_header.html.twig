@@ -29,6 +29,8 @@
     {% if app.user and app.user.isVerified == true%}
    <div class="item-flex order6" class="style8" class="dropdown"><button onclick="sub_menu34()" class="dropbtn">Choisir une<br>activité</button><div id="myDropdown6" class="dropdown-content">
    <a onclick="sub_menu12()" class="style12">Comptafacil</a><a onclick="sub_menu13()" class="style12">Droitfacil</a><a onclick="sub_menu14()" class="style12">Avoir&Escompte</a><a onclick="sub_menu15()" class="style12">Musée 3D</a></div></div>
+   {% elseif app.user and app.user.isVerified == false%}
+    <div class="item-flex order6" class="style8" class="dropdown"><button onclick="sub_menu35()" class="dropbtn">Choisir une<br>activité</button><div id="myDropdown6" class="dropdown-content"></div></div>
     {%endif%} 
     
 

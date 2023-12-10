@@ -12,8 +12,11 @@
         {% block javascripts %}
             <script src="{{asset('js/script1.js')}}"></script>
             <script src="{{asset('js/script2.js')}}"></script>
-              {% if app.user and app.user.isVerified == true%}
+            {% if app.user == true%}
             <script src="{{asset('js/script3.js')}}"></script>
+              {%endif%}
+              {% if app.user and app.user.isVerified == true%}
+            <script src="{{asset('js/script5.js')}}"></script>
               {%endif%}
               {% if app.user and app.user.isVerified == true%}
             <script src="{{asset('js/script4.js')}}"></script>
