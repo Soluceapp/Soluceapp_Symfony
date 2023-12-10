@@ -21,9 +21,6 @@ div.order2{order:2;flex-grow:1;text-align: center;}
 div.order3{order:3;flex-grow:1;text-align: center;}
 div.order4{order:4;flex-grow:1;text-align: center;}
 div.order5{order:5;flex-grow:1;text-align: center;}
-div.order6{order:6;flex-grow:1;text-align: center;}
-div.order7{order:7;flex-grow:1;text-align: center;} 
-div.order10{order:8;flex-grow:1;text-align: center;} 
 
 /* Structuration du style de l'article*/
 div.container-flex-article{display:flex;align-items:stretch; }
@@ -42,9 +39,6 @@ div.order2{order:2;flex-grow:1;text-align: center;}
 div.order3{order:3;flex-grow:1;text-align: center;}
 div.order4{order:4;flex-grow:1;text-align: center;}
 div.order5{order:5;flex-grow:1;text-align: center;grid-column:1;}
-div.order6{order:6;flex-grow:1;text-align: center;}
-div.order7{order:7;flex-grow:1;text-align: center;} 
-div.order10{order:8;flex-grow:1;text-align: center;} 
 
 div.container-flex-article{display:flex;flex-direction:column;align-items:flex-start;}
 div.article-flex{ padding:4px}

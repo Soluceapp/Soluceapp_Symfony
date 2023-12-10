@@ -7,17 +7,29 @@ function sub_menu32() {console.log(alert("Mot de passe : 12 caractères mini / 1
 function sub_menu34() {console.log(alert("Les données enregistrées dans ce site ne seront pas utilisées et Soluceapp respectent les règles du RGPD (Règlement général sur la protection des données) et la loi Informatique et Liberté n78-17 disponible sur le site https://www.cnil.fr/fr/la-loi-informatique-et-libertes. Vous avez la possibilité d’avoir accès à ces données, de rectification ou d’effacement des données et de retrait du consentement. "));}
 
 // Ferme dropdown si click à l'extérieur
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
+document.addEventListener('DOMContentLoaded', function() {
+  var dropdownButton = document.querySelector('.dropbtn');
+  var dropdownContent = document.getElementById('myDropdown5');
+
+  dropdownButton.addEventListener('click', function(event) {
+    event.stopPropagation(); 
+
+    
+    dropdownButton.classList.toggle('hidden');
+
+   
+    dropdownContent.classList.toggle('show');
+  });
+
+
+  document.addEventListener('click', function(event) {
+    if (!event.target.matches('.dropbtn')) {
+    
+      if (!dropdownButton.classList.contains('hidden')) {
+        dropdownButton.classList.add('hidden');
+        dropdownContent.classList.remove('show');
       }
     }
-  }
-}
-
+  });
+});
 
