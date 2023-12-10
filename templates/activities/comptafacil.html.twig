@@ -12,15 +12,7 @@
 
 <div style="margin:20px"><div class="style25">
 <h1>Comptafacil</h1>
-<br>
-    Vous êtes connecté {{ app.user.pseudo }}  
-{% if app.user and app.user.isVerified == false%}
-<br>mais il faut valider sur votre boite mail<br>votre mail pour accéder aux activités
-{%include "partials/_flash.html.twig"%}
-{%elseif app.user and app.user.isVerified == true%}
-<br>vous pouvez choisir une activité.
-<br><br>Votre note est de : 
-{% endif%}
+
 </div></div>
 <article >
 <div class="container-flex-article">

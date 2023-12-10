@@ -13,7 +13,7 @@
     {%endif%} 
 
     {% if app.user %}
-    <div class="item-flex order4" class="style8" class="dropdown"><button onclick="sub_menu10()" class="dropbtn">Se<br>déconnecter</button><div id="myDropdown6" class="dropdown-content"></div></div>
+    <div class="item-flex order5" class="style8" class="dropdown" ><button onclick="sub_menu10()" class="dropbtn">Se<br>déconnecter</button><div id="myDropdown6" class="dropdown-content"></div></div>
     {%else%}
     <div class="item-flex order2" class="style8" class="dropdown"><button onclick="sub_menu7()" class="dropbtn">Se<br>connecter</button><div id="myDropdown7" class="dropdown-content"></div></div></div>
     {%endif%} 
@@ -31,12 +31,13 @@
   <button onclick="sub_menu5()" class="dropbtn">Choisir une<br>activité</button>
   <div id="myDropdown5" class="dropdown-content">
     <a onclick="sub_menu35()" class="style12">Choisir une<br>activité</a>
+    <a onclick="sub_menu16()" class="style12">Facture Mystère</a>
     <a onclick="sub_menu34()" class="style12">Comptafacil</a>
     <a onclick="sub_menu14()" class="style12">Avoir&Escompte</a>
   </div>
 </div>
    {% elseif app.user and app.user.isVerified == false%}
-    <div class="item-flex order" class="style8" class="dropdown"><button onclick="sub_menu35()" class="dropbtn">Choisir une<br>activité</button><div id="myDropdown6" class="dropdown-content"></div></div>
+    <div class="item-flex order0" class="style8" class="dropdown"><button onclick="sub_menu35()" class="dropbtn">Accéder aux<br>activités</button><div id="myDropdown6" class="dropdown-content"></div></div>
     {%endif%} 
     
 
