@@ -8,11 +8,10 @@
 <!-- Liste des onglets -->
 
     <div class="container-flex-onglets">
-    {% if app.user %}
-    <div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu10()" class="dropbtn">Accès<br>accueil</button><div id="myDropdown6" class="dropdown-content"></div></div>
-    {%else%}
-     <div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu8()" class="dropbtn">Accès<br>accueil</button><div id="myDropdown6" class="dropdown-content"></div></div>        
+    {% if app.user==false %}
+    <div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu10()" class="dropbtn">Accès<br>accueil</button><div id="myDropdown6" class="dropdown-content"></div></div>    
     {%endif%} 
+
     {% if app.user %}
     <div class="item-flex order7" class="style8" class="dropdown"><button onclick="sub_menu10()" class="dropbtn">Se<br>déconnecter</button><div id="myDropdown6" class="dropdown-content"></div></div>
     {%else%}

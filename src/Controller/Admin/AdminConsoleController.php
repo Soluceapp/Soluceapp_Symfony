@@ -42,6 +42,6 @@ class AdminConsoleController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Classes', 'fas fa-people-group', ClassStudent::class);
         yield MenuItem::linkToCrud('Activités', 'fas fa-person-running', Activity::class);
         yield MenuItem::linkToRoute('Tester les activités', 'fa fa-door-open', 'app_activities');
-        yield MenuItem::linkToLogout('Logout', 'fa fa-sign-out');
+        yield MenuItem::linkToLogout('Se déconnecter', 'fa fa-sign-out');
     }
 }
