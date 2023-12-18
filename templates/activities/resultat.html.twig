@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %} 
+
+
+{% block body %}
+
+
+
+<div   class="container-grid-maitre" > 
+<!-- Contenu informatif de la page -->
+<main>
+<section class="style2">
+
+<div style="margin:20px"><div class="style25">
+<h1>Résultat de l'activité</h1>
+Tu as donné la réponse {{ app.request.get('montant') }}.
+{% if app.request.get('montant')== app.request.session.get('solution') %}
+<br>Cette réponse est bonne. Tu gagnes donc un point.<br><br>
+{% else %}
+<br>Cette réponse n'est pas la bonne. Essaye encore une fois.<br><br>
+{% endif %}
+{{dump()}}
+</div></div>
+<article >
+<div class="container-flex-article">
+
+<!-- Explications principales -->
+
+</div>
+
+
+</div>
+</article>
+
+
+
+<br>
+
+
+<br><br>
+</section>
+</main>
+
+
+
+
+</div>
+{% endblock %}

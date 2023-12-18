@@ -21,7 +21,7 @@ class AdminConsoleController extends AbstractDashboardController
     #[IsGranted('ROLE_ADMIN')]
     //#[IsGranted('ROLE_SUPERADMIN')]
     public function index(): Response
-    {$this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+    {$this->denyAccessUnlessGranted('ROLE_ADMIN');
 
          return $this->render('admin/dashboard.html.twig');    
     }
