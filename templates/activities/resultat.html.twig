@@ -12,12 +12,14 @@
 
 <div style="margin:20px"><div class="style25">
 <h1>Résultat de l'activité</h1>
-Tu as donné la réponse {{ app.request.get('montant') }}.
+Tu as donné la réponse {{ app.request.get('montant') }}, {{ app.user.pseudo }}.
 {% if app.request.get('montant')== app.request.session.get('solution') %}
-<br>Cette réponse est bonne. Tu gagnes donc un point.<br><br>
+<br>Cette réponse est bonne. Tu gagnes donc un point.<br>
 {% else %}
-<br>Cette réponse n'est pas la bonne. Essaye encore une fois.<br><br>
+<br>Cette réponse n'est pas la bonne. Essaye encore une fois.<br>
 {% endif %}
+<br>Ton nombre de points est actuellement de {{etudiant.Points}}.<br><br>
+
 {{dump()}}
 </div></div>
 <article >

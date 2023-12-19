@@ -42,7 +42,7 @@ class Student
 
         return $this;
     }
-
+   
     public function getNotes(): ?int
     {
         return $this->Notes;

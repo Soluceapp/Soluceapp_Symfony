@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Dutil;
+use App\Entity\Student;
 use App\Form\RegistrationFormType;
 use App\Repository\DutilRepository;
 use App\Security\DutilAuthenticator;
@@ -34,9 +35,11 @@ class RegistrationController extends AbstractController
 
     #[Route('/registration', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, DutilAuthenticator $authenticator, EntityManagerInterface $entityManager, 
-    MailerService $mailer): Response
+    MailerService $mailer,DutilRepository $dutilRepository): Response
     {
         $user = new Dutil();
+        $user->setCreatedAt(new \DateTimeImmutable());
+        $user->setRoles(['ROLE_USER']);
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -46,12 +49,20 @@ class RegistrationController extends AbstractController
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
-                )
+                )       
             );
-
+           
             $entityManager->persist($user);
             $entityManager->flush();
-     
+
+            // complète les données de manières automatique : 
+            $student = new Student();
+            $student->setPoints(0);
+            //$student->setId($DutilRepository->find($id));
+            $student->setNotes(0);  
+            $entityManager->persist($student); 
+            $entityManager->flush();
+
           // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())

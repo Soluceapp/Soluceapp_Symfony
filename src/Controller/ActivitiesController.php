@@ -2,13 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Dutil;
+use App\Repository\StudentRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class ActivitiesController extends AbstractController
+
+
+class ActivitiesController extends AbstractController 
 {
     #[Route('/activities', name: 'app_activities')]
     public function index(): Response
@@ -132,24 +137,12 @@ class ActivitiesController extends AbstractController
 
 
     #[Route('/activities/resultat', name: 'app_resultat')]
-
-    public function result(SessionInterface $session): Response
+    public function result(SessionInterface $session,StudentRepository $studentRepository, $id=1, ManagerRegistry $doctrine): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         $session->get('solution');
-
-        if(isset($_POST['montant'])&&!empty($_POST['montant']))
-        {
-            
-            $Variable_user = $_POST['montant'];
-            $montant= htmlspecialchars($Variable_user);
-
-            if ($montant == 'SOL') {
-                return $this->redirectToRoute('app_facture');
-            }
-        }
-        else return $this->redirectToRoute('app_facture');
+        $student= $studentRepository->find($id);
         
-        return $this->render('activities/resultat.html.twig',['SOL'=> $session]);
+        return $this->render('activities/resultat.html.twig',['SOL'=> $session,'etudiant'=> $student]);
         
            
     }
