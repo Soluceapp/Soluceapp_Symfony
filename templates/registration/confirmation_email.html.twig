@@ -3,8 +3,8 @@
 
 <p>
     Confirmez votre email en cliquant sur ce lien : <br><br>
-    <a href="{{ signedUrl|raw }}">Confirmer mon email</a>.
-    Ce lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+    <a href="{{absolute_url(path('verify_user',{token: token}))}}">Confirmer mon email</a>.
+    Ce lien expirera dans 3 heures.
 </p>
 
 <p>

@@ -7,7 +7,6 @@ use App\Entity\Student;
 use App\Form\RegistrationFormType;
 use App\Repository\DutilRepository;
 use App\Security\DutilAuthenticator;
-use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,24 +17,20 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use App\Controller\MailerController;
+use App\Services\JWTService;
 use App\Services\MailerService;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 class RegistrationController extends AbstractController
 {
-    private EmailVerifier $emailVerifier;
-
-    public function __construct(EmailVerifier $emailVerifier)
-    {
-        $this->emailVerifier = $emailVerifier;
-    }
-
+  
     #[Route('/registration', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, DutilAuthenticator $authenticator, EntityManagerInterface $entityManager, 
-    MailerService $mailer,DutilRepository $dutilRepository): Response
+    MailerService $mailer,DutilRepository $dutilRepository, JWTService $jwt): Response
     {
         $user = new Dutil();
         $user->setCreatedAt(new \DateTimeImmutable());
@@ -56,22 +51,22 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // complète les données de manières automatique : 
-            $student = new Student();
+            $student = new Student();            
             $student->setPoints(0);
-            //$student->setId($DutilRepository->find($id));
+            //$id_user = $dutilRepository->find($request->query->get($id));
             $student->setNotes(0);  
             $entityManager->persist($student); 
             $entityManager->flush();
-
+        
+          // génère le JWT (token du mail envoyé)
+            $header =['typ'=> 'JWT','alg'=>'HS256'];
+            $payload =['user_id'=> $user->getId()];
+            $token=$jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
           // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('noreply@soluceapp.com', 'Soluceapp Bot'))
-                    ->to($user->getEmail())   // {{ app.user.email }}
-                    ->subject('Confirmation d\'inscription chez mooc.soluceapp.com')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            ); 
-         
+            $mailer->sendEmail(
+                $user->getEmail(),
+                compact('user','token')
+            );     
             
             return $userAuthenticator->authenticateUser(
                 $user,
@@ -84,35 +79,23 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-
-
-    #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator, DutilRepository $dutilRepository): Response
+    #[Route('/verif/{token}',name:'verify_user')]
+    public function verifyUser($token, JWTService $jwt, DutilRepository $dutilRepository,EntityManagerInterface $entityManager):Response
     {
-        $id = $request->query->get('id');
+        if($jwt->isValid($token)&&!$jwt->isExpired($token)&&$jwt->check($token,$this->getParameter('app.jwtsecret')))
+        {
+            $payload = $jwt ->getPayload($token);
+            $user = $dutilRepository->find($payload['user_id']);
+            if($user&&!$user->isVerified()){
+                $user->setIsVerified(true);
+                $entityManager->flush();
+                $this->addFlash('success','Utilisateur activé');
+                return $this->redirectToRoute('app_activities');
+            }
 
-        if (null === $id) {
-            return $this->redirectToRoute('app_register');
-        }
-
-        $user = $dutilRepository->find($id);
-
-        if (null === $user) {
-            return $this->redirectToRoute('app_register');
-        }
-
-        // validate email confirmation link, sets User::isVerified=true and persists
-       try {
-            $this->emailVerifier->handleEmailConfirmation($request, $user);
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-
-            return $this->redirectToRoute('app_register');
-        }
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('Réussite ', 'Votre email a été vérifié.');
-
-        return $this->redirectToRoute('app_register');
+        };
+        $this->addflash('Danger', 'Le token est invalide ou a expiré');
+        return $this->redirectToRoute('app_login');
     }
+
 }
