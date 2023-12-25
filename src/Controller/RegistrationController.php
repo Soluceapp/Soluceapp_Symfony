@@ -65,7 +65,8 @@ class RegistrationController extends AbstractController
           // generate a signed url and email it to the user
             $mailer->sendEmail(
                 $user->getEmail(),
-                compact('user','token')
+                '/registration/confirmation_email.html.twig',
+                compact('user','token'),
             );     
             
             return $userAuthenticator->authenticateUser(

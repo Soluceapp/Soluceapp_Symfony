@@ -1,5 +1,6 @@
-function sub_menu8() {window.location.assign("http://localhost:8000");}
+function sub_menu6() {window.location.assign("http://localhost:8000/oubli-pass");}
 function sub_menu7() {window.location.assign("http://localhost:8000/connexion");}
+function sub_menu8() {window.location.assign("http://localhost:8000");}
 function sub_menu9() {window.location.assign("http://localhost:8000/registration");}
 function sub_menu10() {window.location.assign("http://localhost:8000/logout");}
 function sub_menu16() {console.log(alert("Mot de passe ou utilisateur incorrect."));}

@@ -10,14 +10,14 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 class MailerService 
 {
     public function __construct(private MailerInterface $mailer){$this->mailer=$mailer;}
-    public function sendEmail(string $to, array $context ): void
+    public function sendEmail(string $to, string $template,array $context ): void
     {
         $email = (new TemplatedEmail())
             ->from('noreply@soluceapp.com')
             ->to($to)
-            ->subject('Demande de confirmation d\'inscription chez mooc.soluceapp.com')
-            ->text('Demande de confirmation d\'inscription chez mooc.soluceapp.com')
-            ->htmlTemplate('registration/confirmation_email.html.twig')
+            ->subject('Demande de confirmation mooc.soluceapp.com')
+            ->text('Demande de confirmation mooc.soluceapp.com')
+            ->htmlTemplate($template)
             ->context($context);
 
         $this->mailer->send($email);
