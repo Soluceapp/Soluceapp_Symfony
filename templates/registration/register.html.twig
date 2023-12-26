@@ -8,13 +8,12 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h3>Inscription au VIP</h3>
+    <h4>Inscription</h4>
 
     {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
         <fieldset>
-            <legend>Mon identité</legend>
             {{ form_row(registrationForm.nom) }}<br>
             {{ form_row(registrationForm.prenom) }}<br>
             {{ form_row(registrationForm.email) }}
@@ -24,7 +23,7 @@
         {{ form_row(registrationForm.pseudo) }}<br>
         
         {{ form_row(registrationForm.LuLesMentions) }}<br>
-        <input type="button" onclick="sub_menu34()" value="Mentions légales">
+        <input type="button" class="btn btn-primary btn-lg" onclick="sub_menu34()" value="Mentions légales">
         <button type="submit" class="btn btn-primary btn-lg">Valider</button>
 
     {{ form_end(registrationForm) }}

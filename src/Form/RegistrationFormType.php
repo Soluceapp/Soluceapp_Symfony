@@ -24,6 +24,7 @@ class RegistrationFormType extends AbstractType
             ->add('prenom', TextType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre prénom'])
             ->add('pseudo', TextType::class,['attr'=> ['class' =>'style26'], 'label' =>'Votre pseudo'])
             ->add('LuLesMentions', CheckboxType::class, [
+                'attr'=> ['class' =>'style26'],
                 'label' =>"J'ai lu les mentions",
                 'mapped' => false,
                 'constraints' => [

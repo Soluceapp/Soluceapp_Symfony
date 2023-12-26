@@ -19,7 +19,7 @@ class Student
     #[ORM\Column(nullable: true)]
     private ?int $Notes = null;
 
-    #[ORM\OneToOne(targetEntity:"App\Entity\Dutil",inversedBy:"student")]
+    #[ORM\OneToOne(targetEntity:"App\Entity\Dutil",inversedBy:"student", cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name:"dutil_id",referencedColumnName:"id")]
     private ?Dutil $dutil = null;
 

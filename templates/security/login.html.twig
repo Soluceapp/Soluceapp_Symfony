@@ -15,18 +15,18 @@
         </div>
     {% endif %}
 <div style="margin:20px"><div class="style25">
-    <h3 class="h3 mb-3 font-weight-normal">Connectez-vous</h3>
+    <h4 >Connectez-vous</h4>
 
     <label for="inputEmail">Identifiant &nbsp;</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail"  autocomplete="email" required autofocus>
     <br><br>
     <label for="inputPassword">Mot de passe &nbsp;</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+    <input type="password" name="password" id="inputPassword"  autocomplete="current-password" required>
     <br><br>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-    <button  type="submit">Valider</button>
-    <input type="button" onclick="sub_menu6()" value="Mot de passe oublié">
-    <input type="button" onclick="sub_menu9()" value="Inscription">
+    <button class=" btn btn-primary" type="submit">Valider</button>
+    <input class="btn btn-primary" type="button" onclick="sub_menu6()" value="Mot de passe oublié">
+    <input class="btn btn-primary" type="button" onclick="sub_menu9()" value="Inscription">
     <br><br>
 </div></div>
 </form>

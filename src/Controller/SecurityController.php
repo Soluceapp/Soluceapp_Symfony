@@ -60,7 +60,7 @@ class SecurityController extends AbstractController
                     $context
                 );
                 $this->addFlash('success','Confirmez votre mot de passe par mail');
-                return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('home');
             }$this->addFlash('danger','Un problème est survenu');
             return $this->redirectToRoute('app_login');
         }
@@ -85,7 +85,7 @@ class SecurityController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $this->addFlash('success','Mot de passe changé avec succès');
-                return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('app_activities');
                 }
             return $this->render('security/reset_password.html.twig', [
                 'PassForm'=>$form->createView()

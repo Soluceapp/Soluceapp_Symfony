@@ -8,21 +8,14 @@ use App\Form\RegistrationFormType;
 use App\Repository\DutilRepository;
 use App\Security\DutilAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
-use App\Controller\MailerController;
 use App\Services\JWTService;
 use App\Services\MailerService;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 
 class RegistrationController extends AbstractController
@@ -53,7 +46,8 @@ class RegistrationController extends AbstractController
             // complète les données de manières automatique : 
             $student = new Student();            
             $student->setPoints(0);
-            //$id_user = $dutilRepository->find($request->query->get($id));
+            //$student->SetId($id);
+            //$student->SetNameClass($NameClass);
             $student->setNotes(0);  
             $entityManager->persist($student); 
             $entityManager->flush();

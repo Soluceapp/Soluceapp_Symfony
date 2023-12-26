@@ -1,39 +1,14 @@
 <?php
+namespace App\Services;
 
-namespace App\Controller;
-
-use App\Entity\Dutil;
-use App\Repository\StudentRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
-
-class ActivitiesController extends AbstractController 
+class FactureMystereService
 {
-    #[Route('/activities', name: 'app_activities')]
-    public function index(): Response
-    { 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        return $this->render('activities/index.html.twig');
-    }
-
-    #[Route('/activities/comptafacil', name: 'app_compta')]
-    public function comptafacil(): Response
-    { 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        return $this->render('activities/comptafacil.html.twig');
-    }
-
-    #[Route('/activities/facturemystere', name: 'app_facture')]
-  
-    public function facturemystere(SessionInterface $session): Response
-    { 
-
-       // Génère des données aléatoires de matrice
+   
+    public function solutionmystere(string $sol, SessionInterface $session ): void
+    {
+// Génère des données aléatoires de matrice
        $x1=rand(10,100);$x2=rand(10,100);$x3=rand(10,100);$x4=rand(10,100);$x5=rand(10,100);
        $y1=rand(10,100);$y2=rand(10,100);$y3=rand(10,100);$y4=rand(10,100);$y5=rand(10,100);
        $z1=rand(50000,60000);$z2=rand(50000,60000);$z3=rand(50000,60000);$z4=rand(50000,60000);$z5=rand(50000,60000);
@@ -107,45 +82,6 @@ class ActivitiesController extends AbstractController
        
        $sol=$M[$ligne][$colonne]; 
        $session->set("solution",$sol);
-
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        return $this->render('activities/facturemystere.html.twig',
-        ['B00'=> $B[0],
-        'B01'=> $B[1],
-        'B02'=> $B[2],
-        'B03'=> $B[3],
-        'B04'=> $B[4],
-        'E00'=> $E[0],
-        'C00'=> $C[0],
-        'C01'=> $C[1],
-        'C02'=> $C[2],
-        'C03'=> $C[3],
-        'C04'=> $C[4],
-        'E01'=> $E[1],
-        'D00'=> $D[0],
-        'D01'=> $D[1],
-        'D02'=> $D[2],
-        'D03'=> $D[3],
-        'D04'=> $D[4],
-        'E02'=> $E[2],
-        'SOL'=> $sol
-        ]
     
-    );
     }
-
-/*
-    #[Route('/activities/resultat', name: 'app_resultat')]
-    public function result(SessionInterface $session,StudentRepository $studentRepository, EntityManagerInterface $entityManager,Request $request): Response
-    {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        $session->get('solution');
-        $student= $studentRepository->find($id);
-
-        
-        return $this->render('activities/resultat.html.twig',['SOL'=> $session,'etudiant'=> $student]);
-           
-    }
-    
-*/
-
 }
