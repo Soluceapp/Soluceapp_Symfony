@@ -35,20 +35,20 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $Prenom = null;
 
-    #[ORM\OneToOne(targetEntity: "App\Entity\Student", mappedBy: 'dutil', cascade: ['persist', 'remove'])]
-    private ?Student $student = null;
-
     #[ORM\Column(length: 50)]
     private ?string $pseudo = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\Column(type: 'string', length:100)]
-    private $resetToken;
+    #[ORM\Column(type: 'string', length:100, nullable: true)]
+    private $resetToken = null;
 
     #[ORM\Column(type:'datetime_immutable',options:['default'=>'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\ManyToOne(inversedBy: 'dutils')]
+    private ?ClassStudent $classe = null;
 
     public function getId(): ?int
     {
@@ -144,28 +144,6 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getStudent(): ?Student
-    {
-        return $this->student;
-    }
-
-    public function setStudent(?Student $student): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($student === null && $this->student !== null) {
-            $this->student->setId(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($student !== null && $student->getId() !== $this) {
-            $student->setId($this);
-        }
-
-        $this->student = $student;
-
-        return $this;
-    }
-
     public function getPseudo(): ?string
     {
         return $this->pseudo;
@@ -212,6 +190,18 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getClasse(): ?ClassStudent
+    {
+        return $this->classe;
+    }
+
+    public function setClasse(?ClassStudent $classe): static
+    {
+        $this->classe = $classe;
 
         return $this;
     }

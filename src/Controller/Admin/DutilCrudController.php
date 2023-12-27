@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use phpDocumentor\Reflection\Types\Boolean;
 use phpDocumentor\Reflection\Types\Integer;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 
 class DutilCrudController extends AbstractCrudController
 {
@@ -43,13 +44,14 @@ class DutilCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            
+            IdField::new('id'),
             TextField::new('Nom'),
             TextField::new('Prenom'),
             TextField::new('email')->setFormTypeOption('disabled','disabled')->hideOnIndex(),
             TextField::new('pseudo'),
             ArrayField::new('roles')->hideOnIndex(),
-            BooleanField::new('Is_Verified')->hideOnIndex()
+            BooleanField::new('Is_Verified')->hideOnIndex(),
+            TextField::new('Classe'),
         ];
     }
 

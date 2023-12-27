@@ -17,21 +17,20 @@ class ClassStudent
 
     #[ORM\Column(length: 255)]
     private ?string $NameClass = null;
-
    
-    #[ORM\OneToMany(mappedBy: 'NameClass', targetEntity: Student::class)]
-    private Collection $students;
-
     #[ORM\OneToMany(mappedBy: 'classStudent', targetEntity: Activity::class)]
     private Collection $activity_id;
 
     #[ORM\Column(nullable: true)]
     private ?float $moyenne_activity = null;
 
+    #[ORM\OneToMany(mappedBy: 'classe', targetEntity: Dutil::class)]
+    private Collection $dutils;
+
     public function __construct()
     {
-        $this->students = new ArrayCollection();
         $this->activity_id = new ArrayCollection();
+        $this->dutils = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,37 +50,6 @@ class ClassStudent
         return $this;
     }
 
-
-
-    /**
-     * @return Collection<int, Student>
-     */
-    public function getStudents(): Collection
-    {
-        return $this->students;
-    }
-
-    public function addStudent(Student $student): static
-    {
-        if (!$this->students->contains($student)) {
-            $this->students->add($student);
-            $student->setNameClass($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudent(Student $student): static
-    {
-        if ($this->students->removeElement($student)) {
-            // set the owning side to null (unless already changed)
-            if ($student->getNameClass() === $this) {
-                $student->setNameClass(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Activity>
@@ -124,4 +92,40 @@ class ClassStudent
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Dutil>
+     */
+    public function getDutils(): Collection
+    {
+        return $this->dutils;
+    }
+
+    public function addDutil(Dutil $dutil): static
+    {
+        if (!$this->dutils->contains($dutil)) {
+            $this->dutils->add($dutil);
+            $dutil->setClasse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDutil(Dutil $dutil): static
+    {
+        if ($this->dutils->removeElement($dutil)) {
+            // set the owning side to null (unless already changed)
+            if ($dutil->getClasse() === $this) {
+                $dutil->setClasse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString():string
+    {
+        return $this->getNameClass();
+    }
+
 }

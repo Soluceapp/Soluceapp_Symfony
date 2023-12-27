@@ -42,16 +42,7 @@ class RegistrationController extends AbstractController
            
             $entityManager->persist($user);
             $entityManager->flush();
-
-            // complète les données de manières automatique : 
-            $student = new Student();            
-            $student->setPoints(0);
-            //$student->SetId($id);
-            //$student->SetNameClass($NameClass);
-            $student->setNotes(0);  
-            $entityManager->persist($student); 
-            $entityManager->flush();
-        
+  
           // génère le JWT (token du mail envoyé)
             $header =['typ'=> 'JWT','alg'=>'HS256'];
             $payload =['user_id'=> $user->getId()];
