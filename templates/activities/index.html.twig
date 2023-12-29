@@ -17,7 +17,8 @@
 {%include "partials/_flash.html.twig"%}
 {%elseif app.user and app.user.isVerified == true%}
 <br>vous pouvez choisir une activité.
-<br><br>Votre note est de : 
+<br><br>Vos points de participation sont de  : {{ app.user.points }}
+<br><br
 {% endif%}
 </div></div>
 <article >

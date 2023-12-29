@@ -25,7 +25,8 @@ class RegistrationFormType extends AbstractType
             ->add('nom', TextType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre nom'])
             ->add('prenom', TextType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre prénom'])
             ->add('pseudo', TextType::class,['attr'=> ['class' =>'style26'], 'label' =>'Votre pseudo'])
-            ->add('classe', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre classe','class'=>ClassStudent::class, 'choice_label'=>'NameClass'])
+            ->add('classe', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre classe','class'=>ClassStudent::class, 
+            'choice_label'=>function(ClassStudent $classe){return $classe->getId() . ' - ' . $classe->getNameClass();}])
             ->add('LuLesMentions', CheckboxType::class, [
                 'attr'=> ['class' =>'style26'],
                 'label' =>"J'ai lu les mentions",

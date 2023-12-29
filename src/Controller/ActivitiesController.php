@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Dutil;
-use App\Repository\StudentRepository;
+use App\Repository\DutilRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -107,7 +107,7 @@ class ActivitiesController extends AbstractController
        
        $sol=$M[$ligne][$colonne]; 
        $session->set("solution",$sol);
-
+       
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         return $this->render('activities/facturemystere.html.twig',
         ['B00'=> $B[0],
@@ -134,18 +134,37 @@ class ActivitiesController extends AbstractController
     );
     }
 
-/*
+
     #[Route('/activities/resultat', name: 'app_resultat')]
-    public function result(SessionInterface $session,StudentRepository $studentRepository, EntityManagerInterface $entityManager,Request $request): Response
+    public function result(Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request,DutilRepository $dutilRepository): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        $session->get('solution');
-        $student= $studentRepository->find($id);
-
+        // Récupère la solution et la réponse.
+        $solution=$session->get('solution');
+        $montant=$request->get('montant');
+   
+       if($solution==$montant)
+        {  
         
-        return $this->render('activities/resultat.html.twig',['SOL'=> $session,'etudiant'=> $student]);
-           
+        //Méthode complète de modification de base (récupération et affectation).
+        $dutil = new Dutil();
+        $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $dutil->getId();
+        $points=$dutil->getPoints();
+        $points=$points+1;
+        $dutil->setPoints($points);
+        $entityManager->persist($dutil);
+        $entityManager->flush();
+        $this->addFlash('success',"Vous gagnez un point");
+        $session->clear();
+        }
+        else 
+        {
+        //Méthode uniquement de récupération de données
+        $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $dutil->getId();
+        $points=$dutil->getPoints();
+        }
+   
+        return $this->render('activities/resultat.html.twig',['SOL'=> $session, 'POINTS'=>$points, 'TRUC'=>$dutil ,'lasolution'=> $solution] );
     }
-    
-*/
-
 }

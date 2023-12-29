@@ -54,11 +54,11 @@ class RegistrationController extends AbstractController
                 compact('user','token'),
             );     
             
-            return $userAuthenticator->authenticateUser(
+        /*    return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
                 $request
-            );
+            );*/
         }
 
         return $this->render('registration/register.html.twig', [
@@ -74,6 +74,8 @@ class RegistrationController extends AbstractController
             $user = $dutilRepository->find($payload['user_id']);
             if($user&&!$user->isVerified()){
                 $user->setIsVerified(true);
+                $user->setNote(0);
+                $user->setPoints(0);
                 $entityManager->flush();
                 $this->addFlash('success','Utilisateur activé');
                 return $this->redirectToRoute('app_activities');
