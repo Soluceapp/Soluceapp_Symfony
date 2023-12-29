@@ -27,6 +27,15 @@ class ClassStudent
     #[ORM\OneToMany(mappedBy: 'classe', targetEntity: Dutil::class)]
     private Collection $dutils;
 
+    #[ORM\Column]
+    private ?bool $acces_facture = null;
+
+    #[ORM\Column]
+    private ?bool $acces_cheveaux = null;
+
+    #[ORM\Column]
+    private ?bool $acces_compta = null;
+
     public function __construct()
     {
         $this->activity_id = new ArrayCollection();
@@ -126,6 +135,42 @@ class ClassStudent
     public function __toString():string
     {
         return $this->getNameClass();
+    }
+
+    public function isAccesFacture(): ?bool
+    {
+        return $this->acces_facture;
+    }
+
+    public function setAccesFacture(bool $acces_facture): static
+    {
+        $this->acces_facture = $acces_facture;
+
+        return $this;
+    }
+
+    public function isAccesCheveaux(): ?bool
+    {
+        return $this->acces_cheveaux;
+    }
+
+    public function setAccesCheveaux(bool $acces_cheveaux): static
+    {
+        $this->acces_cheveaux = $acces_cheveaux;
+
+        return $this;
+    }
+
+    public function isAccesCompta(): ?bool
+    {
+        return $this->acces_compta;
+    }
+
+    public function setAccesCompta(bool $acces_compta): static
+    {
+        $this->acces_compta = $acces_compta;
+
+        return $this;
     }
 
 }

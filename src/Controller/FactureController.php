@@ -1,14 +1,28 @@
 <?php
-namespace App\Services;
 
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class FactureMystereService
+
+class FactureController extends AbstractController 
 {
-   
-    public function solutionmystere(string $sol, SessionInterface $session ): void
-    {
-// Génère des données aléatoires de matrice
+    #[Route('/activities', name: 'app_activities')]
+    public function index(): Response
+    { 
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        return $this->render('activities/index.html.twig');
+    }
+
+    #[Route('/activities/facturemystere', name: 'app_facture')]
+  
+    public function facturemystere(SessionInterface $session): Response
+    { 
+
+       // Génère des données aléatoires de matrice
        $x1=rand(10,100);$x2=rand(10,100);$x3=rand(10,100);$x4=rand(10,100);$x5=rand(10,100);
        $y1=rand(10,100);$y2=rand(10,100);$y3=rand(10,100);$y4=rand(10,100);$y5=rand(10,100);
        $z1=rand(50000,60000);$z2=rand(50000,60000);$z3=rand(50000,60000);$z4=rand(50000,60000);$z5=rand(50000,60000);
@@ -82,6 +96,31 @@ class FactureMystereService
        
        $sol=$M[$ligne][$colonne]; 
        $session->set("solution",$sol);
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        return $this->render('activities/facturemystere.html.twig',
+        ['B00'=> $B[0],
+        'B01'=> $B[1],
+        'B02'=> $B[2],
+        'B03'=> $B[3],
+        'B04'=> $B[4],
+        'E00'=> $E[0],
+        'C00'=> $C[0],
+        'C01'=> $C[1],
+        'C02'=> $C[2],
+        'C03'=> $C[3],
+        'C04'=> $C[4],
+        'E01'=> $E[1],
+        'D00'=> $D[0],
+        'D01'=> $D[1],
+        'D02'=> $D[2],
+        'D03'=> $D[3],
+        'D04'=> $D[4],
+        'E02'=> $E[2],
+        'SOL'=> $sol
+        ]
     
+    );
     }
+
 }

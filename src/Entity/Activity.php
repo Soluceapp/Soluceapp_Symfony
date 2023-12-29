@@ -15,15 +15,6 @@ class Activity
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $solution1 = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $solution2 = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $solution3 = null;
-
     #[ORM\ManyToOne(inversedBy: 'activity_id')]
     private ?ClassStudent $classStudent = null;
 
@@ -46,41 +37,7 @@ class Activity
         return $this->id;
     }
 
-    public function getSolution1(): ?string
-    {
-        return $this->solution1;
-    }
 
-    public function setSolution1(?string $solution1): static
-    {
-        $this->solution1 = $solution1;
-
-        return $this;
-    }
-
-    public function getSolution2(): ?string
-    {
-        return $this->solution2;
-    }
-
-    public function setSolution2(?string $solution2): static
-    {
-        $this->solution2 = $solution2;
-
-        return $this;
-    }
-
-    public function getSolution3(): ?string
-    {
-        return $this->solution3;
-    }
-
-    public function setSolution3(?string $solution3): static
-    {
-        $this->solution3 = $solution3;
-
-        return $this;
-    }
 
     public function getClassStudent(): ?ClassStudent
     {
