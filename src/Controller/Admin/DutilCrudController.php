@@ -10,8 +10,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use phpDocumentor\Reflection\Types\Boolean;
-use phpDocumentor\Reflection\Types\Integer;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 
@@ -51,7 +49,7 @@ class DutilCrudController extends AbstractCrudController
             TextField::new('pseudo'),
             ArrayField::new('roles')->hideOnIndex(),
             BooleanField::new('Is_Verified')->hideOnIndex(),
-            TextField::new('Classe'),
+           // TextField::new('Classe') : Todo à transformer en Integer le string
             IntegerField::new('Points')->hideOnIndex(),
             NumberField::new('Note')->hideOnIndex(),
         ];

@@ -24,7 +24,8 @@ security:
 
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 604800
+                lifetime: 50000
+                # 604800 correspond à une semaine
                 path: /
                 always_remember_me: true
 

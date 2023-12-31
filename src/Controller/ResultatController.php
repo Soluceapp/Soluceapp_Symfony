@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-
 class ResultatController extends AbstractController 
 {
 
@@ -45,8 +44,11 @@ class ResultatController extends AbstractController
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
         $dutil->getId();
         $points=$dutil->getPoints();
+
         }
    
-        return $this->render('activities/resultat.html.twig',['TRUC'=>$dutil, 'SOL'=>$solution_token] );
+        return $this->render('activities/resultat.html.twig',['SOL'=>$solution_token] );
     }
+
+  
 }

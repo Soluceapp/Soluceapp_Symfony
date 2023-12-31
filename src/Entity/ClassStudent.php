@@ -31,7 +31,7 @@ class ClassStudent
     private ?bool $acces_facture = null;
 
     #[ORM\Column]
-    private ?bool $acces_cheveaux = null;
+    private ?bool $acces_chevaux = null;
 
     #[ORM\Column]
     private ?bool $acces_compta = null;
@@ -137,7 +137,7 @@ class ClassStudent
         return $this->getNameClass();
     }
 
-    public function isAccesFacture(): ?bool
+    public function isacces_facture(): ?bool
     {
         return $this->acces_facture;
     }
@@ -149,19 +149,19 @@ class ClassStudent
         return $this;
     }
 
-    public function isAccesCheveaux(): ?bool
+    public function isacces_chevaux(): ?bool
     {
-        return $this->acces_cheveaux;
+        return $this->acces_chevaux;
     }
 
-    public function setAccesCheveaux(bool $acces_cheveaux): static
+    public function setAccesChevaux(bool $acces_chevaux): static
     {
-        $this->acces_cheveaux = $acces_cheveaux;
+        $this->acces_chevaux = $acces_chevaux;
 
         return $this;
     }
 
-    public function isAccesCompta(): ?bool
+    public function isacces_compta(): ?bool
     {
         return $this->acces_compta;
     }

@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class ClassStudentCrudController extends AbstractCrudController
 {
@@ -30,7 +31,11 @@ class ClassStudentCrudController extends AbstractCrudController
     {
         return [
             IdField::new('name_class'),
-            IntegerField::new('moyenne_activity')
+            IntegerField::new('moyenne_activity'),
+            BooleanField::new('acces_chevaux'),
+            BooleanField::new('acces_compta'),
+            BooleanField::new('acces_facture'),
+
         ];
     }
 
