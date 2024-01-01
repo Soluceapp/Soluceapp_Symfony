@@ -11,7 +11,7 @@
 <section class="style2">
 
 <div style="margin:20px"><div class="style25">
-<h1>Petits Chevaux</h1>
+<h1>Questions Petits Chevaux</h1>
 
 </div></div>
 <article >
@@ -19,14 +19,20 @@
 
 <!-- Explications principales -->
 
-<!-- Image d'illustration de la page -->
+<form method="post" action="{{ path('app_question') }}" class="style16"> 
+<br>
+<p><label for="idscenario">Quel numéro de scénario désirez-vous valider ? </label><br><br>
+<input type="number"  name="id_scenario"></p><br>
+Vous obtiendrez un point par petits chevaux gagnés.<br><br>
+<p><input type="submit" class="btn btn-primary btn-lg" name="valid_form" value="Accéder aux questions"></p><br>
+</form>
 
 
 
 
 </div>
 </article>
-<!-- Information essentielle sous forme d'image -->
+
 
 
 <br>

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DutilRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -51,10 +52,10 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     private ?ClassStudent $classe = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $Note = null;
-
-    #[ORM\Column(nullable: true)]
     private ?int $points = null;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private ?array $scenariofait = null;
 
     public function getId(): ?int
     {
@@ -212,18 +213,6 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getNote(): ?float
-    {
-        return $this->Note;
-    }
-
-    public function setNote(?float $Note): static
-    {
-        $this->Note = $Note;
-
-        return $this;
-    }
-
     public function getPoints(): ?int
     {
         return $this->points;
@@ -232,6 +221,18 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPoints(?int $points): static
     {
         $this->points = $points;
+
+        return $this;
+    }
+
+    public function getScenariofait(): ?array
+    {
+        return $this->scenariofait;
+    }
+
+    public function setScenariofait(?array $scenariofait): static
+    {
+        $this->scenariofait = $scenariofait;
 
         return $this;
     }

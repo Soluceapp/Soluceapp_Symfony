@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Dutil;
-use App\Entity\Student;
 use App\Form\RegistrationFormType;
 use App\Repository\DutilRepository;
 use App\Security\DutilAuthenticator;
@@ -74,8 +73,7 @@ class RegistrationController extends AbstractController
             $user = $dutilRepository->find($payload['user_id']);
             if($user&&!$user->isVerified()){
                 $user->setIsVerified(true);
-                $user->setNote(0);
-                $user->setPoints(0);
+                 $user->setPoints(0);
                 $entityManager->flush();
                 $this->addFlash('success','Utilisateur activé');
                 return $this->redirectToRoute('app_activities');

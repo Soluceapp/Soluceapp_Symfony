@@ -526,14 +526,14 @@
 </table>
 <br><br><br>
 
-<form method="post" action="{{ path('app_resultat') }}" class="style16"> 
+<form method="post" action="{{ path('app_resultatfacture') }}" class="style16"> 
 {% if "montant"=='{{SOL}}' %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}<br>
 <p><label for="idmontant">Quel chiffre est à écrire à la place de l'erreur : </label>
 <input type="number"  name="montant"></p>
 Pour corriger et recalculer ensuite entièrement les documents.
-<p><input type="submit" name="valid_form" value="Vérifier"></p><br>
+<p><input type="submit" class="btn btn-primary btn-lg" name="valid_form" value="Vérifier"></p><br>
 </form>
 
 </div>

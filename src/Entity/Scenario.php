@@ -39,22 +39,41 @@ class Scenario
     private ?string $question6 = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $solution1 = null;
+    private ?array $reponse1 = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $solution2 = null;
+    private ?array $reponse2 = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $solution3 = null;
+    private ?array $reponse3 = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $solution4 = null;
+    private ?array $reponse4 = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $solution5 = null;
+    private ?array $reponse5 = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $solution6 = null;
+    private ?array $reponse6 = null;
+
+    #[ORM\Column(length: 2, nullable: true)]
+    private ?string $solution1 = null;
+
+    #[ORM\Column(length: 2, nullable: true)]
+    private ?string $solution2 = null;
+
+    #[ORM\Column(length: 2, nullable: true)]
+    private ?string $solution3 = null;
+
+    #[ORM\Column(length: 2, nullable: true)]
+    private ?string $solution4 = null;
+
+    #[ORM\Column(length: 2, nullable: true)]
+    private ?string $solution5 = null;
+
+    #[ORM\Column(length: 2, nullable: true)]
+    private ?string $solution6 = null;
+
 
     public function getId(): ?int
     {
@@ -158,77 +177,151 @@ class Scenario
         return $this;
     }
 
-    public function getSolution1(): ?array
+
+    public function getReponse1(): ?array
+    {
+        return $this->reponse1;
+    }
+
+    public function setReponse1(?array $reponse1): static
+    {
+        $this->reponse1 = $reponse1;
+
+        return $this;
+    }
+
+    public function getReponse2(): ?array
+    {
+        return $this->reponse2;
+    }
+
+    public function setReponse2(?array $reponse2): static
+    {
+        $this->reponse2 = $reponse2;
+
+        return $this;
+    }
+
+    public function getReponse3(): ?array
+    {
+        return $this->reponse3;
+    }
+
+    public function setReponse3(?array $reponse3): static
+    {
+        $this->reponse3 = $reponse3;
+
+        return $this;
+    }
+
+    public function getReponse4(): ?array
+    {
+        return $this->reponse4;
+    }
+
+    public function setReponse4(?array $reponse4): static
+    {
+        $this->reponse4 = $reponse4;
+
+        return $this;
+    }
+
+    public function getReponse5(): ?array
+    {
+        return $this->reponse5;
+    }
+
+    public function setReponse5(?array $reponse5): static
+    {
+        $this->reponse5 = $reponse5;
+
+        return $this;
+    }
+
+    public function getReponse6(): ?array
+    {
+        return $this->reponse6;
+    }
+
+    public function setReponse6(?array $reponse6): static
+    {
+        $this->reponse6 = $reponse6;
+
+        return $this;
+    }
+
+    public function getSolution1(): ?string
     {
         return $this->solution1;
     }
 
-    public function setSolution1(?array $solution1): static
+    public function setSolution1(?string $solution1): static
     {
         $this->solution1 = $solution1;
 
         return $this;
     }
 
-    public function getSolution2(): ?array
+    public function getSolution2(): ?string
     {
         return $this->solution2;
     }
 
-    public function setSolution2(?array $solution2): static
+    public function setSolution2(?string $solution2): static
     {
         $this->solution2 = $solution2;
 
         return $this;
     }
 
-    public function getSolution3(): ?array
+    public function getSolution3(): ?string
     {
         return $this->solution3;
     }
 
-    public function setSolution3(?array $solution3): static
+    public function setSolution3(?string $solution3): static
     {
         $this->solution3 = $solution3;
 
         return $this;
     }
 
-    public function getSolution4(): ?array
+    public function getSolution4(): ?string
     {
         return $this->solution4;
     }
 
-    public function setSolution4(?array $solution4): static
+    public function setSolution4(?string $solution4): static
     {
         $this->solution4 = $solution4;
 
         return $this;
     }
 
-    public function getSolution5(): ?array
+    public function getSolution5(): ?string
     {
         return $this->solution5;
     }
 
-    public function setSolution5(?array $solution5): static
+    public function setSolution5(?string $solution5): static
     {
         $this->solution5 = $solution5;
 
         return $this;
     }
 
-    public function getSolution6(): ?array
+    public function getSolution6(): ?string
     {
         return $this->solution6;
     }
 
-    public function setSolution6(?array $solution6): static
+    public function setSolution6(?string $solution6): static
     {
         $this->solution6 = $solution6;
 
         return $this;
     }
+
 
 
 

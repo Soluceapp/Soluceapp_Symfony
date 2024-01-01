@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %} 
+
+
+{% block body %}
+
+
+
+<div   class="container-grid-maitre" > 
+<!-- Contenu informatif de la page -->
+<main>
+<section class="style2">
+
+<div style="margin:20px"><div class="style25">
+<h1>Répondez aux questions</h1>
+
+</div></div>
+<article >
+<div class="container-flex-article">
+
+<!-- Explications principales -->
+<form method="post" action="{{ path('app_resultatchevaux') }}" class="style16"> 
+
+<br>
+<p><label for="question1">{{Q1}} </label><br>
+<ol>
+      <li>{{R1_1}}</li> 
+      <li>{{R1_2}}</li>
+      <li>{{R1_3}}</li>
+      <li>{{R1_4}}</li>
+</ol>
+<input type="number"  name="reponse1"></p>
+<br>
+
+<p><label for="question2">{{Q2}} </label><br>
+<ol>
+      <li>{{R2_1}}</li> 
+      <li>{{R2_2}}</li>
+      <li>{{R2_3}}</li>
+      <li>{{R2_4}}</li>
+</ol>
+<input type="number"  name="reponse2"></p>
+<br>
+
+<p><label for="question3">{{Q3}} </label><br>
+<ol>
+      <li>{{R3_1}}</li> 
+      <li>{{R3_2}}</li>
+      <li>{{R3_3}}</li>
+      <li>{{R3_4}}</li>
+</ol>
+<input type="number"  name="reponse3"></p>
+<br>
+
+<p><label for="question4">{{Q4}} </label><br>
+<ol>
+      <li>{{R4_1}}</li> 
+      <li>{{R4_2}}</li>
+      <li>{{R4_3}}</li>
+      <li>{{R4_4}}</li>
+</ol>
+<input type="number"  name="reponse4"></p>
+<br>
+
+<p><label for="question5">{{Q5}} </label><br>
+<ol>
+      <li>{{R5_1}}</li> 
+      <li>{{R5_2}}</li>
+      <li>{{R5_3}}</li>
+      <li>{{R5_4}}</li>
+</ol>
+<input type="number"  name="reponse5"></p>
+<br>
+
+<p><label for="question6">{{Q6}} </label><br>
+<ol>
+      <li>{{R6_1}}</li> 
+      <li>{{R6_2}}</li>
+      <li>{{R6_3}}</li>
+      <li>{{R6_4}}</li>
+</ol>
+<input type="number"  name="reponse6"></p>
+
+<br>Pour obtenir le point il faut au minimum 4 bonnes réponses. Indiquez votre réponse en chiffre (1 à 4).<br><br>
+<p><input type="submit" class="btn btn-primary btn-lg" name="valid_form" value="Vérifier"></p><br>
+</form>
+
+</div>
+</article>
+
+
+
+<br>
+
+
+<br><br>
+</section>
+</main>
+
+
+
+
+</div>
+{% endblock %}
