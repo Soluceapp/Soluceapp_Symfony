@@ -52,7 +52,7 @@ class RegistrationController extends AbstractController
                 '/registration/confirmation_email.html.twig',
                 compact('user','token'),
             );     
-            
+            return $this->redirectToRoute('app_login');
         /*    return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
@@ -74,6 +74,8 @@ class RegistrationController extends AbstractController
             if($user&&!$user->isVerified()){
                 $user->setIsVerified(true);
                  $user->setPoints(0);
+                 $user->setScenariofait([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+                 $user->setLimparticipation([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
                 $entityManager->flush();
                 $this->addFlash('success','Utilisateur activé');
                 return $this->redirectToRoute('app_activities');

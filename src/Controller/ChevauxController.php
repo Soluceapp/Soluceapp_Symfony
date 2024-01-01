@@ -43,6 +43,10 @@ class ChevauxController extends AbstractController
 
         if(isset($Scenario))
         {
+        $name_scenario=$Scenario->getNameScenario();
+        $lienimage=$Scenario->getLienimage();
+        $lienchevaux=$Scenario->getLienchevaux();
+
         $question1=$Scenario->getQuestion1();
         $question2=$Scenario->getQuestion2();
         $question3=$Scenario->getQuestion3();
@@ -62,6 +66,10 @@ class ChevauxController extends AbstractController
 
 
         return $this->render('activities/question.html.twig', [
+
+            'name_scenario'=>$name_scenario,
+            'lienimage'=>$lienimage,
+            'lienchevaux'=>$lienchevaux,
  
             'Q1'=>$question1,
             'Q2'=>$question2,

@@ -29,10 +29,19 @@ class ResultatController extends AbstractController
         $dutil = new Dutil();
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
         $dutil->getId();
+
+        //Vérif points max de participation = 5 sur cette activité.
+        $arraylim=$dutil->getLimparticipation(); 
+        if($arraylim[0]>=5){$this->addFlash('success',"Vous avez gagné le maximum de 5 points pour cette activité.");return $this->redirectToRoute('app_activities');}
+
         $points=$dutil->getPoints();
         $points=$points+1;
         $dutil->setPoints($points);
         $dutil->setResetToken($solution);
+        
+        $arraylim[0]=$arraylim[0]+1;// 0 pour factumemystère
+        $dutil->setLimparticipation($arraylim);
+
         $entityManager->persist($dutil);
         $entityManager->flush();
         $this->addFlash('success',"Vous gagnez un point");

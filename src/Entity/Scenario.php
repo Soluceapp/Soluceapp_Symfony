@@ -74,6 +74,12 @@ class Scenario
     #[ORM\Column(length: 2, nullable: true)]
     private ?string $solution6 = null;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $lienimage = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $lienchevaux = null;
+
 
     public function getId(): ?int
     {
@@ -318,6 +324,30 @@ class Scenario
     public function setSolution6(?string $solution6): static
     {
         $this->solution6 = $solution6;
+
+        return $this;
+    }
+
+    public function getLienimage(): ?string
+    {
+        return $this->lienimage;
+    }
+
+    public function setLienimage(?string $lienimage): static
+    {
+        $this->lienimage = $lienimage;
+
+        return $this;
+    }
+
+    public function getLienchevaux(): ?string
+    {
+        return $this->lienchevaux;
+    }
+
+    public function setLienchevaux(?string $lienchevaux): static
+    {
+        $this->lienchevaux = $lienchevaux;
 
         return $this;
     }
