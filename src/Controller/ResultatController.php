@@ -19,8 +19,8 @@ class ResultatController extends AbstractController
     public function resultfacture( Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         // Récupère la solution et la réponse.
-        $solution=$session->get('solution');
-        $montant=$request->get('montant');
+        $solution=htmlspecialchars($session->get('solution'));
+        $montant=htmlspecialchars($request->get('montant'));
         $solution_token=0;// Car clear la session.
 
        if($solution==$montant)
@@ -64,12 +64,12 @@ class ResultatController extends AbstractController
     public function result(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         // Récupère les réponses.
-        $reponse1=$request->get('reponse1');
-        $reponse2=$request->get('reponse2');
-        $reponse3=$request->get('reponse3');
-        $reponse4=$request->get('reponse4');
-        $reponse5=$request->get('reponse5');
-        $reponse6=$request->get('reponse6'); 
+        $reponse1=htmlspecialchars($request->get('reponse1'));
+        $reponse2=htmlspecialchars($request->get('reponse2'));
+        $reponse3=htmlspecialchars($request->get('reponse3'));
+        $reponse4=htmlspecialchars($request->get('reponse4'));
+        $reponse5=htmlspecialchars($request->get('reponse5'));
+        $reponse6=htmlspecialchars($request->get('reponse6')); 
         
         // Récupère les solutions.
         $id=$session->get('id_scenario');

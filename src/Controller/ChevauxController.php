@@ -14,12 +14,14 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class ChevauxController extends AbstractController
 {
     #[Route('/activities/chevaux', name: 'app_chevaux')]
-    public function chevaux(): Response
+    public function chevaux(EntityManagerInterface $entityManager): Response
     { $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         
-  
+    $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+    $classe=$dutil->getClasse();
+
         return $this->render('activities/chevaux.html.twig', [
- 
+            'classe'=>$classe
                ]);
     }
 
@@ -27,12 +29,17 @@ class ChevauxController extends AbstractController
     public function question(Dutil $dutil,SessionInterface $session,Scenario $Scenario,EntityManagerInterface $entityManager,Request $request): Response
     { $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
-        $id=$request->get('id_scenario');
+        $id=htmlspecialchars($request->get('id_scenario'));
         $Scenario=$entityManager->getRepository(Scenario::class)->find($id);
         //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
         $scenariofait=$dutil->getScenariofait();
-        $scenario_fait=$scenariofait[$id];
+        if(!$id==""){$scenario_fait=$scenariofait[$id];}
+        else
+        {
+            $this->addFlash('info','Il faut au moins indiquer un numéro de scénario.');
+            return $this->redirectToRoute('app_chevaux');  
+        }
         if($scenario_fait==1)
         {
             $this->addFlash('success','Scénario déjà réalisé ou impossible.');

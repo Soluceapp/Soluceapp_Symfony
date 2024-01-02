@@ -21,10 +21,14 @@
 
 <form method="post" action="{{ path('app_question') }}" class="style16"> 
 <br>
-<p><label for="idscenario">Quel numéro de scénario désirez-vous valider ? </label><br><br>
+<p><label for="idscenario">Quel numéro de scénario désirez-vous jouer ? </label><br><br>
 <input type="number"  name="id_scenario"></p><br>
-Vous obtiendrez un point par petits chevaux gagnés.<br><br>
+
 <p><input type="submit" class="btn btn-primary btn-lg" name="valid_form" value="Accéder aux questions"></p><br>
+
+{% for scenario in classe.scenarios %}
+        <li>{{ scenario.nbscenario|e }} : {{ scenario.NameScenario|e }}</li>
+{% endfor %}<br>
 </form>
 
 

@@ -36,10 +36,20 @@ class ClassStudent
     #[ORM\Column]
     private ?bool $acces_compta = null;
 
+    #[ORM\OneToMany(mappedBy: 'id_classe', targetEntity: Scenario::class)]
+    private Collection $scenarios;
+
+
+
+
+
     public function __construct()
     {
         $this->activity_id = new ArrayCollection();
         $this->dutils = new ArrayCollection();
+        $this->scenarios = new ArrayCollection();
+  
+      
     }
 
     public function getId(): ?int
@@ -172,5 +182,39 @@ class ClassStudent
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Scenario>
+     */
+    public function getScenarios(): Collection
+    {
+        return $this->scenarios;
+    }
+
+    public function addScenario(Scenario $scenario): static
+    {
+        if (!$this->scenarios->contains($scenario)) {
+            $this->scenarios->add($scenario);
+            $scenario->setIdClasse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScenario(Scenario $scenario): static
+    {
+        if ($this->scenarios->removeElement($scenario)) {
+            // set the owning side to null (unless already changed)
+            if ($scenario->getIdClasse() === $this) {
+                $scenario->setIdClasse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
+
+  
 
 }

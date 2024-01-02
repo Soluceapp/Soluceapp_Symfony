@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ScenarioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -79,6 +81,12 @@ class Scenario
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $lienchevaux = null;
+
+    #[ORM\ManyToOne(inversedBy: 'scenarios')]
+    private ?ClassStudent $id_classe = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $nbscenario = null;
 
 
     public function getId(): ?int
@@ -352,6 +360,29 @@ class Scenario
         return $this;
     }
 
+    public function getIdClasse(): ?ClassStudent
+    {
+        return $this->id_classe;
+    }
+
+    public function setIdClasse(?ClassStudent $id_classe): static
+    {
+        $this->id_classe = $id_classe;
+
+        return $this;
+    }
+
+    public function getNbscenario(): ?int
+    {
+        return $this->nbscenario;
+    }
+
+    public function setNbscenario(?int $nbscenario): static
+    {
+        $this->nbscenario = $nbscenario;
+
+        return $this;
+    }
 
 
 

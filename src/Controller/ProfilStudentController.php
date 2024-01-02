@@ -15,20 +15,22 @@ class ProfilStudentController extends AbstractController
     public function index(Dutil $dutil,EntityManagerInterface $entityManager,Request $request): Response
     {
         //Méthode complète de modification de base (récupération et affectation).
-        $pseudo=$request->get('pseudo');
+        $pseudo=$request->get('pseudo');//pas besoin d'htmlchars car redéfini ci-dessous.
         if(isset($pseudo))
         {
+        $pseudo=htmlspecialchars($request->get('pseudo'));
         $dutil = new Dutil();
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
-        $pseudo=$request->get('pseudo');
         $dutil->setPseudo($pseudo);
         $entityManager->persist($dutil);
         $entityManager->flush();
         }
         
+        //récupération du niveau de classe pour affichage.
+
 
         return $this->render('profile_student/index.html.twig', [
-            'controller_name' => 'ProfilStudentController',
+           
         ]);
     }
 
@@ -36,15 +38,21 @@ class ProfilStudentController extends AbstractController
     public function changepseudo(): Response
     {
         return $this->render('profile_student/changepseudo.html.twig', [
-            'controller_name' => 'ProfilStudentController',
+            
         ]);
     }
 
     #[Route('/profile_student/anciencours', name: 'app_anciencours')]
-    public function anciencours(): Response
+    public function anciencours(EntityManagerInterface $entityManager): Response
     {
+
+
+        $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $classe=$dutil->getClasse();
+
+
         return $this->render('profile_student/anciencours.html.twig', [
-            'controller_name' => 'ProfilStudentController',
+           'classe'=>$classe
         ]);
     }
 

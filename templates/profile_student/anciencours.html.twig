@@ -14,9 +14,10 @@
 <h1>Accès aux anciens cours</h1>
 
 <br>
-<!-- Explications principales -->
-
-<!-- Image d'illustration de la page -->
+{% for scenario in classe.scenarios %}
+        <li>{{ scenario.nbscenario|e }} : {{ scenario.NameScenario|e }}
+        <img src={{asset('images/scenario/' ~scenario.lienimage)}} width ="100%"></li>
+{% endfor %}
 
 
 
