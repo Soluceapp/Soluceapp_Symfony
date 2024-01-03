@@ -34,15 +34,15 @@ class ChevauxController extends AbstractController
         //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
         $scenariofait=$dutil->getScenariofait();
-        if(!$id==""){$scenario_fait=$scenariofait[$id];}
+        if(!$id==""&&$id>0&&$id<100){$scenario_fait=$scenariofait[$id];}
         else
         {
-            $this->addFlash('info','Il faut au moins indiquer un numéro de scénario.');
+            $this->addFlash('info','Il faut indiquer un numéro de scénario.');
             return $this->redirectToRoute('app_chevaux');  
         }
         if($scenario_fait==1)
         {
-            $this->addFlash('success','Scénario déjà réalisé ou impossible.');
+            $this->addFlash('success','Petits chevaux déjà réalisé.');
             return $this->redirectToRoute('app_chevaux');  
         }    
 

@@ -60,6 +60,9 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private ?array $limparticipation = null;
 
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private ?array $motcroisefait = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -248,6 +251,18 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLimparticipation(?array $limparticipation): static
     {
         $this->limparticipation = $limparticipation;
+
+        return $this;
+    }
+
+    public function getMotcroisefait(): ?array
+    {
+        return $this->motcroisefait;
+    }
+
+    public function setMotcroisefait(?array $motcroisefait): static
+    {
+        $this->motcroisefait = $motcroisefait;
 
         return $this;
     }

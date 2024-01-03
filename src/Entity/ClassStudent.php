@@ -39,6 +39,9 @@ class ClassStudent
     #[ORM\OneToMany(mappedBy: 'id_classe', targetEntity: Scenario::class)]
     private Collection $scenarios;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $acces_motcroise = null;
+
 
 
 
@@ -209,6 +212,18 @@ class ClassStudent
                 $scenario->setIdClasse(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getacces_motcroise(): ?bool
+    {
+        return $this->acces_motcroise;
+    }
+
+    public function setAccesMotcroise(?bool $acces_motcroise): static
+    {
+        $this->acces_motcroise = $acces_motcroise;
 
         return $this;
     }

@@ -86,9 +86,7 @@ class ResultatController extends AbstractController
         if($reponse1==$solution1){$tot++;}if($reponse2==$solution2){$tot++;}if($reponse3==$solution3){$tot++;}
         if($reponse4==$solution4){$tot++;}if($reponse5==$solution5){$tot++;}if($reponse6==$solution6){$tot++;}
         }
-        else {$this->addFlash('success','Tu as déjà gagné un point.');return $this->redirectToRoute('app_activities');}
-
-        $solution_token=0;// Car clear la session.
+        else {$this->addFlash('success','Tu as déjà gagné un point sur ce petit chevaux.');return $this->redirectToRoute('app_activities');}
 
        if($tot>=4)
         {        
@@ -99,7 +97,6 @@ class ResultatController extends AbstractController
         $points=$dutil->getPoints();
         $points=$points+1;
         $dutil->setPoints($points);
-        $dutil->setResetToken($tot);
         $entityManager->persist($dutil);
         $entityManager->flush();
         $this->addFlash('success',"Vous gagnez un point");
@@ -117,7 +114,6 @@ class ResultatController extends AbstractController
             $entityManager->flush();}    
 
         $session->clear();
-        $solution_token=$dutil->getResetToken();
         }
         else 
         {
@@ -129,6 +125,56 @@ class ResultatController extends AbstractController
 
         }
    
-        return $this->render('activities/resultat.html.twig',['SOL'=>'qu\'il fallait'] );
+        return $this->render('activities/resultat.html.twig',['SOL'=>'qu\'il fallait','montant'=>'qu\'il fallait'] );
+    }
+
+    #[Route('/resultat/motcroise', name: 'app_resultatmotcroise')]
+    public function resultmotcroise(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request): Response
+    {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        
+        // Récupère les réponses.
+        $motcache=htmlspecialchars($request->get('montant'));
+
+        // Récupère les solutions.
+        $id=$session->get('id_scenario');
+        if(isset($id))
+        {
+        $Scenario=$entityManager->getRepository(Scenario::class)->find($id);
+        $reponsemotcroise=$Scenario->getReponsemotcroise();
+
+        if($motcache==$reponsemotcroise)
+        {
+        //Méthode complète de modification de base (récupération et affectation).
+        $dutil = new Dutil();
+        $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $dutil->getId();
+        $points=$dutil->getPoints();
+        $points=$points+1;
+        $dutil->setPoints($points);
+        $entityManager->persist($dutil);
+        $entityManager->flush();
+        $this->addFlash('success',"Vous gagnez un point");
+        //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
+        $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $motcroisefait=$dutil->getMotcroisefait();
+        $motcroisefait_=$motcroisefait[$id];
+        if($motcroisefait_==1)
+        {
+        $this->addFlash('success','Mot croisé déjà réalisé ou impossible.');
+        return $this->redirectToRoute('app_activities');  
+        }
+        else
+        {
+        $motcroisefait[$id]=1; $dutil->setMotcroisefait($motcroisefait);
+        $entityManager->persist($dutil);
+        $entityManager->flush();}    
+        $session->clear();
+
+        }
+        }
+        else {$this->addFlash('success','Tu as déjà gagné un point sur ce mot croisé.');return $this->redirectToRoute('app_activities');}
+
+
+        return $this->render('activities/resultat.html.twig',['SOL'=>$reponsemotcroise] );
     }
 }

@@ -31,9 +31,11 @@
   <button onclick="sub_menu5()" class="dropbtn">Choisir une<br>activité</button>
   <div id="myDropdown5" class="dropdown-content">
     <a onclick="sub_menu35()" class="style12">Accueil des<br>activités</a>
+    {% if app.user.classe.acces_motcroise ==true %}<a onclick="sub_menu33()" class="style12">Mots croisés</a>{% endif %}
     {% if app.user.classe.acces_chevaux ==true %}<a onclick="sub_menu14()" class="style12">Petits Chevaux</a>{% endif %}
     {% if app.user.classe.acces_compta ==true %}<a onclick="sub_menu34()" class="style12">Comptafacil</a>{% endif %}
     {% if app.user.classe.acces_facture ==true %}<a onclick="sub_menu16()" class="style12">Facture Mystère</a>{% endif %}
+     
   </div>
 </div>
 <div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu37()" class="dropbtn">Accès à<br>mon profil</button><div id="myDropdown7" class="dropdown-content"></div></div></div>

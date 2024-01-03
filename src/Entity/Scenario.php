@@ -88,6 +88,12 @@ class Scenario
     #[ORM\Column(nullable: true)]
     private ?int $nbscenario = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reponsemotcroise = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $lienmotcroise = null;
+
 
     public function getId(): ?int
     {
@@ -380,6 +386,30 @@ class Scenario
     public function setNbscenario(?int $nbscenario): static
     {
         $this->nbscenario = $nbscenario;
+
+        return $this;
+    }
+
+    public function getReponsemotcroise(): ?string
+    {
+        return $this->reponsemotcroise;
+    }
+
+    public function setReponsemotcroise(?string $reponsemotcroise): static
+    {
+        $this->reponsemotcroise = $reponsemotcroise;
+
+        return $this;
+    }
+
+    public function getLienmotcroise(): ?string
+    {
+        return $this->lienmotcroise;
+    }
+
+    public function setLienmotcroise(?string $lienmotcroise): static
+    {
+        $this->lienmotcroise = $lienmotcroise;
 
         return $this;
     }
