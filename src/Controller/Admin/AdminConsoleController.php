@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Activity;
 use App\Entity\ClassStudent;
 use App\Entity\Dutil;
+use App\Entity\Scenario;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -49,6 +50,7 @@ class AdminConsoleController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-graduation-cap', Dutil::class);
         yield MenuItem::linkToCrud('Classes', 'fas fa-people-group', ClassStudent::class);
         yield MenuItem::linkToCrud('Activités', 'fas fa-person-running', Activity::class);
+        yield MenuItem::linkToCrud('Scenario', 'fas fa-person-running', Scenario::class);
         yield MenuItem::linkToRoute('Tester les activités', 'fa fa-door-open', 'app_activities');
         yield MenuItem::linkToLogout('Se déconnecter', 'fa fa-sign-out');
     }

@@ -7,9 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Scenario;
+use App\Entity\ClassStudent;
 use App\Entity\Dutil;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Repository\ScenarioRepository;
 
 class ChevauxController extends AbstractController
 {
@@ -26,15 +28,20 @@ class ChevauxController extends AbstractController
     }
 
     #[Route('/activities/question', name: 'app_question')]
-    public function question(Dutil $dutil,SessionInterface $session,Scenario $Scenario,EntityManagerInterface $entityManager,Request $request): Response
+    public function question(ClassStudent $classStudent,Dutil $dutil,SessionInterface $session,Scenario $Scenario,EntityManagerInterface $entityManager,Request $request): Response
     { $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
-        $id=htmlspecialchars($request->get('id_scenario'));
-        $Scenario=$entityManager->getRepository(Scenario::class)->find($id);
-        //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
+        //Création de la variable  $id_scenario pour ajuster l'affichage des scénarios en fonction de la classe
+        $id_scenario=intval(htmlspecialchars($request->get('id_scenario')));
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $classe=$dutil->getClasse();
+        $Idclasse=$classe->getId();
+        if($Idclasse==2){$id_scenario=$id_scenario=+2;}if($Idclasse==3){$id_scenario=$id_scenario+4;}if($Idclasse==4){$id_scenario=$id_scenario+90;}
+        $Scenario=$entityManager->getRepository(Scenario::class)->find($id_scenario);
+        
+        //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
         $scenariofait=$dutil->getScenariofait();
-        if(!$id==""&&$id>0&&$id<100){$scenario_fait=$scenariofait[$id];}
+        if(!$id_scenario==""&&$id_scenario>0&&$id_scenario<100){$scenario_fait=$scenariofait[$id_scenario];}
         else
         {
             $this->addFlash('info','Il faut indiquer un numéro de scénario.');
@@ -42,11 +49,11 @@ class ChevauxController extends AbstractController
         }
         if($scenario_fait==1)
         {
-            $this->addFlash('success','Petits chevaux déjà réalisé.');
+            $this->addFlash('success','Petits chevaux déjà réalisé ou impossible.');
             return $this->redirectToRoute('app_chevaux');  
         }    
 
-        $session->set("id_scenario",$id);//mise en session de l'id pour récupération en résultat.
+        $session->set("id_scenario",$id_scenario);//mise en session de l'id pour récupération en résultat.
 
         if(isset($Scenario))
         {

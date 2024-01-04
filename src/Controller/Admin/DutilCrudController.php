@@ -49,9 +49,11 @@ class DutilCrudController extends AbstractCrudController
             TextField::new('pseudo'),
             ArrayField::new('roles')->hideOnIndex(),
             BooleanField::new('Is_Verified')->hideOnIndex(),
-           // TextField::new('Classe') : Todo à transformer en Integer le string
-            IntegerField::new('Points')->hideOnIndex(),
-            NumberField::new('Note')->hideOnIndex(),
+            TextField::new('Classe')->setFormTypeOption('disabled','disabled'),
+            IntegerField::new('Points'),
+            ArrayField::new('scenariofait')->hideOnIndex(),
+            ArrayField::new('limparticipation')->hideOnIndex(),
+            ArrayField::new('motcroisefait')->hideOnIndex(),
         ];
     }
 

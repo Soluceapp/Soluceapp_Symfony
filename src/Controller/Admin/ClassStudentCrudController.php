@@ -35,6 +35,7 @@ class ClassStudentCrudController extends AbstractCrudController
             BooleanField::new('acces_chevaux'),
             BooleanField::new('acces_compta'),
             BooleanField::new('acces_facture'),
+            BooleanField::new('acces_motcroise'),
 
         ];
     }

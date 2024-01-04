@@ -29,9 +29,6 @@ class ActivityCrudController extends AbstractCrudController
     {
         return [
             IdField::new('name_activity'),
-            TextField::new('solution1'),
-            TextField::new('solution2'),
-            TextField::new('solution3'),
             IntegerField::new('coefficient'),
         ];
     }

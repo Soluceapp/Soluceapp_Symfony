@@ -29,12 +29,18 @@ class MotcroiseController extends AbstractController
     public function motcroise2(Dutil $dutil,SessionInterface $session,Scenario $Scenario,EntityManagerInterface $entityManager,Request $request): Response
     {$this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
-        $id=htmlspecialchars($request->get('id_scenario'));
-        $Scenario=$entityManager->getRepository(Scenario::class)->find($id);
-        //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
+        //Création de la variable  $id_scenario pour ajuster l'affichage des scénarios en fonction de la classe
+        $id_scenario=intval(htmlspecialchars($request->get('id_scenario')));
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $classe=$dutil->getClasse();
+        $Idclasse=$classe->getId();
+        if($Idclasse==2){$id_scenario=$id_scenario=+2;}if($Idclasse==3){$id_scenario=$id_scenario+4;}if($Idclasse==4){$id_scenario=$id_scenario+90;}
+        $Scenario=$entityManager->getRepository(Scenario::class)->find($id_scenario);
+        
+        //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
         $motcroisefait=$dutil->getMotcroisefait();
-        if(!$id==""&&$id>0&&$id<100){$motcroisefait=$motcroisefait[$id];}
+        
+        if(!$id_scenario==""&&$id_scenario>0&&$id_scenario<100){$motcroisefait=$motcroisefait[$id_scenario];}
         else
         {
             $this->addFlash('info','Il faut indiquer un numéro de scénario.');
@@ -45,7 +51,7 @@ class MotcroiseController extends AbstractController
             $this->addFlash('success','Mot croisé déjà réalisé.');
             return $this->redirectToRoute('app_motcroise');  
         }    
-        $session->set("id_scenario",$id);//mise en session de l'id pour récupération en résultat.
+        $session->set("id_scenario",$id_scenario);//mise en session de l'id pour récupération en résultat.
 
         if(isset($Scenario))
         {
@@ -55,7 +61,7 @@ class MotcroiseController extends AbstractController
 
         $reponsemotcroise=$Scenario->getReponsemotcroise();
         }
-        else {$this->addFlash('success','Mot croisé déjà réalisé.');return $this->redirectToRoute('app_activities');}
+        else {$this->addFlash('success','Mot croisé déjà réalisé ou impossible.');return $this->redirectToRoute('app_activities');}
 
 
         return $this->render('activities/motcroise2.html.twig', [
