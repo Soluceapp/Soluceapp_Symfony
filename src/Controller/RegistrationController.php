@@ -51,8 +51,9 @@ class RegistrationController extends AbstractController
                 $user->getEmail(),
                 '/registration/confirmation_email.html.twig',
                 compact('user','token'),
-            );     
-            return $this->redirectToRoute('app_login');
+            );   
+            $this->addFlash('success','Vous avez reçu un mail à valider.');  
+            return $this->redirectToRoute('home');
         /*    return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
@@ -77,14 +78,15 @@ class RegistrationController extends AbstractController
                  $user->setScenariofait([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
                  $user->setLimparticipation([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
                  $user->setMotcroisefait([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
-                $entityManager->flush();
-                $this->addFlash('success','Utilisateur activé');
+                 $user->setCoursfait([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+                 $entityManager->flush();
+                $this->addFlash('success','Votre compte est activé');
                 return $this->redirectToRoute('app_activities');
             }
 
         };
         $this->addflash('Danger', 'Le token est invalide ou a expiré');
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('home');
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Dutil;
 use App\Entity\ClassStudent;
+use App\Entity\DomaineStudent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -25,8 +26,10 @@ class RegistrationFormType extends AbstractType
             ->add('nom', TextType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre nom'])
             ->add('prenom', TextType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre prénom'])
             ->add('pseudo', TextType::class,['attr'=> ['class' =>'style26'], 'label' =>'Votre pseudo'])
-            ->add('classe', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre classe','class'=>ClassStudent::class, 
+            ->add('classe', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre niveau','class'=>ClassStudent::class, 
             'choice_label'=>function(ClassStudent $classe){return $classe->getId() . ' - ' . $classe->getNameClass();}])
+            ->add('id_domain', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre classe','class'=>DomaineStudent::class, 
+            'choice_label'=>function(DomaineStudent $domaine){return $domaine->getId() . ' - ' . $domaine->getNamedomaine();}])
             ->add('LuLesMentions', CheckboxType::class, [
                 'attr'=> ['class' =>'style26'],
                 'label' =>"J'ai lu les mentions",

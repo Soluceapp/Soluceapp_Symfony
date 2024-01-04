@@ -34,7 +34,7 @@ class MotcroiseController extends AbstractController
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
         $classe=$dutil->getClasse();
         $Idclasse=$classe->getId();
-        if($Idclasse==2){$id_scenario=$id_scenario=+2;}if($Idclasse==3){$id_scenario=$id_scenario+4;}if($Idclasse==4){$id_scenario=$id_scenario+90;}
+        if($Idclasse==2){$id_scenario=$id_scenario+30;}if($Idclasse==3){$id_scenario=$id_scenario+60;}if($Idclasse==4){$id_scenario=$id_scenario+90;}
         $Scenario=$entityManager->getRepository(Scenario::class)->find($id_scenario);
         
         //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).

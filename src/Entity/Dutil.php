@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DutilRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -63,6 +65,13 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private ?array $motcroisefait = null;
 
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private ?array $coursfait = null;
+
+    #[ORM\ManyToOne(inversedBy: 'dutils')]
+    private ?DomaineStudent $id_domain = null;
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -266,4 +275,32 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getCoursfait(): ?array
+    {
+        return $this->coursfait;
+    }
+
+    public function setCoursfait(?array $coursfait): static
+    {
+        $this->coursfait = $coursfait;
+
+        return $this;
+    }
+
+    public function getIdDomain(): ?DomaineStudent
+    {
+        return $this->id_domain;
+    }
+
+    public function setIdDomain(?DomaineStudent $id_domain): static
+    {
+        $this->id_domain = $id_domain;
+
+        return $this;
+    }
+
+   
+
+
 }
