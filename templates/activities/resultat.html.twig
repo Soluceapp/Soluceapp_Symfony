@@ -13,11 +13,17 @@
 <div style="margin:20px"><div class="style25">
 <h1>Résultat de l'activité</h1>
 Tu as donné la réponse {{ app.request.get('montant') }}, {{ app.user.pseudo }}.
-{% if app.request.get('montant')== SOL %}
+
+
+{% if app.request.get('montant')== NULL and SOL == "1" %}
+<br>Cette réponse est bonne. Tu gagnes donc un point.<br>
+{% elseif app.request.get('montant')== SOL %}
 <br>Cette réponse est bonne. Tu gagnes donc un point.<br>
 {% else %}
 <br>Cette réponse n'est pas la bonne. Essaye encore une fois.<br>
 {% endif %}
+
+
 <br>Ton nombre de points de participation est actuellement de {{app.user.points}}. Il sera ajouté à ta prochaine évaluation.<br><br>
 
 </div></div>

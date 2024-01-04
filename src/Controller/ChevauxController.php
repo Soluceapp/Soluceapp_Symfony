@@ -49,11 +49,11 @@ class ChevauxController extends AbstractController
         }
         if($scenario_fait==1)
         {
-            $this->addFlash('success','Petits chevaux déjà réalisé ou impossible.');
+            $this->addFlash('success','Petits chevaux déjà réalisé. Un point a déjà été donné.');
             return $this->redirectToRoute('app_chevaux');  
         }    
 
-        //$session->set("id_scenario",$id_scenario);//mise en session de l'id pour récupération en résultat.
+       $session->set("id_scenario",$id_scenario);//mise en session de l'id pour récupération en résultat.
 
         if(isset($Scenario))
         {

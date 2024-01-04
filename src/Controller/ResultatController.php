@@ -86,7 +86,7 @@ class ResultatController extends AbstractController
         if($reponse1==$solution1){$tot++;}if($reponse2==$solution2){$tot++;}if($reponse3==$solution3){$tot++;}
         if($reponse4==$solution4){$tot++;}if($reponse5==$solution5){$tot++;}if($reponse6==$solution6){$tot++;}
         }
-        else {$this->addFlash('success','Tu as déjà gagné un point sur ce petit chevaux.');return $this->redirectToRoute('app_activities');}
+        else {$this->addFlash('success','Scénario non reconnu.');return $this->redirectToRoute('app_activities');}
 
        if($tot>=4)
         {        
@@ -96,11 +96,12 @@ class ResultatController extends AbstractController
         $dutil->getId();
         $points=$dutil->getPoints();
         $points=$points+1;
+        $sol=1;//pour affichage résultat en template.
         $dutil->setPoints($points);
         $entityManager->persist($dutil);
         $entityManager->flush();
         $this->addFlash('success',"Vous gagnez un point");
-        
+   
         //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
         $scenariofait=$dutil->getScenariofait();
@@ -124,8 +125,8 @@ class ResultatController extends AbstractController
         $this->addFlash('success',"Pas assez de bonnes réponses.");
 
         }
-   
-        return $this->render('activities/resultat.html.twig',['SOL'=>'qu\'il fallait','montant'=>'qu\'il fallait'] );
+        
+        return $this->render('activities/resultat.html.twig',['SOL'=>$sol] );
     }
 
     #[Route('/resultat/motcroise', name: 'app_resultatmotcroise')]
