@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Activity;
 use App\Entity\ClassStudent;
+use App\Entity\DomaineStudent;
 use App\Entity\Dutil;
 use App\Entity\Scenario;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -48,10 +49,12 @@ class AdminConsoleController extends AbstractDashboardController
         
         yield MenuItem::linkToDashboard('Accueil administration', 'fa fa-home');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-graduation-cap', Dutil::class);
-        yield MenuItem::linkToCrud('Classes', 'fas fa-people-group', ClassStudent::class);
+        yield MenuItem::linkToCrud('Niveau des élèves', 'fas fa-people-group', ClassStudent::class);
+        yield MenuItem::linkToCrud('Classe des élèves', 'fas fa-people-group', DomaineStudent::class);
         yield MenuItem::linkToCrud('Activités', 'fas fa-person-running', Activity::class);
-        yield MenuItem::linkToCrud('Scenario', 'fas fa-person-running', Scenario::class);
+        yield MenuItem::linkToCrud('Scenarios', 'fas fa-person-running', Scenario::class);
         yield MenuItem::linkToRoute('Tester les activités', 'fa fa-door-open', 'app_activities');
+        yield MenuItem::linkToRoute('Récupérer les notes', 'fa fa-door-open', 'app_recupnote');
         yield MenuItem::linkToLogout('Se déconnecter', 'fa fa-sign-out');
     }
 }
