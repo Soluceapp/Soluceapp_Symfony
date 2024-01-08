@@ -6,14 +6,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Dutil;
 
 class FactureController extends AbstractController 
 {
     #[Route('/activities', name: 'app_activities')]
-    public function index(): Response
+    public function index(Dutil $dutil,EntityManagerInterface $entityManager): Response
     { 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $verif=$dutil->isVerified();
+        if($verif==0) {$this->addFlash('danger','Vous devez confirmer votre mail par votre messagerie.');}
+
         return $this->render('activities/index.html.twig');
     }
 

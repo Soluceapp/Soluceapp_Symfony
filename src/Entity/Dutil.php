@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: DutilRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'Il y a déjà un compte avec ce mail. Changez de mot de passe.')]
+#[UniqueEntity(fields: ['email'], message: 'Il y a déjà un compte avec ce mail. Changez de mot de passe pour recevoir un nouveau mail.')]
 class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]

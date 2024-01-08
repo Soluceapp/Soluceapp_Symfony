@@ -30,8 +30,6 @@ class RecupNoteController extends AbstractController
             $Nameclasse=htmlspecialchars($Idclasse->getId());
 
             $dutil=$entityManager->getRepository(Dutil::class)->findAll();
-       // dd($dutil);
-
             
         }
         
