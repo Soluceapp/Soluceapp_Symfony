@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %} 
+
+
+{% block body %}
+
+
+
+<div   class="container-grid-maitre" > 
+<!-- Contenu informatif de la page -->
+<main>
+<section class="style2">
+
+<div style="margin:20px"><div class="style25">
+<h1>Sélectionnez le cours pour participer</h1>
+
+
+<article >
+
+
+<!-- Explications principales -->
+    {{ form_start(CoursFormType) }}
+<br>
+            {{ form_row(CoursFormType.Nbscenario) }}<br>
+            {{ form_row(CoursFormType.submit) }}<br>
+
+    {{ form_end(CoursFormType) }}
+
+
+
+
+
+
+
+</div></div></div>
+</article>
+
+
+
+<br>
+
+
+<br><br>
+</section>
+</main>
+
+
+
+
+</div>
+{% endblock %}

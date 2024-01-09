@@ -53,8 +53,8 @@ class AdminConsoleController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Classe des élèves', 'fas fa-people-group', DomaineStudent::class);
         yield MenuItem::linkToCrud('Activités', 'fas fa-person-running', Activity::class);
         yield MenuItem::linkToCrud('Scenarios', 'fas fa-person-running', Scenario::class);
-        yield MenuItem::linkToRoute('Tester les activités', 'fa fa-door-open', 'app_activities');
-        yield MenuItem::linkToRoute('Récupérer les notes', 'fa fa-door-open', 'app_recupnote');
+        yield MenuItem::linkToRoute('Accès aux activités', 'fa fa-door-open', 'app_activities');
+        yield MenuItem::linkToRoute('Editer les notes', 'fa-solid fa-money-bill-trend-up', 'app_recupnote');
         yield MenuItem::linkToLogout('Se déconnecter', 'fa fa-sign-out');
     }
 }

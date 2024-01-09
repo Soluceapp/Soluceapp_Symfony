@@ -178,4 +178,56 @@ class ResultatController extends AbstractController
 
         return $this->render('activities/resultat.html.twig',['SOL'=>$reponsemotcroise] );
     }
+
+    #[Route('/resultat/cours', name: 'app_resultatcours')]
+    public function resultcours(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request): Response
+    {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        
+        // Récupère les réponses.
+        $motcache=htmlspecialchars($request->get('montant'));
+
+        // Récupère les solutions.
+        $id=$session->get('id_scenario');
+        if(isset($id))
+        {
+        $Scenario=$entityManager->getRepository(Scenario::class)->find($id);
+        $reponsecours=$Scenario->getReponsemotcroise();
+
+        if($motcache==$reponsecours)
+        {
+        //Méthode complète de modification de base (récupération et affectation).
+        $dutil = new Dutil();
+        $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $dutil->getId();
+        $points=$dutil->getPoints();
+        $points=$points+1;
+        $dutil->setPoints($points);
+        $entityManager->persist($dutil);
+        $entityManager->flush();
+        $this->addFlash('success',"Vous gagnez un point");
+        //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
+        $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $motcroisefait=$dutil->getMotcroisefait();
+        $motcroisefait_=$motcroisefait[$id];
+        if($motcroisefait_==1)
+        {
+        $this->addFlash('success','Mot croisé déjà réalisé ou impossible.');
+        return $this->redirectToRoute('app_activities');  
+        }
+        else
+        {
+        $motcroisefait[$id]=1; $dutil->setMotcroisefait($motcroisefait);
+        $entityManager->persist($dutil);
+        $entityManager->flush();}    
+        $session->clear();
+
+        }
+        }
+        else {$this->addFlash('success','Tu as déjà gagné un point sur ce mot croisé.');return $this->redirectToRoute('app_activities');}
+
+
+        return $this->render('activities/resultat.html.twig',['SOL'=>$reponsecours] );
+    }
+
+
 }

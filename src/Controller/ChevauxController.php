@@ -11,7 +11,7 @@ use App\Entity\ClassStudent;
 use App\Entity\Dutil;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use App\Repository\ScenarioRepository;
+
 
 class ChevauxController extends AbstractController
 {

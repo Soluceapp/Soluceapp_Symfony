@@ -300,7 +300,12 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-   
+    // Permet d'éviter une erreur sur recupnote.
+   public function __toString():string
+   {
+
+   return $this->getNom();
+   }
 
 
 }

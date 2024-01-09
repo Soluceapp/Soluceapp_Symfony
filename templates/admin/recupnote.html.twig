@@ -13,26 +13,32 @@
 </head>
 
 <div style="margin:20px"><div class="style16"><br>
-<h3>Récupération des notes</h3>
+<h3>Edition des notes</h3>
 <br>
 
-    {{ form_start(registrationForm, {'method': 'POST'}) }}
-
+    {{ form_start(RecupnoteFormType, {'method': 'POST'}) }}
     De quelle classe voulez-vous les notes ?<br><br>
-    {{ form_row(registrationForm.classe) }}
-    {{ form_row(registrationForm.id_domain) }}<br>
-    <button type="submit" class="btn btn-primary btn-lg">Valider</button><br><br>
-   
-    {{ form_end(registrationForm) }}
-
-
-
+    {{ form_row(RecupnoteFormType.classe) }}
+    {{ form_row(RecupnoteFormType.id_domain) }}<br>
+    {{ form_row(RecupnoteFormType.submit) }}
+    {{ form_end(RecupnoteFormType) }}
+<br>
+<div style="font-size: smaller">
 {% for dutil in dutil %}
     {% if  dutil.classe.id == Nameclasse and dutil.iddomain.id == Namedomaine %}
-        <li>{{ dutil.Prenom }} &nbsp; {{ dutil.Nom }} : {{ dutil.Points }} points</li>
+        <li>Id{{ dutil.id }} &nbsp;{{ dutil.Prenom }} &nbsp; {{ dutil.Nom }} : {{ dutil.Points }} points</li>
     {% endif %}
 {% endfor %}
 <br>
+<div>
+
+{{ form_start(ChangepointsFormType)}}
+{{ form_row(ChangepointsFormType.Nom)}}
+{{ form_end(ChangepointsFormType)}}
+<br><br>
+
+
+
 </div></div>
 
 {% endblock %}

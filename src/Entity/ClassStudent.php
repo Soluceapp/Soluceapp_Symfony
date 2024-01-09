@@ -42,6 +42,9 @@ class ClassStudent
     #[ORM\Column(nullable: true)]
     private ?bool $acces_motcroise = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $access_cours = null;
+
 
 
 
@@ -224,6 +227,18 @@ class ClassStudent
     public function setAccesMotcroise(?bool $acces_motcroise): static
     {
         $this->acces_motcroise = $acces_motcroise;
+
+        return $this;
+    }
+
+    public function isAccessCours(): ?bool
+    {
+        return $this->access_cours;
+    }
+
+    public function setAccessCours(?bool $access_cours): static
+    {
+        $this->access_cours = $access_cours;
 
         return $this;
     }
