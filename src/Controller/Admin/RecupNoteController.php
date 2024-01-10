@@ -43,9 +43,17 @@ class RecupNoteController extends AbstractController
             $dutil=$form_points->get('Nom')->getData();        
             $points=$dutil->getPoints();
             $points=$points+1;
-            $dutil->setPoints($points);
+            $dutil->setPoints($points);           
+
+            // Pas possible d'utiliser donnenoteservice : ? firewall.
+            $note=$dutil->getNote();
+            $points=$dutil->getPoints();
+            if($points<=4){$note=$points;}else{$note=4+(($points-4)*0.25);} 
+            $dutil->setNote($note);
+
             $entityManager->persist($dutil);
-            $entityManager->flush();  
+            $entityManager->flush();
+            
         }
            
         return $this->render('admin/recupnote.html.twig', [

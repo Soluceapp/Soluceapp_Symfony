@@ -26,7 +26,7 @@
 <div style="font-size: smaller">
 {% for dutil in dutil %}
     {% if  dutil.classe.id == Nameclasse and dutil.iddomain.id == Namedomaine %}
-        <li>Id{{ dutil.id }} &nbsp;{{ dutil.Prenom }} &nbsp; {{ dutil.Nom }} : {{ dutil.Points }} points</li>
+        <li>Id{{ dutil.id }} &nbsp;{{ dutil.Prenom }} &nbsp; {{ dutil.Nom }} : {{ dutil.Points }} pts->{{ dutil.Note }}/4</li>
     {% endif %}
 {% endfor %}
 <br>

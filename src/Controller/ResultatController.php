@@ -11,12 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Scenario;
+use App\Services\DonneNoteService;
 
 class ResultatController extends AbstractController 
 {
 
     #[Route('/resultat/facturemystere', name: 'app_resultatfacture')]
-    public function resultfacture( Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request): Response
+    public function resultfacture( Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request,DonneNoteService $note): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         // Récupère la solution et la réponse.
         $solution=htmlspecialchars($session->get('solution'));
@@ -44,6 +45,7 @@ class ResultatController extends AbstractController
 
         $entityManager->persist($dutil);
         $entityManager->flush();
+        $note->donnenote($entityManager);
         $this->addFlash('success',"Vous gagnez un point");
         $session->clear();
         $solution_token=$dutil->getResetToken();
@@ -61,7 +63,7 @@ class ResultatController extends AbstractController
     }
 
     #[Route('/resultat/chevaux', name: 'app_resultatchevaux')]
-    public function result(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request): Response
+    public function result(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request,DonneNoteService $note): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         // Récupère les réponses.
         $reponse1=htmlspecialchars($request->get('reponse1'));
@@ -100,6 +102,7 @@ class ResultatController extends AbstractController
         $dutil->setPoints($points);
         $entityManager->persist($dutil);
         $entityManager->flush();
+        $note->donnenote($entityManager);
         $this->addFlash('success',"Vous gagnez un point");
    
         //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
@@ -130,7 +133,7 @@ class ResultatController extends AbstractController
     }
 
     #[Route('/resultat/motcroise', name: 'app_resultatmotcroise')]
-    public function resultmotcroise(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request): Response
+    public function resultmotcroise(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request,DonneNoteService $note): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         
         // Récupère les réponses.
@@ -154,6 +157,7 @@ class ResultatController extends AbstractController
         $dutil->setPoints($points);
         $entityManager->persist($dutil);
         $entityManager->flush();
+        $note->donnenote($entityManager);
         $this->addFlash('success',"Vous gagnez un point");
         //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
@@ -180,7 +184,7 @@ class ResultatController extends AbstractController
     }
 
     #[Route('/resultat/cours', name: 'app_resultatcours')]
-    public function resultcours(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request): Response
+    public function resultcours(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request,DonneNoteService $note): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         
         // Récupère les réponses.
@@ -204,6 +208,7 @@ class ResultatController extends AbstractController
         $dutil->setPoints($points);
         $entityManager->persist($dutil);
         $entityManager->flush();
+        $note->donnenote($entityManager);
         $this->addFlash('success',"Vous gagnez un point");
         //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
