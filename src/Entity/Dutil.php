@@ -71,6 +71,9 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'dutils')]
     private ?DomaineStudent $id_domain = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $Note = null;
+
     
     public function getId(): ?int
     {
@@ -305,6 +308,18 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
    {
 
    return $this->getNom();
+   }
+
+   public function getNote(): ?float
+   {
+       return $this->Note;
+   }
+
+   public function setNote(?float $Note): static
+   {
+       $this->Note = $Note;
+
+       return $this;
    }
 
 
