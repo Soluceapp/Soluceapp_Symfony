@@ -137,7 +137,7 @@ class ResultatController extends AbstractController
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         
         // Récupère les réponses.
-        $motcache=htmlspecialchars($request->get('montant'));
+        $motcache=strtolower(htmlspecialchars($request->get('montant')));
 
         // Récupère les solutions.
         $id=$session->get('id_scenario');
@@ -234,5 +234,5 @@ class ResultatController extends AbstractController
         return $this->render('activities/resultat.html.twig',['SOL'=>$reponsecours] );
     }
 
-
+    
 }

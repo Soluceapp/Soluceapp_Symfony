@@ -11,38 +11,52 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Form\RecupnoteFormType;
 use App\Form\ChangepointsFormType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class RecupNoteController extends AbstractController
 {
     #[Route('/admin/notes', name: 'app_recupnote')]
-    public function recupnote(Request $request,EntityManagerInterface $entityManager, Dutil $dutil): Response
+    public function recupnote(Request $request,EntityManagerInterface $entityManager, Dutil $dutil,SessionInterface $session): Response
     {$this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
         //Récupère le formulaire
         $user = new Dutil();
         $form = $this->createForm(RecupnoteFormType::class, $user);
         $form->handleRequest($request);
-        $form_points = $this->createForm(ChangepointsFormType::class, $user);
-        $form_points->handleRequest($request);
-        $Namedomaine=$Nameclasse=$points=0;
-
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
+            // Récupération et conversion utile du formulaire $form
             $Iddomaine=$form->get('id_domain')->getData();
-            $Namedomaine=htmlspecialchars($Iddomaine->getId());
+            $Iddomaineverif=htmlspecialchars($Iddomaine->getId());
+            $Iddomaine_int=intval($Iddomaineverif);
 
             $Idclasse=$form->get('classe')->getData();
-            $Nameclasse=htmlspecialchars($Idclasse->getId());
+            $Idclasseverif=htmlspecialchars($Idclasse->getId());
+            $Idclasse_int=intval($Idclasseverif);
 
             $dutil=$entityManager->getRepository(Dutil::class)->findAll();
-        }
-       
+
+            //Utile pour classifier en changepointsform
+            $session = $request->getSession(); 
+            $session->set('id_domain', $Iddomaine_int);
+            $session->set('id_classe', $Idclasse_int);
+            
+           
+        }else{$Idclasse_int=1;$Iddomaineverif=$Idclasseverif=$points=0;}
+
+        // création du $form_points par utilisation de données en session. 
+        $Idclasse_int = $session->get('id_classe');
+        $Iddomain_int = $session->get('id_domain');
+        $form_points = $this->createForm(ChangepointsFormType::class, $user,array('id_classe'=>$Idclasse_int,'id_domain'=>$Iddomain_int));
+        $form_points->handleRequest($request);
+
         if ($form_points->isSubmitted() && $form_points->isValid()) 
         {
-            $dutil=$form_points->get('Nom')->getData();        
+            $dutil=$form_points->get('Nom')->getData(); 
+            $variapoint=$form_points->get('points')->getData();;          
             $points=$dutil->getPoints();
-            $points=$points+1;
+            $points=$points+$variapoint;
             $dutil->setPoints($points);           
 
             // Pas possible d'utiliser donnenoteservice : ? firewall.
@@ -60,8 +74,8 @@ class RecupNoteController extends AbstractController
             'RecupnoteFormType' => $form->createView(),
             'ChangepointsFormType' => $form_points->createView(),
             'dutil'=>$dutil,
-            'Namedomaine'=>$Namedomaine,
-            'Nameclasse'=>$Nameclasse,
+            'Iddomaineverif'=>$Iddomaineverif,
+            'Idclasseverif'=>$Idclasseverif,
         ]);
         
     

@@ -16,7 +16,7 @@ class ChangeclasseFormType extends AbstractType
     {
         $builder
         ->add('classe', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Me passer en','class'=>ClassStudent::class, 
-        'choice_label'=>function(ClassStudent $classe){return $classe->getId() . ' - ' . $classe->getNameClass();}])
+        'choice_label'=>function(ClassStudent $classe){return $classe->getNameClass();}])
         ->add('submit', SubmitType::class,['attr'=> ['class' =>'btn btn-primary btn-lg'],'label' =>'Valider'])
         ;
     }

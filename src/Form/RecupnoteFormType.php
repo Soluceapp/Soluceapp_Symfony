@@ -20,10 +20,10 @@ class RecupnoteFormType extends AbstractType
     {
         $builder
             ->add('classe', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Niveau','class'=>ClassStudent::class, 
-            'choice_label'=>function(ClassStudent $classe){return $classe->getId() . ' - ' . $classe->getNameClass();}])
+            'choice_label'=>function(ClassStudent $classe){return $classe->getNameClass();}])
             ->add('id_domain', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Classe','class'=>DomaineStudent::class, 
-            'choice_label'=>function(DomaineStudent $domaine){return $domaine->getId() . ' - ' . $domaine->getNamedomaine();}]) 
-            ->add('submit', SubmitType::class,['attr'=> ['class' =>'btn btn-primary btn-lg'],'label' =>'Valider'])   ;
+            'choice_label'=>function(DomaineStudent $domaine){return $domaine->getNamedomaine();}]) 
+            ->add('submit', SubmitType::class,['attr'=> ['class' =>'btn btn-primary btn-lg'],'label' =>'Afficher'])   ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

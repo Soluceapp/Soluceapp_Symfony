@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use Symfony\Config\Doctrine\Orm\EntityManagerConfig\EntityListeners\EntityConfig;
 
 class DutilCrudController extends AbstractCrudController
 {
@@ -50,6 +51,7 @@ class DutilCrudController extends AbstractCrudController
             ArrayField::new('roles')->hideOnIndex(),
             BooleanField::new('Is_Verified'),
             TextField::new('Classe')->setFormTypeOption('disabled','disabled'),
+            //ArrayField::new('id_domain')->setFormTypeOption('disabled','disabled'),
             IntegerField::new('Points'),
             ArrayField::new('scenariofait')->hideOnIndex(),
             ArrayField::new('limparticipation')->hideOnIndex(),

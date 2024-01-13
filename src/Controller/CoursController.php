@@ -20,7 +20,6 @@ class CoursController extends AbstractController
         $form = $this->createForm(CoursFormType::class, $scenario);
         $form->handleRequest($request);
 
-
        if ($form->isSubmitted() && $form->isValid()) 
         {
             
@@ -28,12 +27,6 @@ class CoursController extends AbstractController
            // $entityManager->flush();
             $this->addFlash('success',"Attention. Les scénarios sont spécifiques à l'année.");
             return $this->redirectToRoute('app_profil_student');  
-
-
-
-
-
-
 
 
         }
