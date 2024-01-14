@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Registre;
+use App\Entity\Scenario;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -26,6 +26,39 @@ class AppFixtures extends Fixture
         }
             
       */  
+
+        for ($i=0; $i<100; $i++)
+        {
+            $scenario = new Scenario();
+            $scenario->setNbscenario($i);
+            $scenario->setQuestion1('Q1');
+            $scenario->setQuestion2('Q2');
+            $scenario->setQuestion3('Q3');
+            $scenario->setQuestion4('Q4');
+            $scenario->setQuestion5('Q5');
+            $scenario->setQuestion6('Q6');
+            $scenario->setReponse1(['R1','R2','R3','R4']);
+            $scenario->setReponse2(['R1','R2','R3','R4']);
+            $scenario->setReponse3(['R1','R2','R3','R4']);
+            $scenario->setReponse4(['R1','R2','R3','R4']);
+            $scenario->setReponse5(['R1','R2','R3','R4']);
+            $scenario->setReponse6(['R1','R2','R3','R4']);
+            $scenario->setReponsemotcroise('Rmot');
+            $scenario->setSolution1(1);
+            $scenario->setSolution2(2);
+            $scenario->setSolution3(3);
+            $scenario->setSolution4(4);
+            $scenario->setSolution5(5);
+            $scenario->setSolution6(6);
+            $scenario->setSolution6(6);
+            $scenario->setLienimage('2-1.jpg');
+            $scenario->setLienmotcroise('https://learningapps.org/watch?v=pexjosz3k20');
+            $scenario->setLienchevaux('https://learningapps.org/watch?v=poedzn5n521');
+
+
+            $manager ->persist($scenario);
+        }
+
         $manager->flush();
     }
 }

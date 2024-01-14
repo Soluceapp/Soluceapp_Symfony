@@ -51,7 +51,7 @@ class DutilCrudController extends AbstractCrudController
             ArrayField::new('roles')->hideOnIndex(),
             BooleanField::new('Is_Verified'),
             TextField::new('Classe')->setFormTypeOption('disabled','disabled'),
-            //ArrayField::new('id_domain')->setFormTypeOption('disabled','disabled'),
+            ArrayField::new('Id_domain_id')->setFormTypeOption('disabled','disabled'),
             IntegerField::new('Points'),
             ArrayField::new('scenariofait')->hideOnIndex(),
             ArrayField::new('limparticipation')->hideOnIndex(),
