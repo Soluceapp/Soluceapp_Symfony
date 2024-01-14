@@ -10,7 +10,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use Symfony\Config\Doctrine\Orm\EntityManagerConfig\EntityListeners\EntityConfig;
 
@@ -49,10 +50,10 @@ class DutilCrudController extends AbstractCrudController
             TextField::new('email')->setFormTypeOption('disabled','disabled')->hideOnIndex(),
             TextField::new('pseudo'),
             ArrayField::new('roles')->hideOnIndex(),
-            BooleanField::new('Is_Verified'),
-            TextField::new('Classe')->setFormTypeOption('disabled','disabled'),
-            ArrayField::new('Id_domain_id')->setFormTypeOption('disabled','disabled'),
-            IntegerField::new('Points'),
+            BooleanField::new('Is_Verified')->setLabel('Mail vérifié'),
+            TextField::new('Classe')->setLabel('Niveau')->setFormTypeOption('disabled','disabled'),
+            TextField::new('id_domain')->setLabel('Classe'),
+            IntegerField::new('points'),
             ArrayField::new('scenariofait')->hideOnIndex(),
             ArrayField::new('limparticipation')->hideOnIndex(),
             ArrayField::new('motcroisefait')->hideOnIndex(),

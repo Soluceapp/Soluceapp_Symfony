@@ -30,12 +30,12 @@ class ClassStudentCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('name_class'),
+            IdField::new('name_class')->setLabel('Niveau'),
             IntegerField::new('moyenne_activity'),
-            IntegerField::new('acces_chevaux'),
-            IntegerField::new('acces_compta'),
-            IntegerField::new('acces_facture'),
-            IntegerField::new('acces_motcroise'),
+            BooleanField::new('acces_chevaux'),
+            BooleanField::new('acces_compta'),
+            BooleanField::new('acces_facture'),
+            BooleanField::new('acces_motcroise'),
 
         ];
     }

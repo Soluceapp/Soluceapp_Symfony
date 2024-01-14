@@ -74,6 +74,8 @@ class DomaineStudent
 
         return $this;
     }
-
+    public function __toString() {
+        return $this->Namedomaine;
+    }
    
 }
