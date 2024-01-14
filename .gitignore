@@ -15,6 +15,7 @@
 soluceapp_symfony.code-workspace
 composer.lock
 symfony.lock
+.gitignore
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
