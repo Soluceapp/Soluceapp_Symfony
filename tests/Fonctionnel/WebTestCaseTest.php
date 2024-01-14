@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class WebTestCaseTest extends WebTestCase
 {
-    public function testSomething(): void
+    public function testUser(): void
     {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $user = static::createClient();
+        $crawler = $user->request('GET', '/');
 
         $this->assertResponseIsSuccessful();
     }
