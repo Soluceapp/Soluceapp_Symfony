@@ -137,7 +137,7 @@ class ResultatController extends AbstractController
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         
         // Récupère les réponses.
-        $motcache=strtolower(htmlspecialchars($request->get('montant')));
+        $motcache=trim(strtolower(htmlspecialchars($request->get('montant'))));
 
         // Récupère les solutions.
         $id=$session->get('id_scenario');
