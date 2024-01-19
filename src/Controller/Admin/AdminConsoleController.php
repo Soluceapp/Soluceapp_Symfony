@@ -55,6 +55,7 @@ class AdminConsoleController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Scenarios', 'fas fa-person-running', Scenario::class);
         yield MenuItem::linkToRoute('Accès aux activités', 'fa fa-door-open', 'app_activities');
         yield MenuItem::linkToRoute('Editer les notes', 'fa-solid fa-money-bill-trend-up', 'app_recupnote');
+        yield MenuItem::linkToRoute('Réinitialiser une classe', 'fa-regular fa-rectangle-xmark', 'app_reinitia');
         yield MenuItem::linkToLogout('Se déconnecter', 'fa fa-sign-out');
     }
 }

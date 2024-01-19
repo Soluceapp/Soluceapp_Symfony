@@ -2,8 +2,8 @@
 
 <header class="style1">
  <!-- Entête du site -->
-<h2 class="style5">Mooc.soluceapp.com</h2>
-<p class="style6">Massive Open Online Course</p>
+<h2 class="style5">Soluceapp.com</h2>
+<p class="style6">Solution applicative de Monsieur Vervisch</p>
 
 <!-- Liste des onglets -->
 
@@ -28,10 +28,9 @@
 
     {% if app.user and app.user.isVerified == true%}
    <div class="item-flex order0 style8 dropdown">
-  <button onclick="sub_menu5()" class="dropbtn">Choisir une<br>activité</button>
+  <button onclick="sub_menu5()" class="dropbtn">Gagner<br>des points</button>
   <div id="myDropdown5" class="dropdown-content">
-    <a onclick="sub_menu35()" class="style12">Accueil des<br>activités</a>
-      {% if app.user.classe.acces_motcroise ==true %}<a onclick="sub_menu41()" class="style12">Cours</a>{% endif %}
+    
     {% if app.user.classe.acces_motcroise ==true %}<a onclick="sub_menu33()" class="style12">Mots croisés</a>{% endif %}
     {% if app.user.classe.acces_chevaux ==true %}<a onclick="sub_menu14()" class="style12">Petits Chevaux</a>{% endif %}
     {% if app.user.classe.acces_compta ==true %}<a onclick="sub_menu34()" class="style12">Comptafacil</a>{% endif %}
@@ -39,10 +38,11 @@
      
   </div>
 </div>
-<div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu37()" class="dropbtn">Accès à<br>mon profil</button><div id="myDropdown7" class="dropdown-content"></div></div></div>
+<div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu37()" class="dropbtn">Accès à<br>mon profil</button><div id="myDropdown7" class="dropdown-content"></div></div>
+<div class="item-flex order4" class="style8" class="dropdown"><button onclick="sub_menu42()" class="dropbtn">Autres<br>activités</button><div id="myDropdown7" class="dropdown-content"></div></div>
    {% elseif app.user and app.user.isVerified == false%}
     <div class="item-flex order0" class="style8" class="dropdown"><button onclick="sub_menu35()" class="dropbtn">Accéder aux<br>activités</button><div id="myDropdown6" class="dropdown-content"></div></div>
-    {%endif%} 
+    {% endif %} 
     
 
 
