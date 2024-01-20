@@ -31,7 +31,7 @@ class ReinitiaFormType extends AbstractType
        
 
         $resolver->setDefaults([
-            'data_class' => Dutil::class,
+            'data_class' => Dutil::class, 
 
         ]);
     }
