@@ -5,6 +5,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
+//
+// Méthodes utiles à l'affectation partielle de données dans un html
+//
 class PartialsController extends AbstractController
 {
    

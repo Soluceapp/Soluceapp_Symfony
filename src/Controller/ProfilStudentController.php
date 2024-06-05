@@ -11,7 +11,9 @@ use App\Form\ChangeclasseFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-
+//
+// Méthodes relatives à la gestion du profil de l'élève
+//
 class ProfilStudentController extends AbstractController
 {
     #[Route('/profile_student', name: 'app_profil_student')]

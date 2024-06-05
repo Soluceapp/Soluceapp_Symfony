@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Dutil;
 
+
+//
+// Méthodes relatives à l'activité de facture
+//
 class FactureController extends AbstractController 
 {
     #[Route('/activities', name: 'app_activities')]

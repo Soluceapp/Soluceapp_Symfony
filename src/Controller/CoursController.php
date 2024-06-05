@@ -10,6 +10,9 @@ use App\Form\CoursFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Scenario;
 
+//
+// Méthodes relatives à la gestion des images de cours distribuées
+//
 class CoursController extends AbstractController
 {
     #[Route('/activities/cours', name: 'app_cours')]

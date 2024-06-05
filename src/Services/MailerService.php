@@ -1,10 +1,7 @@
 <?php
 namespace App\Services;
 
-use App\Entity\Dutil;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class MailerService 

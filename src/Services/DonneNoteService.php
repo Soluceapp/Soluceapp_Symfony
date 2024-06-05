@@ -9,9 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DonneNoteService extends AbstractController 
 {
 
-    public function donnenote(EntityManagerInterface $entityManager):void
+    public function donneNote(EntityManagerInterface $entityManager):void
     {
-
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
         $note=$dutil->getNote();
         $points=$dutil->getPoints();
@@ -26,11 +25,8 @@ class DonneNoteService extends AbstractController
 
         $dutil->setNote($note);
         $entityManager->persist($dutil);
-        $entityManager->flush();
-
-      
+        $entityManager->flush();    
     }
 
-
-
+   
 }

@@ -16,7 +16,9 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use App\Services\JWTService;
 use App\Services\MailerService;
 
-
+//
+// Méthodes utilisées lors de l'inscription de l'élève
+//
 class RegistrationController extends AbstractController
 {
   
@@ -37,7 +39,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+            // encode le mot de passe
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -52,7 +54,7 @@ class RegistrationController extends AbstractController
             $header =['typ'=> 'JWT','alg'=>'HS256'];
             $payload =['user_id'=> $user->getId()];
             $token=$jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
-          // generate a signed url and email it to the user
+          // génère l'url et l'email
             $mailer->sendEmail(
                 $user->getEmail(),
                 '/registration/confirmation_email.html.twig',

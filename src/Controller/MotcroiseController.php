@@ -11,6 +11,9 @@ use App\Entity\Dutil;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+//
+// Méthodes relatives à l'activité de mot croisé
+//
 class MotcroiseController extends AbstractController
 {
     #[Route('/activities/motcroise', name: 'app_motcroise')]

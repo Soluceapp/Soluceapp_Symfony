@@ -12,7 +12,8 @@ use App\Entity\Dutil;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-
+//
+// Méthodes relatives à l'activité petits chevaux
 class ChevauxController extends AbstractController
 {
     #[Route('/activities/chevaux', name: 'app_chevaux')]
