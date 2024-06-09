@@ -29,14 +29,10 @@ class ReinitiaController extends AbstractController
             // Récupération et conversion utile du formulaire $form
             $Iddomaine=$form->get('id_domain')->getData();
             $Iddomaineverif=htmlspecialchars($Iddomaine->getId());
-            $Iddomaine_int=intval($Iddomaineverif);
 
             $Idclasse=$form->get('classe')->getData();
             $Idclasseverif=htmlspecialchars($Idclasse->getId());
-            $Idclasse_int=intval($Idclasseverif);
-            
-            
-            $dutil=$entityManager->getRepository(Dutil::class)->findAll();
+                      
             $domaine=$entityManager->getRepository(DomaineStudent::class)->find($Iddomaineverif); 
             $classe=$entityManager->getRepository(ClassStudent::class)->find($Idclasseverif);
 

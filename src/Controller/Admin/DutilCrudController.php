@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Dutil;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -47,7 +48,7 @@ class DutilCrudController extends AbstractCrudController
         return [
             TextField::new('Nom'),
             TextField::new('Prenom'),
-            TextField::new('email')->setFormTypeOption('disabled','disabled')->hideOnIndex(),
+            TextField::new('email')->hideOnIndex(), //->setFormTypeOption('disabled','disabled')
             TextField::new('pseudo'),
             ArrayField::new('roles')->hideOnIndex(),
             BooleanField::new('Is_Verified')->setLabel('Mail vérifié'),

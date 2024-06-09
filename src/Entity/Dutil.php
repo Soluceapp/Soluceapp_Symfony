@@ -296,9 +296,9 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id_domain;
     }
 
-    public function setIdDomain(?DomaineStudent $id_domain): static
+    public function setIdDomain(DomaineStudent $id_domain): static
     {
-        $this->id_domain = $id_domain;
+        $this->id_domain =  $id_domain;
 
         return $this;
     }

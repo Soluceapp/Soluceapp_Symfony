@@ -197,6 +197,11 @@ class ClassStudent
         return $this->scenarios;
     }
 
+    public function isacces_motcroise(): Collection
+    {
+        return $this->scenarios;
+    }
+
     public function addScenario(Scenario $scenario): static
     {
         if (!$this->scenarios->contains($scenario)) {
@@ -219,11 +224,27 @@ class ClassStudent
         return $this;
     }
 
-    public function getacces_motcroise(): ?bool
+    public function getAccesMotcroise(): ?bool
     {
         return $this->acces_motcroise;
     }
 
+
+    public function getAccesChevaux(): ?bool
+    {
+        return $this->acces_chevaux;
+    }
+
+    
+    public function getAccesCompta(): ?bool
+    {
+        return $this->acces_compta;
+    }
+
+    public function getAccesFacture(): ?bool
+    {
+        return $this->acces_facture;
+    }
     public function setAccesMotcroise(?bool $acces_motcroise): static
     {
         $this->acces_motcroise = $acces_motcroise;
