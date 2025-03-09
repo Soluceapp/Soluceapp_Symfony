@@ -1,0 +1,555 @@
+{% extends 'base.html.twig' %} 
+
+
+{% block body %}
+
+
+
+<div   class="container-grid-maitre" > 
+<!-- Contenu informatif de la page -->
+<main>
+<section class="style2">
+
+<div style="margin:20px"><div class="style25">
+<h1>Facture mystère</h1>
+
+</div></div>
+<article >
+<div class="container-flex-article">
+
+<!-- Explications principales -->
+
+</div>
+
+<p class="style23" style="font-size:1.3em;">Consigne : Trouvez le montant inexact entre ces trois documents qui crée une erreur. Puis trouvez le montant qu'il aurait fallu indiquer. Vous gagnez un point par erreur trouvée.</p>
+<br>
+
+
+<!-- Bon de commande -->
+
+<font size="4" style="font-size: 14pt"><b>Bon de commande</b></font>
+<br><br>
+
+<table class="style16" style="border:none">
+	<colgroup >
+		<col width="82"/>
+
+		<col width="220"/>
+
+		<col width="94"/>
+
+	</colgroup>
+	<colgroup >
+		<col width="104"/>
+
+	</colgroup>
+	<colgroup>
+		<col width="124"/>
+
+	</colgroup>
+	<tbody >
+		<tr>
+			<td class="style21">
+				Références
+			</td>
+			<td class="style21">
+				Catégories de produits
+			</td>
+			<td class="style21">
+				Quantité
+			</td>
+			<td class="style21">
+				Prix Unitaire
+			</td>
+			<td class="style21">
+				Total
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in B00 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in B00 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in B00 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in B00 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in B00 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in B01 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B01 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in B01 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in B01 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in B01 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in B02 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B02 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B02 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B02 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B02 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in B03 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B03 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B03 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B03 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B03 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in B04 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B04 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B04 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B04 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+			<td class="style17">{% for i in B04 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td colspan="2" width="206" ><p align="right" >
+				Montant	Brut HT
+			</td>
+			<td class="style21">{% for i in E00 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+		</tr>
+		<tr>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td colspan="2" width="206" ><p align="right" >
+				Montant	TVA
+			</td>
+			<td class="style21">{% for i in E00 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}	
+
+			</td>
+		</tr>
+		<tr>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td colspan="2" width="206" ><p align="right" >
+				Total TTC
+			</td>
+			<td class="style21">{% for i in E00 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}	
+
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- Bon de livraison  -->
+
+<font size="4" style="font-size: 14pt"><b>Bon de livraison</b></font>
+<br><br>
+
+<table class="style16" style="border:none">
+	<colgroup >
+		<col width="82"/>
+
+		<col width="220"/>
+
+		<col width="94"/>
+
+	</colgroup>
+	<colgroup >
+		<col width="104"/>
+
+	</colgroup>
+	<colgroup>
+		<col width="124"/>
+
+	</colgroup>
+	<tbody >
+		<tr>
+			<td class="style21">
+				Références
+			</td>
+			<td class="style21">
+				Catégories de produits
+			</td>
+			<td class="style21">
+				Quantité
+			</td>
+			<td class="style21">
+				Prix Unitaire
+			</td>
+			<td class="style21">
+				Total
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in C00 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C00 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C00 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C00 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C00 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in C01 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C01 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C01 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C01 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C01 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in C02 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C02 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C02 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C02 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C02 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in C03 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C03 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C03 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C03 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C03 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in C04 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C04 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C04 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C04 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in C04 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td colspan="2" width="206" ><p align="right" >
+				Montant	Brut HT
+			</td>
+			<td class="style21">{% for i in E01 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+		</tr>
+		<tr>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td colspan="2" width="206" ><p align="right" >
+				Montant	TVA
+			</td>
+			<td class="style21">{% for i in E01 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+		</tr>
+		<tr>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td colspan="2" width="206" ><p align="right" >
+				Total TTC
+			</td>
+			<td class="style21">{% for i in E01 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- Facture -->
+
+<font size="4" style="font-size: 14pt"><b>Facture 'Mystère'</b></font>
+<br><br>
+
+<table class="style16" style="border:none">
+	<colgroup >
+		<col width="82"/>
+
+		<col width="220"/>
+
+		<col width="94"/>
+
+	</colgroup>
+	<colgroup >
+		<col width="104"/>
+
+	</colgroup>
+	<colgroup>
+		<col width="124"/>
+
+	</colgroup>
+	<tbody >
+		<tr>
+			<td class="style21">
+				Références
+			</td>
+			<td class="style21">
+				Catégories de produits
+			</td>
+			<td class="style21">
+				Quantité
+			</td>
+			<td class="style21">
+				Prix Unitaire
+			</td>
+			<td class="style21">
+				Total
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in D00 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D00 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D00 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D00 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D00 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in D01 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D01 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D01 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D01 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D01 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in D02 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D02 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D02 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D02 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D02 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in D03 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D03 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D03 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D03 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D03 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td class="style17">{% for i in D04 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D04 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D04 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D04 %} {% if loop.index == 4 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+			<td class="style17">{% for i in D04 %} {% if loop.index == 5 %} {{ i }} {% endif %} {% endfor %}
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td colspan="2" width="206" ><p align="right" >
+				Montant	Brut HT
+			</td>
+			<td class="style21">{% for i in E02 %} {% if loop.index == 1 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+		</tr>
+		<tr>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td colspan="2" width="206" ><p align="right" >
+				Montant	TVA
+			</td>
+			<td class="style21">{% for i in E02 %} {% if loop.index == 2 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+		</tr>
+		<tr>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td ><p >
+				<br/>
+
+				</p>
+			</td>
+			<td colspan="2" width="206" ><p align="right" >
+				Total TTC
+			</td>
+			<td class="style21">{% for i in E02 %} {% if loop.index == 3 %} {{ i }} {% endif %} {% endfor %}	
+			</td>
+		</tr>
+	</tbody>
+</table>
+<br><br><br>
+
+<form method="post" action="{{ path('app_resultatfacture') }}" class="style16"> 
+{% if "montant"=='{{SOL}}' %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}<br>
+<p><label for="idmontant">Quel chiffre est à écrire à la place de l'erreur : </label>
+<input type="number"  name="montant"></p>
+Pour corriger et recalculer ensuite entièrement les documents.
+<p><input type="submit" class="btn btn-primary btn-lg" name="valid_form" value="Vérifier"></p><br>
+</form>
+
+</div>
+</article>
+
+
+
+<br>
+
+
+<br><br>
+</section>
+</main>
+
+
+
+
+</div>
+{% endblock %}

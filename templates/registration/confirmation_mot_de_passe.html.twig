@@ -1,0 +1,12 @@
+
+<h1>Bonjour {{user.pseudo}}, Confirmer ce mail, s'il vous plait.</h1>
+
+<p>
+    Confirmez votre mot de passe en cliquant sur ce lien : <br><br>
+    <a href="{{absolute_url(path('reset_pass',{token: token}))}}">Confirmer mon mot de passe</a>.
+    Ce lien expirera dans 3 heures.
+</p>
+
+<p>
+    Cordialement,
+</p>
