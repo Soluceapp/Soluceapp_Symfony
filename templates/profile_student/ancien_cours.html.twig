@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %} 
+
+
+{% block body %}
+
+
+
+<div   class="container-grid-maitre" > 
+<!-- Contenu informatif de la page -->
+<main>
+<section class="style2">
+
+<div style="margin:20px"><div class="style25">
+<h1>Accès aux synthèses gagnées par petits chevaux</h1>
+
+Si vous voulez obtenir des synthèses de cours gagnez les aux petits chevaux ou aux mots croisés.<br><br>
+<br>
+<ul>
+    {% for image in scenariosGagnes %}<br>
+        <li>
+            <img src="{{ asset('images/scenario/' ~ image) }}" width="100%">
+        </li>
+    {% endfor %}
+</ul>
+
+
+</div></div>
+<article >
+<div class="container-flex-article">
+<br>
+
+</div>
+</article>
+
+
+
+<br>
+
+
+<br><br>
+</section>
+</main>
+
+
+
+
+</div>
+{% endblock %}

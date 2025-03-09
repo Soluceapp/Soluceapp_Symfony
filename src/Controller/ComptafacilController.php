@@ -11,12 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 //
 class ComptafacilController extends AbstractController
 {
-    #[Route('/activities/comptafacil', name: 'app_compta')]
-    public function comptafacil(): Response
+    #[Route('/activities/compta_facile', name: 'app_compta')]
+    public function comptaFacile(): Response
     { 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
 
-        return $this->render('activities/comptafacil.html.twig');
+        return $this->render('activities/compta_facile.html.twig');
     }
 }

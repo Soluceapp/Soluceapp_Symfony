@@ -19,13 +19,13 @@ use App\Security\Nettoyeur;
 class ResultatController extends AbstractController 
 {
    
-    #[Route('/resultat/facturemystere', name: 'app_resultatfacture')]
+    #[Route('/resultat/facture_mystere', name: 'app_resultatfacture')]
     public function resultFacture( Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request,DonneNoteService $note): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         // Récupère la solution et la réponse.
-        $solution= new Nettoyeur(); $solution=$solution->nettoyeur_int(($session->get('solution')));
-        $montant= new Nettoyeur(); $montant=$montant->nettoyeur_int($request->get('montant'));
-        $solution_token=0;// Car clear la session.
+        $solution= new Nettoyeur(); $solution=$solution->nettoyeurInt(($session->get('solution')));
+        $montant= new Nettoyeur(); $montant=$montant->nettoyeurInt($request->get('montant'));
+        $solutionToken=0;// Car clear la session.
         
        if($solution==$montant)
             {
@@ -35,23 +35,23 @@ class ResultatController extends AbstractController
             $dutil->getId();
 
             //Vérif points max de participation = 5 sur cette activité.
-            $arraylim=$dutil->getLimparticipation(); 
-            if($arraylim[0]>=5){$this->addFlash('success',"Vous avez gagné le maximum de 5 points pour cette activité.");return $this->redirectToRoute('app_activities');}
-
+            $arrayLim=$dutil->getLimParticipation(); 
+            if($arrayLim[0]>=5){$this->addFlash('success',"Vous avez gagné le maximum de 5 points pour cette activité.");return $this->redirectToRoute('app_activities');}
+            
             $points=$dutil->getPoints();
             $points=$points+1;
             $dutil->setPoints($points);
             $dutil->setResetToken($solution);
         
-            $arraylim[0]=$arraylim[0]+1;// 0 pour factumemystère
-            $dutil->setLimparticipation($arraylim);
+            $arrayLim[0]=$arrayLim[0]+1;// 0 pour factumemystère
+            $dutil->setLimparticipation($arrayLim);
 
             $entityManager->persist($dutil);
             $entityManager->flush();
             $note->donneNote($entityManager);
             $this->addFlash('success',"Vous gagnez un point");
             $session->clear();
-            $solution_token=$dutil->getResetToken();
+            $solutionToken=$dutil->getResetToken();
         }
         else 
         {
@@ -61,89 +61,110 @@ class ResultatController extends AbstractController
             $points=$dutil->getPoints();
 
         } 
-        return $this->render('activities/resultat.html.twig',['SOL'=>$solution_token] );
+        return $this->render('activities/resultat.html.twig',['SOL'=>$solutionToken] );
     }
 
-    #[Route('/resultat/chevaux', name: 'app_resultatchevaux')]
-    public function resultChevaux(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request,DonneNoteService $note): Response
-    {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        // Récupère les réponses.
-        $reponse1= new Nettoyeur(); $reponse1=$reponse1->nettoyeur_str($request->get('reponse1'));
-        $reponse2= new Nettoyeur(); $reponse2=$reponse2->nettoyeur_str($request->get('reponse2'));
-        $reponse3= new Nettoyeur(); $reponse3=$reponse3->nettoyeur_str($request->get('reponse3'));
-        $reponse4= new Nettoyeur(); $reponse4=$reponse4->nettoyeur_str($request->get('reponse4'));
-        $reponse5= new Nettoyeur(); $reponse5=$reponse5->nettoyeur_str($request->get('reponse5'));
-        $reponse6= new Nettoyeur(); $reponse6=$reponse6->nettoyeur_str($request->get('reponse6')); 
+    // Permet de calculer les points donnés par l'activité chevaux.
+    #[Route(path: '/resultat/chevaux', name: 'app_resultatchevaux')]
+    public function resultChevaux(
+        SessionInterface $session,
+        EntityManagerInterface $entityManager,
+        Request $request,
+        DonneNoteService $note
+    ): Response {
+
+    // Vérification de l'authentification de l'utilisateur    
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+    $user = $this->getUser();
+
+    // Récupération de l'ID du scénario depuis la session
+    $id = htmlspecialchars($session->get('id_scenario'));
+    if (!$id) {
+        $this->addFlash('danger', 'ID du scénario introuvable.');
+        return $this->redirectToRoute('app_activities');
+    }
+
+    // Récupération du scénario pour comparer ses réponses
+    $Scenario = $entityManager->getRepository(Scenario::class)->find($id);
+    if (!$Scenario) {
+        $this->addFlash('danger', 'Scénario introuvable.');
+        return $this->redirectToRoute('app_activities');
+    }
+
+    // Nettoyage des réponses utilisateur et mise en array
+    $reponses = [];
+    for ($i = 1; $i <= 6; $i++) {
+        $reponses[$i] = (new Nettoyeur())->nettoyeurStr($request->get("reponse$i"));
+    }
+
+    // Récupération des solutions dans un array
+    $solutions = [];
+    for ($i = 1; $i <= 6; $i++) {
+        $method = "getSolution$i";
+        $solutions[$i] = $Scenario->$method();
+    }
+
+    // Calcul des bonnes réponses vérification des réponses avec solution
+    $tot = 0;
+    for ($i = 1; $i <= 6; $i++) {
+        if ($reponses[$i] == $solutions[$i]) {
+            $tot++;
+        }
+    }
+
+    // Donne des points si 4 réponses bonnes sur 6
+    if ($tot >= 4) {
+        // Attribution des points par fonction pointDansBase
+        $dutil = $entityManager->getRepository(Dutil::class)->find($user);
+        ResultatController::pointDansBase($dutil, $entityManager, $note);
+
+        // Utilisation de l'id récupéré en session pour l'utiliser comme index sur scenariofait de l'utilisateur
+        $scenarioFait=$dutil->getScenarioFait();
         
-        // Récupère les solutions.
-        $id=new Nettoyeur(); $id=$id->nettoyeur_str($session->get('id_scenario'));
-        if(isset($id))
+        $indexScenario=$scenarioFait[$id];
+        // Recherche si le scénario est déjà fait (1) dans indexScenario
+        if($indexScenario==1)
         {
-            $Scenario=$entityManager->getRepository(Scenario::class)->find($id);
-            $solution1=$Scenario->getSolution1();
-            $solution2=$Scenario->getSolution2();
-            $solution3=$Scenario->getSolution3();
-            $solution4=$Scenario->getSolution4();
-            $solution5=$Scenario->getSolution5();
-            $solution6=$Scenario->getSolution6();
-            $tot=0;
-            if($reponse1==$solution1){$tot++;}if($reponse2==$solution2){$tot++;}if($reponse3==$solution3){$tot++;}
-            if($reponse4==$solution4){$tot++;}if($reponse5==$solution5){$tot++;}if($reponse6==$solution6){$tot++;}
+            $this->addFlash('success','Scénario déjà réalisé ou impossible.');
+            return $this->redirectToRoute('app_chevaux');
         }
-        else {$this->addFlash('success','Scénario non reconnu.');return $this->redirectToRoute('app_activities');}
-
-       if($tot>=4)
-        {        
-            //Méthode complète de modification de base (récupération et affectation).
-            ResultatController::pointDansBase($dutil,$entityManager, $note);
-
-            //pour affichage résultat en template.
-            $sol=1;
-   
-            //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
-            $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
-            $scenariofait=$dutil->getScenariofait();
-            $scenario_fait=$scenariofait[$id];
-            if($scenario_fait==1)
-            {
-                $this->addFlash('success','Scénario déjà réalisé ou impossible.');
-                return $this->redirectToRoute('app_chevaux');  
-            }else{$scenariofait[$id]=1; $dutil->setScenariofait($scenariofait);
+        // Affectation du 1 si 4 réponses possible + sauvegarde
+        else{$scenarioFait[$id]=1; $dutil->setScenarioFait($scenarioFait);
             $entityManager->persist($dutil);
-            $entityManager->flush();}    
-
-            $session->clear();
+            $entityManager->flush();}
+        
+        // Vide la mémoire de la session
+        $session->clear();
+        $this->addFlash('success', 'Félicitations ! Vous avez réussi.');
+        } 
+    else {
+        $this->addFlash('warning', "Pas assez de bonnes réponses.");
         }
-        else 
-        {
-            //Méthode uniquement de récupération de données
-            $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
-            $dutil->getId();
-            $this->addFlash('success',"Pas assez de bonnes réponses.");
-        }       
-        return $this->render('activities/resultat.html.twig',['SOL'=>htmlspecialchars($sol)] );
-    }
 
-    #[Route('/resultat/motcroise', name: 'app_resultatmotcroise')]
+    return $this->render('activities/resultat.html.twig', [
+        'SOL' => htmlspecialchars($tot >= 4 ? 1 : 0),
+    ]);
+}
+    #[Route('/resultat/mot_croise', name: 'app_resultatmotcroise')]
     public function resultMotcroise(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request,DonneNoteService $note): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         
         // Récupère la réponse.
-        $motcache= new Nettoyeur(); $motcache=$motcache->nettoyeur_str(trim(strtolower($request->get('montant'))));
+        $motCache= new Nettoyeur(); $motCache=$motCache->nettoyeurStr(trim(strtolower($request->get('montant'))));
         
         // Récupère les solutions.
-        $id=new Nettoyeur(); $id=$id->nettoyeur_str($session->get('id_scenario'));
+        $id=new Nettoyeur(); $id=$id->nettoyeurStr($session->get('id_scenario'));
         if(isset($id))
         {
             $Scenario=$entityManager->getRepository(Scenario::class)->find($id);
-            $reponsemotcroise=$Scenario->getReponsemotcroise();
+            $reponseMotCroise=$Scenario->getReponseMotCroise();
 
-            if($motcache==$reponsemotcroise)
+            if($motCache==$reponseMotCroise)
                 {
                 ResultatController::pointDansBase($dutil,$entityManager, $note);
                 //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
                 $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
-                $motcroisefait=$dutil->getMotcroisefait();
+                $motcroisefait=$dutil->getMotCroiseFait();
                 $motcroisefait_=$motcroisefait[$id];
                 if($motcroisefait_==1)
                 {
@@ -152,14 +173,16 @@ class ResultatController extends AbstractController
                 }
                 else
                 {
-                $motcroisefait[$id]=1; $dutil->setMotcroisefait($motcroisefait);
+                $motcroisefait[$id]=1; $dutil->setMotCroiseFait($motcroisefait);
                 $entityManager->persist($dutil);
                 $entityManager->flush();}    
                 $session->clear();
                 }   
         }
         else {$this->addFlash('success','Tu as déjà gagné un point sur ce mot croisé.');return $this->redirectToRoute('app_activities');}
-        return $this->render('activities/resultat.html.twig',['SOL'=>htmlspecialchars($reponsemotcroise)] );
+        return $this->render(
+            'activities/resultat.html.twig',
+            ['SOL'=>htmlspecialchars($reponseMotCroise)] );
     }
 
     #[Route('/resultat/cours', name: 'app_resultatcours')]
@@ -167,42 +190,42 @@ class ResultatController extends AbstractController
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         
         // Récupère les réponses.
-        $motcache=htmlspecialchars($request->get('montant'));
+        $motCache=htmlspecialchars($request->get('montant'));
 
         // Récupère les solutions.
-        $id=new Nettoyeur(); $id=$id->nettoyeur_str($session->get('id_scenario'));
+        $id=new Nettoyeur(); $id=$id->nettoyeurStr($session->get('id_scenario'));
         if(isset($id))
         {
             $Scenario=$entityManager->getRepository(Scenario::class)->find($id);
-            $reponsecours=$Scenario->getReponsemotcroise();
+            $reponSecours=$Scenario->getReponseMotCroise();
 
-            if($motcache==$reponsecours)
+            if($motCache==$reponSecours)
             {
         
             ResultatController::pointDansBase($dutil,$entityManager, $note);
 
             //vérif le scénario est déjà validé par l'utilisateur (pour limiter le nombre de participation).
             $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
-            $motcroisefait=$dutil->getMotcroisefait();
-            $motcroisefait_=$motcroisefait[$id];
-            if($motcroisefait_==1)
+            $motCroiseFait=$dutil->getMotCroiseFait();
+            $motCroiseFait_=$motCroiseFait[$id];
+            if($motCroiseFait_==1)
             {
             $this->addFlash('success','Mot croisé déjà réalisé ou impossible.');
             return $this->redirectToRoute('app_activities');  
             }
             else
             {
-            $motcroisefait[$id]=1; $dutil->setMotcroisefait($motcroisefait);
+            $motCroiseFait[$id]=1; $dutil->setMotCroiseFait($motCroiseFait);
             $entityManager->persist($dutil);
             $entityManager->flush();}    
             $session->clear();
             }
         }
         else {$this->addFlash('success','Tu as déjà gagné un point sur ce mot croisé.');return $this->redirectToRoute('app_activities');}
-        return $this->render('activities/resultat.html.twig',['SOL'=>$reponsecours] );
+        return $this->render('activities/resultat.html.twig',['SOL'=>$reponSecours] );
     }
 
-     //
+    //
     //Méthode complète de modification de base (récupération et affectation).
     //
     public function pointDansBase(Dutil $dutil,EntityManagerInterface $entityManager,DonneNoteService $note):void

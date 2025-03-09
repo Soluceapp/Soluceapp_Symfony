@@ -48,7 +48,7 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     private $resetToken = null;
 
     #[ORM\Column(type:'datetime_immutable',options:['default'=>'CURRENT_TIMESTAMP'])]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'dutils')]
     private ?ClassStudent $classe = null;
@@ -57,24 +57,36 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $points = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $scenariofait = null;
+    private ?array $scenarioFait = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $limparticipation = null;
+    private ?array $limParticipation = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $motcroisefait = null;
+    private ?array $motCroiseFait = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $coursfait = null;
+    private ?array $coursFait = null;
 
-    #[ORM\ManyToOne(inversedBy: 'dutils')]
-    private ?DomaineStudent $id_domain = null;
+    #[ORM\ManyToOne(targetEntity: DomaineStudent::class,inversedBy: 'dutils')]
+    private ?DomaineStudent $id_domain = null; // nommage spécifique
 
     #[ORM\Column(nullable: true)]
     private ?float $Note = null;
 
-    
+    #[ORM\Column(nullable: true)]
+    private ?float $noteEvalEco = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $noteEvalGestion = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $noteEvalOutilGestion = null;
+
+    #[ORM\OneToMany(mappedBy: 'dutil', targetEntity: UserFlashCard::class)]
+    private Collection $userFlashCards;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -206,15 +218,14 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -243,50 +254,50 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getScenariofait(): ?array
+    public function getScenarioFait(): ?array
     {
-        return $this->scenariofait;
+        return $this->scenarioFait;
     }
 
-    public function setScenariofait(?array $scenariofait): static
+    public function setScenarioFait(?array $scenarioFait): static
     {
-        $this->scenariofait = $scenariofait;
+        $this->scenarioFait = $scenarioFait;
 
         return $this;
     }
 
-    public function getLimparticipation(): ?array
+    public function getLimParticipation(): ?array
     {
-        return $this->limparticipation;
+        return $this->limParticipation;
     }
 
-    public function setLimparticipation(?array $limparticipation): static
+    public function setLimparticipation(?array $limParticipation): static
     {
-        $this->limparticipation = $limparticipation;
+        $this->limParticipation = $limParticipation;
 
         return $this;
     }
 
-    public function getMotcroisefait(): ?array
+    public function getMotCroiseFait(): ?array
     {
-        return $this->motcroisefait;
+        return $this->motCroiseFait;
     }
 
-    public function setMotcroisefait(?array $motcroisefait): static
+    public function setMotCroiseFait(?array $motCroiseFait): static
     {
-        $this->motcroisefait = $motcroisefait;
+        $this->motCroiseFait = $motCroiseFait;
 
         return $this;
     }
 
-    public function getCoursfait(): ?array
+    public function getCoursFait(): ?array
     {
-        return $this->coursfait;
+        return $this->coursFait;
     }
 
-    public function setCoursfait(?array $coursfait): static
+    public function setCoursFait(?array $coursFait): static
     {
-        $this->coursfait = $coursfait;
+        $this->coursFait = $coursFait;
 
         return $this;
     }
@@ -296,9 +307,9 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id_domain;
     }
 
-    public function setIdDomain(DomaineStudent $id_domain): static
+    public function setIdDomain(DomaineStudent $idDomain): static
     {
-        $this->id_domain =  $id_domain;
+        $this->id_domain =  $idDomain;
 
         return $this;
     }
@@ -322,5 +333,40 @@ class Dutil implements UserInterface, PasswordAuthenticatedUserInterface
        return $this;
    }
 
+
+   public function getNoteEvalEco(): ?float
+   {
+       return $this->noteEvalEco;
+   }
+
+   public function setNoteEvalEco(?float $noteEvalEco): static
+   {
+       $this->noteEvalEco = $noteEvalEco;
+
+       return $this;
+   }
+   public function getNoteEvalGestion(): ?float
+   {
+       return $this->noteEvalGestion;
+   }
+
+   public function setNoteEvalGestion(?float $noteEvalGestion): static
+   {
+       $this->noteEvalGestion = $noteEvalGestion;
+
+       return $this;
+   }
+
+   public function getNoteEvalOutilGestion(): ?float
+   {
+       return $this->noteEvalOutilGestion;
+   }
+
+   public function setNoteEvalOutilGestion(?float $noteEvalOutilGestion): static
+   {
+       $this->noteEvalOutilGestion = $noteEvalOutilGestion;
+
+       return $this;
+   }
 
 }

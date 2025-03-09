@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %} 
+
+
+{% block body %}
+
+
+
+<div   class="container-grid-maitre" > 
+<!-- Contenu informatif de la page -->
+<main>
+<section class="style2">
+
+<div style="margin:20px"><div class="style25">
+
+<br>
+
+<div style="margin:20px">
+    <h3 >Changer ma classe</h3>
+    <br>
+    {{ form_start(changeclasseForm) }}
+
+     {{ form_row(changeclasseForm.classe) }}<br><br>
+
+   
+    {{ form_end(changeclasseForm) }}
+
+    <br><br>
+</div>
+
+
+
+
+</div></div>
+<article >
+<div class="container-flex-article">
+<br>
+
+</div>
+</article>
+
+
+
+<br>
+
+
+<br><br>
+</section>
+</main>
+
+
+
+
+</div>
+{% endblock %}

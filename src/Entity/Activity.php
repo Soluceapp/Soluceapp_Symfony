@@ -15,16 +15,16 @@ class Activity
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'activity_id')]
+    #[ORM\ManyToOne(inversedBy: 'activityId')]
     private ?ClassStudent $classStudent = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $name_activity = null;
+    private ?string $nameActivity = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $coefficient = null;
 
-    #[ORM\OneToMany(mappedBy: 'Activity_id', targetEntity: Scenario::class)]
+    #[ORM\OneToMany(mappedBy: 'activityId', targetEntity: Scenario::class)]
     private Collection $scenarios;
 
     public function __construct()
@@ -36,8 +36,6 @@ class Activity
     {
         return $this->id;
     }
-
-
 
     public function getClassStudent(): ?ClassStudent
     {
@@ -53,12 +51,12 @@ class Activity
 
     public function getNameActivity(): ?string
     {
-        return $this->name_activity;
+        return $this->nameActivity;
     }
 
-    public function setNameActivity(string $name_activity): static
+    public function setNameActivity(string $nameActivity): static
     {
-        $this->name_activity = $name_activity;
+        $this->nameActivity = $nameActivity;
 
         return $this;
     }

@@ -26,7 +26,7 @@ class FactureController extends AbstractController
         return $this->render('activities/index.html.twig');
     }
 
-    #[Route('/activities/facturemystere', name: 'app_facture')]
+    #[Route('/activities/facture_mystere', name: 'app_facture')]
   
     public function facturemystere(SessionInterface $session): Response
     { 
@@ -107,7 +107,7 @@ class FactureController extends AbstractController
        $session->set("solution",$sol);
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        return $this->render('activities/facturemystere.html.twig',
+        return $this->render('activities/facture_mystere.html.twig',
         ['B00'=> $B[0],
         'B01'=> $B[1],
         'B02'=> $B[2],

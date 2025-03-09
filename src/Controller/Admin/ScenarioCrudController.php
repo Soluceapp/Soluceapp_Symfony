@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Controller\Admin;
-
-use App\Entity\ClassStudent;
-use App\Entity\Activity;
 use App\Entity\Scenario;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
@@ -32,6 +31,7 @@ class ScenarioCrudController extends AbstractCrudController
     {
         return [
             TextField::new('NameScenario'),
+            AssociationField::new('classe')->setLabel('Niveau'),
             TextField::new('question1')->hideOnIndex(),
             TextField::new('question2')->hideOnIndex(),
             TextField::new('question3')->hideOnIndex(),
@@ -44,6 +44,11 @@ class ScenarioCrudController extends AbstractCrudController
             ArrayField::new('reponse4')->hideOnIndex(),
             ArrayField::new('reponse5')->hideOnIndex(),
             ArrayField::new('reponse6')->hideOnIndex(),
+            TextField::new('lienImage')->hideOnIndex(),
+            TextField::new('lienChevaux')->hideOnIndex(),
+            IntegerField::new('nbScenario')->hideOnIndex(),
+            TextField::new('reponseMotCroise')->hideOnIndex(),
+            TextField::new('lienMotCroise')->hideOnIndex(),
 
         ];
     }

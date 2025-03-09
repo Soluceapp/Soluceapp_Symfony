@@ -56,7 +56,7 @@ class SecurityController extends AbstractController
                 $context= compact('url','user','token');
                 $mailer->sendEmail(
                     $user->getEmail(),
-                    'registration/confirmation_motdepasse.html.twig',
+                    'registration/confirmation_mot_de_passe.html.twig',
                     $context
                 );
                 $this->addFlash('success','Confirmez votre mot de passe par mail');

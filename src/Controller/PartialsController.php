@@ -11,12 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class PartialsController extends AbstractController
 {
    
-    #[Route('/menux', name: 'route_menux')]
+    #[Route('/menu_x', name: 'route_menu_x')]
     public function menu1(){return $this->render('partials/_header.html.twig',
     ['app_compta'=> 'app_compta']);
     
     }
 
-    #[Route('/menuy', name: 'route_menuy')]
+    #[Route('/menu_y', name: 'route_menu_y')]
     public function menu2(){return $this->render('partials/_footer.html.twig');}
 }

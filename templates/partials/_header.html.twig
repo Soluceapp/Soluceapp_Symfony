@@ -9,13 +9,13 @@
 
     <div class="container-flex-onglets">
     {% if app.user==false %}
-    <div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu10()" class="dropbtn">Accès<br>accueil</button><div id="myDropdown6" class="dropdown-content"></div></div>    
+    <div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu42()" class="dropbtn">Activités<br>sans connexion</button><div id="myDropdown6" class="dropdown-content"></div></div>    
     {%endif%} 
 
     {% if app.user %}
     <div class="item-flex order5" class="style8" class="dropdown" ><button onclick="sub_menu10()" class="dropbtn">Se<br>déconnecter</button><div id="myDropdown6" class="dropdown-content"></div></div>
     {%else%}
-    <div class="item-flex order2" class="style8" class="dropdown"><button onclick="sub_menu7()" class="dropbtn">Se<br>connecter</button><div id="myDropdown7" class="dropdown-content"></div></div></div>
+    <div class="item-flex order5" class="style8" class="dropdown"><button onclick="sub_menu7()" class="dropbtn">Se<br>connecter</button><div id="myDropdown7" class="dropdown-content"></div></div></div>
     {%endif%} 
 
   
@@ -26,23 +26,40 @@
     {% endfor %}{%endif%} 
 
 
-    {% if app.user and app.user.isVerified == true%}
-   <div class="item-flex order0 style8 dropdown">
-  <button onclick="sub_menu5()" class="dropbtn">Gagner<br>des points</button>
-  <div id="myDropdown5" class="dropdown-content">
-    
-    {% if app.user.classe.acces_motcroise ==true %}<a onclick="sub_menu33()" class="style12">Mots croisés</a>{% endif %}
-    {% if app.user.classe.acces_chevaux ==true %}<a onclick="sub_menu14()" class="style12">Petits Chevaux</a>{% endif %}
-    {% if app.user.classe.acces_compta ==true %}<a onclick="sub_menu34()" class="style12">Comptafacil</a>{% endif %}
-    {% if app.user.classe.acces_facture ==true %}<a onclick="sub_menu16()" class="style12">Facture Mystère</a>{% endif %}
-     
+  {% if app.user and app.user.isVerified == true%}
+  
+
+  <div class="item-flex order0 style8 dropdown">
+      <button class="dropbtn" data-dropdown-target="myDropdownTest">Gagner des<br>points</button>
+      <div id="myDropdownTest" class="dropdown-content">
+        {% if app.user.classe.accesMotCroise == true %}<a onclick="sub_menu33()" class="style12">Mots croisés</a>{% endif %}
+            {% if app.user.classe.accesChevaux == true %}<a onclick="sub_menu14()" class="style12">Petits Chevaux</a>{% endif %}
+            {% if app.user.classe.accesCompta == true %}<a onclick="sub_menu34()" class="style12">Comptafacil</a>{% endif %}
+            {% if app.user.classe.accesFacture == true %}<a onclick="sub_menu16()" class="style12">Facture Mystère</a>{% endif %}
+            {% if app.user.noteEvalEco == 0 %}
+              {% if app.user.classe.accesEvalFlashcard == true and app.user.iddomain.accesFlashcardEcoDroit == true %}<a href="{{ path('app_eval_flashcard', { 'context': 'eco' }) }}" class="style12">Eval Flaschcard Eco</a>{% endif %}
+            {% endif %}
+            {% if app.user.noteEvalGestion == 0 %}
+            {% if app.user.classe.accesEvalFlashcard == true and app.user.iddomain.accesFlashcardOutilGestion != true%}<a href="{{ path('app_eval_flashcard', { 'context': 'gestion' }) }}" class="style12">Eval Flaschcard Gestion</a>{% endif %}
+            {% if app.user.iddomain.accesFlashcardOutilGestion == true %}<a href="{{ path('app_eval_flashcard', { 'context': 'outilgestion' }) }}" class="style12">Eval Flaschcard Gestion</a>{% endif %}
+            {% endif %}
+      </div>
+    </div>
+
+  <div class="item-flex order3 style8 dropdown">
+    <button class="dropbtn" data-dropdown-target="myDropdown5">Entrainement aux<br>FlashCards</button>
+    <div id="myDropdown5" class="dropdown-content">
+      {% if app.user.classe.accesFlashcardEco == true and app.user.iddomain.accesFlashcardEcoDroit == true %}<a href="{{ path('app_flashcard', { 'context': 'eco' }) }}" class="style12">Flash Cards éco-droit</a>{% endif %}
+      {% if app.user.classe.accesFlashcardGestion == true and app.user.iddomain.accesFlashcardOutilGestion != true %}<a href="{{ path('app_flashcard', { 'context': 'gestion' }) }}" class="style12">Flash Cards gestion-droit</a>{% endif %}
+      {% if app.user.iddomain.accesFlashcardOutilGestion == true %}<a href="{{ path('app_flashcard', { 'context': 'outilgestion' }) }}" class="style12">Flash Cards d'outil de gestion</a>{% endif %}
+    </div>
   </div>
-</div>
-<div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu37()" class="dropbtn">Accès à<br>mon profil</button><div id="myDropdown7" class="dropdown-content"></div></div>
-<div class="item-flex order4" class="style8" class="dropdown"><button onclick="sub_menu42()" class="dropbtn">Autres<br>activités</button><div id="myDropdown7" class="dropdown-content"></div></div>
-   {% elseif app.user and app.user.isVerified == false%}
+
+  <div class="item-flex order4" class="style8" class="dropdown"><button onclick="sub_menu37()" class="dropbtn">Accès à<br>mon profil</button><div id="myDropdown5" class="dropdown-content"></div></div>
+
+  {% elseif app.user and app.user.isVerified == false%}
     <div class="item-flex order0" class="style8" class="dropdown"><button onclick="sub_menu35()" class="dropbtn">Accéder aux<br>activités</button><div id="myDropdown6" class="dropdown-content"></div></div>
-    {% endif %} 
+  {% endif %} 
     
 
 

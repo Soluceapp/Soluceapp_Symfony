@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Scenario;
 
 //
-// Méthodes relatives à la gestion des images de cours distribuées
+// Méthodes relatives à la gestion des images de cours distribuées [fonction non encore utilisée]
 //
 class CoursController extends AbstractController
 {
@@ -24,8 +24,7 @@ class CoursController extends AbstractController
         $form->handleRequest($request);
 
        if ($form->isSubmitted() && $form->isValid()) 
-        {
-            
+        {         
            // $entityManager->persist($dutil);
            // $entityManager->flush();
             $this->addFlash('success',"Attention. Les scénarios sont spécifiques à l'année.");
@@ -33,10 +32,6 @@ class CoursController extends AbstractController
 
 
         }
-
-
-
-
 
         return $this->render('activities/cours.html.twig', [
             'CoursFormType' => $form->createView(),
