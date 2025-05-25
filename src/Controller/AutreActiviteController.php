@@ -16,6 +16,14 @@ use App\Services\AutreActiviteService;
 // Méthodes relatives à toutes les activités sauf flashcards
 class AutreActiviteController extends AbstractController
 {
+    // Constructeur du service du controller
+    private $autreActiviteService;
+    public function __construct(AutreActiviteService $autreActiviteService)
+    {
+        $this->autreActiviteService=$autreActiviteService;
+    }
+
+
 
     #[Route('/activities', name: 'app_activities')]
     public function index(Dutil $dutil,EntityManagerInterface $entityManager): Response

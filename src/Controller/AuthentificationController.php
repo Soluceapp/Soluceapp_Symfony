@@ -25,6 +25,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 //
 class AuthentificationController extends AbstractController
 {
+
+    // Constructeur du service du controller
+    private $authentificationService;
+    public function __construct(AuthentificationService $authentificationService)
+    {
+        $this->authentificationService=$authentificationService;
+    }
+
   
     #[Route('/registration', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, DutilAuthenticator $authenticator, EntityManagerInterface $entityManager, 

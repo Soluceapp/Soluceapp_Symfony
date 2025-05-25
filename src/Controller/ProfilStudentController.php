@@ -14,6 +14,7 @@ use App\Repository\ScenarioRepository;
 use App\Security\Nettoyeur;
 use App\Form\CoursFormType;
 use App\Entity\Scenario; 
+use App\Services\ProfilStudentService;
 
 //
 // Méthodes relatives à la gestion du profil de l'élève
@@ -22,13 +23,15 @@ class ProfilStudentController extends AbstractController
 {
 
     private $scenarioRepository;
+    private $profilStudentService;
 
-    // Injection du repository via le constructeur
-    public function __construct(ScenarioRepository $scenarioRepository)
+    // Constructeur
+    public function __construct(ScenarioRepository $scenarioRepository,ProfilStudentService $profilStudentService)
     {
         $this->scenarioRepository = $scenarioRepository;
+        $this->profilStudentService=$profilStudentService;
     }
-
+   
 
     #[Route('/profile_student', name: 'app_profil_student')]
     public function index(Dutil $dutil,EntityManagerInterface $entityManager,Request $request): Response

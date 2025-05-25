@@ -21,6 +21,16 @@ use App\Services\FlashCardService;
 
 class FlashCardController extends AbstractController
 {
+
+   // Constructeur du service du controller
+   private $flashCardService;
+   public function __construct(FlashCardService $flashCardService)
+   {
+       $this->flashCardService=$flashCardService;
+   }
+
+
+
     // Accueil : Acceuil la réponse du header et demande niveau de classe de l'élève
     #[Route('/flash/card', name: 'app_flashcard')]
     public function index(
@@ -383,12 +393,6 @@ public function flashcardoutilgestion(
 
 // Evaluation des flashcards
 
-private $flashCardService;
-
-public function __construct(FlashCardService $flashCardService)
-{
-    $this->flashCardService = $flashCardService;
-}
 
 #[Route('activities/eval_flashcard', name: 'app_eval_flashcard')]
 public function evalFlashCard(

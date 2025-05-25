@@ -4,13 +4,21 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Services\BaseService;
 
 //
 // Méthodes relatives à l'affichage de la page d'accueil
 //
 class BaseController extends AbstractController
 { 
-   
+   // Constructeur du service du controller
+   private $baseService;
+   public function __construct(BaseService $baseService)
+   {
+       $this->baseService=$baseService;
+   }
+
+
     #[Route('/', name: 'home')]
     public function home(){return $this->render('base/index.html.twig');}
 
