@@ -39,27 +39,26 @@ class AutreActiviteController extends AbstractController
 
     // Permet de choisir le scénario de petits chevaux
     #[Route('/activities/chevaux', name: 'app_chevaux')]
-    public function chevaux(
-        EntityManagerInterface $entityManager): Response
+    public function chevaux(): Response
     {
-    // Vérifie si l'utilisateur est authentifié
-    $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        // Vérifie si l'utilisateur est authentifié
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
-    // Récupère l'utilisateur connecté
-    $dutil = $entityManager->getRepository(Dutil::class)->find($this->getUser());
+        // Récupère l'utilisateur connecté
+        $user = $this->getUser();
 
-    // Récupère la classe de l'utilisateur
-    $classe = $dutil->getClasse();
+        // Appel du service pour récupérer les scénarios
+        $scenarios = $this->autreActiviteService->getScenariosByUser($user);
 
-    // Récupère les scénarios associés à la classe
-    $scenarios = $entityManager->getRepository(Scenario::class)->findBy(['classe' => $classe]);
+        // Récupère la classe de l'utilisateur (elle peut aussi être passée par le service)
+        $classe = $user->getClasse();
 
-    // Passe les scénarios au template
-    return $this->render('activities/chevaux.html.twig', [
-        'scenarios' => $scenarios, // Liste des scénarios filtrés
-        'classe' => $classe, // Classe de l'utilisateur
-    ]);
-}
+        // Passe les scénarios au template
+        return $this->render('activities/chevaux.html.twig', [
+            'scenarios' => $scenarios, // Liste des scénarios filtrés
+            'classe' => $classe,       // Classe de l'utilisateur
+        ]);
+    }
 
     // Permet d'afficher la liste des questions des petits chevaux
     #[Route('/activities/question_petit_chevaux', name: 'app_question')]
