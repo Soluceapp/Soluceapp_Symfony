@@ -23,8 +23,6 @@ class AutreActiviteController extends AbstractController
         $this->autreActiviteService=$autreActiviteService;
     }
 
-
-
     #[Route('/activities', name: 'app_activities')]
     public function index(Dutil $dutil,EntityManagerInterface $entityManager): Response
     { 
