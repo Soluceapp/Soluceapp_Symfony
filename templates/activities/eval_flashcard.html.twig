@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Mooc.soluceapp.com{% endblock %}</title>
+        {% block stylesheets %}
+             <link href="{{asset('styles/bootstrap.min.css') }}" rel="stylesheet" >
+            <link rel="stylesheet" href="{{asset('styles/app.css') }}">
+            <link rel="icon" type="image/png" href="{{asset('images/favicon.png') }}">
+            <link rel="shortcut icon" href="{{asset('images/favicon.ico') }}">
+        {% endblock %}
+
+        {% block javascripts %}
+            <script src="{{asset('js/script1.js')}}"></script>
+            <script src="{{asset('js/script2.js')}}"></script>
+            {% if app.user == true%}
+            <script src="{{asset('js/script3.js')}}"></script>
+              {%endif%}
+              {% if app.user and app.user.isVerified == true%}
+            <script src="{{asset('js/script5.js')}}"></script>
+              {%endif%}
+              {% if app.user and app.user.isVerified == true%}
+            <script src="{{asset('js/script4.js')}}"></script>
+              {%endif%}
+        {% endblock %}
+    </head>
+
+
+
+{% block body %}
+
+<div class="container-grid-maitre"> 
+    <main>
+        <section class="style2">
+            <div style="margin:20px">
+                <div class="style25">
+                    {% if choixcard == "eco" %}
+                        <h1>Evaluation de Flash Card d'économie-droit</h1>
+                    {% elseif choixcard == "gestion" %}
+                        <h1>Evaluation de Flash Card de gestion-droit</h1>
+                    {% elseif choixcard == "outilgestion" %}
+                        <h1>Evaluation de Flash Card d'outil de gestion</h1>
+                    {% else %}
+                        <h1>Flash Card</h1>
+                    {% endif %}
+                        
+                </div> 
+                   
+            </div>
+                <article class="style27">
+    <p>
+        La note minimale est 8/20. 
+        <br>Une seule note par semestre. 
+        <br>Entraînez-vous bien aux flashcards avant.
+    </p>
+    <br>
+
+    <div>
+            <a href="{{ path('app_eval_flashcard_detail') }}" class="btn btn-primary">Je passe l'évaluation</a>
+       </div>
+</article>
+
+            <br></article>
+        </section>
+    </main>
+</div>
+
+
+<br>
+
+
+<br><br>
+</section>
+</main>
+
+
+
+
+</div>
+{% endblock %}
+</html>

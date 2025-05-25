@@ -34,10 +34,20 @@ class DomainStudentCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('Namedomaine'),
+            BooleanField::new('acces_eval_flashcard_seconde'),
+            BooleanField::new('acces_eval_flashcard_premiere'),
+            BooleanField::new('acces_eval_flashcard_terminale'),
+            BooleanField::new('acces_eval_flashcard_fac'),
+            BooleanField::new('acces_eval_flashcard_special'),
+            BooleanField::new('acces_flashcard_outil_gestion'),
+            BooleanField::new('acces_flashcard_eco_droit'),
 
         ];
     }
+
+
+
+
 
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Mooc.soluceapp.com{% endblock %}</title>
+        {% block stylesheets %}
+             <link href="{{asset('styles/bootstrap.min.css') }}" rel="stylesheet" >
+            <link rel="stylesheet" href="{{asset('styles/app.css') }}">
+            <link rel="icon" type="image/png" href="{{asset('images/favicon.png') }}">
+            <link rel="shortcut icon" href="{{asset('images/favicon.ico') }}">
+        {% endblock %}
+
+        {% block javascripts %}
+            <script src="{{asset('js/script1.js')}}"></script>
+            <script src="{{asset('js/script2.js')}}"></script>
+            {% if app.user == true%}
+            <script src="{{asset('js/script3.js')}}"></script>
+              {%endif%}
+              {% if app.user and app.user.isVerified == true%}
+            <script src="{{asset('js/script5.js')}}"></script>
+              {%endif%}
+              {% if app.user and app.user.isVerified == true%}
+            <script src="{{asset('js/script4.js')}}"></script>
+              {%endif%}
+        {% endblock %}
+    </head>
+
+
+{% block body %}
+
+<div class="container-grid-maitre"> 
+    <main>
+        <section class="style2">
+            <div style="margin:20px">
+                <div class="style27">
+                <h3>Évaluation Flashcard
+                {% if context =='eco'%} d'économie |
+                {% elseif context =='gestion'%} de gestion |
+                {% elseif context =='outilgestion'%} d'outil de gestion 
+                {% endif %}
+                </h2><h4>  Il reste {{13 - countPassage}} questions.</h3>
+                </div>
+            </div>
+
+            <article class="style27">
+                <h5>{% if context == 'eco' %}{{question.rectoEco}} 
+                {% elseif context == 'gestion' %}{{question.rectoGestion}} 
+                {% elseif context == 'outilgestion' %}{{question.rectoOutilGestion}} 
+                {% endif %}
+                </h5>
+                <br>
+            </article>
+            <article class="style27">
+                <form method="POST">
+                    <input type="text" name="answer" placeholder="Votre réponse" required >
+                    <button type="submit" class="btn btn-primary">Soumettre</button>
+                </form>
+                <br>
+            </article>
+        </section>
+    </main>
+</div>
+{% endblock %}
+
+</html>

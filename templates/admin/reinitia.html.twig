@@ -16,17 +16,19 @@
 <h3>Réinitialiser les notes</h3>
 <br>
 
-    {{ form_start(ReinitiaFormType, {'method': 'POST'}) }}
-    Quelle classe voulez-vous réinitialisée ?*<br>
-    mettre les points et notes à zéro.<br><br>
+{{ form_start(ReinitiaFormType, {'method': 'POST'}) }}
+    Attention : Quelle classe voulez-vous réinitialiser ?<br>
+    Mettre les points et notes à zéro.<br><br>
+    
     {{ form_row(ReinitiaFormType.classe) }}
-    {{ form_row(ReinitiaFormType.id_domain) }}<br>
-    Réalisez les sauvegardes nécessaires avant de réinitialiser.<br><br>
+    {{ form_row(ReinitiaFormType.id_domain) }}
+    {{ form_row(ReinitiaFormType.context) }}<br>
+    
+   
     {{ form_row(ReinitiaFormType.submit) }}
-    {{ form_end(ReinitiaFormType) }}
+{{ form_end(ReinitiaFormType) }}
 <br>
-
-
 </div></div>
+
 
 {% endblock %}

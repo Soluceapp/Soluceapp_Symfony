@@ -29,7 +29,7 @@ class RegistrationFormType extends AbstractType
             ->add('classe', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre niveau','class'=>ClassStudent::class, 
             'choice_label'=>function(ClassStudent $classe){return $classe->getNameClass();}])
             ->add('id_domain', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Votre classe','class'=>DomaineStudent::class, 
-            'choice_label'=>function(DomaineStudent $domaine){return $domaine->getNamedomaine();}])
+            'choice_label'=>function(DomaineStudent $domaine){return $domaine->getNameDomaine();}])
             ->add('LuLesMentions', CheckboxType::class, [
                 'attr'=> ['class' =>'style26'],
                 'label' =>"J'ai lu les mentions",

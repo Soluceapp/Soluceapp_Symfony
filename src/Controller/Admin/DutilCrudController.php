@@ -4,15 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Entity\Dutil;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use Symfony\Config\Doctrine\Orm\EntityManagerConfig\EntityListeners\EntityConfig;
 
@@ -23,16 +20,6 @@ class DutilCrudController extends AbstractCrudController
         return Dutil::class;
     }
 
-    /*
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
-    }
-    */
 
     public function configureCrud(Crud $crud): Crud
     {
@@ -50,11 +37,15 @@ class DutilCrudController extends AbstractCrudController
             TextField::new('Prenom'),
             TextField::new('email')->hideOnIndex(), //->setFormTypeOption('disabled','disabled')
             TextField::new('pseudo'),
+            DateField::new('createdAt'),
             ArrayField::new('roles')->hideOnIndex(),
             BooleanField::new('Is_Verified')->setLabel('Mail vérifié'),
-            TextField::new('Classe')->setLabel('Niveau')->setFormTypeOption('disabled','disabled'),
-            TextField::new('id_domain')->setLabel('Classe'),
+            AssociationField::new('classe')->setLabel('Niveau'),//->setFormTypeOption('disabled', true),
+            AssociationField::new('id_domain')->setLabel('Classe'),
             IntegerField::new('points'),
+            IntegerField::new('noteevaleco'),
+            IntegerField::new('noteevalgestion'),
+            IntegerField::new('noteevaloutilgestion'),
             ArrayField::new('scenariofait')->hideOnIndex(),
             ArrayField::new('limparticipation')->hideOnIndex(),
             ArrayField::new('motcroisefait')->hideOnIndex(),

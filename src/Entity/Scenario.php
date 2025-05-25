@@ -17,10 +17,10 @@ class Scenario
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $NameScenario = null;
+    private ?string $nameScenario = null;
 
     #[ORM\ManyToOne(inversedBy: 'scenarios')]
-    private ?Activity $Activity_id = null;
+    private ?Activity $activityId = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $question1 = null;
@@ -77,22 +77,23 @@ class Scenario
     private ?string $solution6 = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $lienimage = null;
+    private ?string $lienImage = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $lienchevaux = null;
+    private ?string $lienChevaux = null;
 
-    #[ORM\ManyToOne(inversedBy: 'scenarios')]
-    private ?ClassStudent $id_classe = null;
+    #[ORM\ManyToOne(targetEntity: ClassStudent::class, inversedBy: 'scenarios')]
+    #[ORM\JoinColumn(nullable: false)] 
+    private ?ClassStudent $classe = null; 
 
     #[ORM\Column(nullable: true)]
-    private ?int $nbscenario = null;
+    private ?int $nbScenario = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $reponsemotcroise = null;
+    private ?string $reponseMotCroise = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $lienmotcroise = null;
+    private ?string $lienMotCroise = null;
 
 
     public function getId(): ?int
@@ -102,12 +103,12 @@ class Scenario
 
     public function getNameScenario(): ?string
     {
-        return $this->NameScenario;
+        return $this->nameScenario;
     }
 
-    public function setNameScenario(?string $NameScenario): static
+    public function setNameScenario(?string $nameScenario): static
     {
-        $this->NameScenario = $NameScenario;
+        $this->nameScenario = $nameScenario;
 
         return $this;
     }
@@ -127,12 +128,12 @@ class Scenario
 
     public function getActivityId(): ?Activity
     {
-        return $this->Activity_id;
+        return $this->activityId;
     }
 
-    public function setActivityId(?Activity $Activity_id): static
+    public function setActivityId(?Activity $activityId): static
     {
-        $this->Activity_id = $Activity_id;
+        $this->activityId = $activityId;
 
         return $this;
     }
@@ -342,74 +343,73 @@ class Scenario
         return $this;
     }
 
-    public function getLienimage(): ?string
+    public function getLienImage(): ?string
     {
-        return $this->lienimage;
+        return $this->lienImage;
     }
 
-    public function setLienimage(?string $lienimage): static
+    public function setLienImage(?string $lienImage): static
     {
-        $this->lienimage = $lienimage;
+        $this->lienImage = $lienImage;
 
         return $this;
     }
 
-    public function getLienchevaux(): ?string
+    public function getLienChevaux(): ?string
     {
-        return $this->lienchevaux;
+        return $this->lienChevaux;
     }
 
-    public function setLienchevaux(?string $lienchevaux): static
+    public function setLienChevaux(?string $lienChevaux): static
     {
-        $this->lienchevaux = $lienchevaux;
+        $this->lienChevaux = $lienChevaux;
+
+        return $this;
+    }
+    public function getClasse(): ?ClassStudent
+    {
+        return $this->classe;
+    }
+
+    public function setClasse(?ClassStudent $classe): self
+    {
+        $this->classe = $classe;
 
         return $this;
     }
 
-    public function getIdClasse(): ?ClassStudent
+    public function getNbScenario(): ?int
     {
-        return $this->id_classe;
+        return $this->nbScenario;
     }
 
-    public function setIdClasse(?ClassStudent $id_classe): static
+    public function setNbScenario(?int $nbScenario): static
     {
-        $this->id_classe = $id_classe;
+        $this->nbScenario = $nbScenario;
 
         return $this;
     }
 
-    public function getNbscenario(): ?int
+    public function getReponseMotCroise(): ?string
     {
-        return $this->nbscenario;
+        return $this->reponseMotCroise;
     }
 
-    public function setNbscenario(?int $nbscenario): static
+    public function setReponseMotCroise(?string $reponseMotCroise): static
     {
-        $this->nbscenario = $nbscenario;
+        $this->reponseMotCroise = $reponseMotCroise;
 
         return $this;
     }
 
-    public function getReponsemotcroise(): ?string
+    public function getLienMotCroise(): ?string
     {
-        return $this->reponsemotcroise;
+        return $this->lienMotCroise;
     }
 
-    public function setReponsemotcroise(?string $reponsemotcroise): static
+    public function setLienMotCroise(?string $lienMotCroise): static
     {
-        $this->reponsemotcroise = $reponsemotcroise;
-
-        return $this;
-    }
-
-    public function getLienmotcroise(): ?string
-    {
-        return $this->lienmotcroise;
-    }
-
-    public function setLienmotcroise(?string $lienmotcroise): static
-    {
-        $this->lienmotcroise = $lienmotcroise;
+        $this->lienMotCroise = $lienMotCroise;
 
         return $this;
     }

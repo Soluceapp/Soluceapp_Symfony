@@ -16,44 +16,52 @@ class ClassStudent
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $NameClass = null;
+    private ?string $nameClass = null;
    
     #[ORM\OneToMany(mappedBy: 'classStudent', targetEntity: Activity::class)]
-    private Collection $activity_id;
+    private Collection $activityId;
 
     #[ORM\Column(nullable: true)]
-    private ?float $moyenne_activity = null;
+    private ?float $moyenneActivity = null;
 
     #[ORM\OneToMany(mappedBy: 'classe', targetEntity: Dutil::class)]
     private Collection $dutils;
 
-    #[ORM\Column]
-    private ?bool $acces_facture = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesFacture = null;
 
-    #[ORM\Column]
-    private ?bool $acces_chevaux = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesChevaux = null;
 
-    #[ORM\Column]
-    private ?bool $acces_compta = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesCompta = null;
 
-    #[ORM\OneToMany(mappedBy: 'id_classe', targetEntity: Scenario::class)]
+    #[ORM\OneToMany(mappedBy: 'classe', targetEntity: Scenario::class, cascade: ['persist', 'remove'])]
     private Collection $scenarios;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $acces_motcroise = null;
+    private ?bool $accesMotCroise = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $access_cours = null;
+    private ?bool $accesCours = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesFlashcardEco = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesFlashcardGestion = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesEvalFlashcard = null;
 
 
     public function __construct()
     {
-        $this->activity_id = new ArrayCollection();
+        $this->activityId = new ArrayCollection();
         $this->dutils = new ArrayCollection();
         $this->scenarios = new ArrayCollection();
+        $this->flashCardEcos = new ArrayCollection();
+        $this->flashCardGestions = new ArrayCollection();
   
       
     }
@@ -65,12 +73,12 @@ class ClassStudent
 
     public function getNameClass(): ?string
     {
-        return $this->NameClass;
+        return $this->nameClass;
     }
 
-    public function setNameClass(string $NameClass): static
+    public function setNameClass(string $nameClass): static
     {
-        $this->NameClass = $NameClass;
+        $this->nameClass = $nameClass;
 
         return $this;
     }
@@ -81,13 +89,13 @@ class ClassStudent
      */
     public function getActivityId(): Collection
     {
-        return $this->activity_id;
+        return $this->activityId;
     }
 
     public function addActivityId(Activity $activityId): static
     {
-        if (!$this->activity_id->contains($activityId)) {
-            $this->activity_id->add($activityId);
+        if (!$this->activityId->contains($activityId)) {
+            $this->activityId->add($activityId);
             $activityId->setClassStudent($this);
         }
 
@@ -96,7 +104,7 @@ class ClassStudent
 
     public function removeActivityId(Activity $activityId): static
     {
-        if ($this->activity_id->removeElement($activityId)) {
+        if ($this->activityId->removeElement($activityId)) {
             // set the owning side to null (unless already changed)
             if ($activityId->getClassStudent() === $this) {
                 $activityId->setClassStudent(null);
@@ -108,12 +116,12 @@ class ClassStudent
 
     public function getMoyenneActivity(): ?float
     {
-        return $this->moyenne_activity;
+        return $this->moyenneActivity;
     }
 
-    public function setMoyenneActivity(?float $moyenne_activity): static
+    public function setMoyenneActivity(?float $moyenneActivity): static
     {
-        $this->moyenne_activity = $moyenne_activity;
+        $this->moyenneActivity = $moyenneActivity;
 
         return $this;
     }
@@ -153,38 +161,24 @@ class ClassStudent
         return $this->getNameClass();
     }
 
-    public function isacces_facture(): ?bool
+    public function setAccesFacture(bool $accesFacture): static
     {
-        return $this->acces_facture;
-    }
-
-    public function setAccesFacture(bool $acces_facture): static
-    {
-        $this->acces_facture = $acces_facture;
+        $this->accesFacture = $accesFacture;
 
         return $this;
     }
 
-    public function isacces_chevaux(): ?bool
+    public function setAccesChevaux(bool $accesChevaux): static
     {
-        return $this->acces_chevaux;
-    }
-
-    public function setAccesChevaux(bool $acces_chevaux): static
-    {
-        $this->acces_chevaux = $acces_chevaux;
+        $this->accesChevaux = $accesChevaux;
 
         return $this;
     }
 
-    public function isacces_compta(): ?bool
-    {
-        return $this->acces_compta;
-    }
 
-    public function setAccesCompta(bool $acces_compta): static
+    public function setAccesCompta(bool $accesCompta): static
     {
-        $this->acces_compta = $acces_compta;
+        $this->accesCompta = $accesCompta;
 
         return $this;
     }
@@ -197,75 +191,101 @@ class ClassStudent
         return $this->scenarios;
     }
 
-    public function isacces_motcroise(): Collection
-    {
-        return $this->scenarios;
-    }
-
-    public function addScenario(Scenario $scenario): static
+    public function addScenario(Scenario $scenario): self
     {
         if (!$this->scenarios->contains($scenario)) {
             $this->scenarios->add($scenario);
-            $scenario->setIdClasse($this);
+            $scenario->setClasse($this);
         }
 
         return $this;
     }
-
-    public function removeScenario(Scenario $scenario): static
+    public function removeScenario(Scenario $scenario): self
     {
         if ($this->scenarios->removeElement($scenario)) {
-            // set the owning side to null (unless already changed)
-            if ($scenario->getIdClasse() === $this) {
-                $scenario->setIdClasse(null);
+            if ($scenario->getClasse() === $this) {
+                $scenario->setClasse(null);
             }
         }
 
         return $this;
     }
-
     public function getAccesMotcroise(): ?bool
     {
-        return $this->acces_motcroise;
+        return $this->accesMotCroise;
     }
 
 
     public function getAccesChevaux(): ?bool
     {
-        return $this->acces_chevaux;
+        return $this->accesChevaux;
     }
 
     
     public function getAccesCompta(): ?bool
     {
-        return $this->acces_compta;
+        return $this->accesCompta;
     }
 
     public function getAccesFacture(): ?bool
     {
-        return $this->acces_facture;
+        return $this->accesFacture;
     }
-    public function setAccesMotcroise(?bool $acces_motcroise): static
+    public function setAccesMotcroise(?bool $accesMotCroise): static
     {
-        $this->acces_motcroise = $acces_motcroise;
+        $this->accesMotCroise = $accesMotCroise;
 
         return $this;
     }
 
-    public function isAccessCours(): ?bool
+    public function isAccesCours(): ?bool
     {
-        return $this->access_cours;
+        return $this->accesCours;
     }
 
-    public function setAccessCours(?bool $access_cours): static
+    public function setAccesCours(?bool $accesCours): static
     {
-        $this->access_cours = $access_cours;
+        $this->accesCours = $accesCours;
+
+        return $this;
+    }
+ 
+    public function getAccesFlashcardEco(): ?bool
+    {
+        return $this->accesFlashcardEco;
+    }
+
+    public function setAccesFlashCardEco(bool $accesFlashcardEco): static
+    {
+        $this->accesFlashcardEco = $accesFlashcardEco;
 
         return $this;
     }
 
-    
+    public function getAccesFlashCardGestion(): ?bool
+    {
+        return $this->accesFlashcardGestion;
+    }
 
+    public function setAccesFlashCardGestion(bool $accesFlashcardGestion): static
+    {
+        $this->accesFlashcardGestion = $accesFlashcardGestion;
+
+        return $this;
+    }
+
+    public function getAccesEvalFlashcard(): ?bool
+    {
+        return $this->accesEvalFlashcard;
+    }
+
+
+    public function setAccesEvalFlashcard(bool $accesEvalFlashcard): static
+    {
+        $this->accesEvalFlashcard = $accesEvalFlashcard;
+
+        return $this;
+    }
   
 
 }

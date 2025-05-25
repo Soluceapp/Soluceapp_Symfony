@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: DomaineStudentRepository::class)]
 class DomaineStudent
 {
@@ -16,33 +17,49 @@ class DomaineStudent
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Namedomaine = null;
+    private ?string $nameDomaine = null;
 
     #[ORM\OneToMany(mappedBy: 'id_domain', targetEntity: Dutil::class)]
     private Collection $dutils;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesEvalFlashcardSeconde = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesEvalFlashcardPremiere = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesEvalFlashcardTerminale = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesEvalFlashcardFac = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesEvalFlashcardSpecial = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesFlashcardOutilGestion = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $accesFlashcardEcoDroit = null;
+
+    // ----------------------------------------------------------
 
     public function __construct()
     {
         $this->dutils = new ArrayCollection();
     }
 
-   
+   // get -------------------------------------------------------
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNamedomaine(): ?string
+    public function getNameDomaine(): ?string
     {
-        return $this->Namedomaine;
-    }
-
-    public function setNamedomaine(?string $Namedomaine): static
-    {
-        $this->Namedomaine = $Namedomaine;
-
-        return $this;
+        return $this->nameDomaine;
     }
 
     /**
@@ -53,6 +70,52 @@ class DomaineStudent
         return $this->dutils;
     }
 
+    public function getAccesEvalFlashcardSeconde(): ?bool
+    {
+        return $this->accesEvalFlashcardSeconde;
+    }
+
+
+    public function getAccesEvalFlashcardPremiere(): ?bool
+    {
+        return $this->accesEvalFlashcardPremiere;
+    }
+
+    public function getAccesEvalFlashcardTerminale(): ?bool
+    {
+        return $this->accesEvalFlashcardTerminale;
+    }
+
+    public function getAccesEvalFlashcardFac(): ?bool
+    {
+        return $this->accesEvalFlashcardFac;
+    }
+
+    public function getAccesEvalFlashcardSpecial(): ?bool
+    {
+        return $this->accesEvalFlashcardSpecial;
+    }
+
+    public function getAccesFlashcardOutilGestion(): ?bool
+    {
+        return $this->accesFlashcardOutilGestion;
+    }
+
+    public function getAccesFlashcardEcoDroit(): ?bool
+    {
+        return $this->accesFlashcardEcoDroit;
+    }
+
+    // set ------------------------------------------------------
+
+    public function setNamedomaine(?string $nameDomaine): static
+    {
+        $this->nameDomaine = $nameDomaine;
+
+        return $this;
+    }
+
+    
     public function addDutil(Dutil $dutil): static
     {
         if (!$this->dutils->contains($dutil)) {
@@ -63,19 +126,58 @@ class DomaineStudent
         return $this;
     }
 
-    public function removeDutil(Dutil $dutil): static
+    public function __toString() {
+        return $this->nameDomaine;
+    }
+   
+    public function setAccesEvalFlashcardSeconde(bool $accesEvalFlashcardSeconde): static
     {
-        if ($this->dutils->removeElement($dutil)) {
-            // set the owning side to null (unless already changed)
-            if ($dutil->getIdDomain() === $this) {
-                $dutil->setIdDomain(null);
-            }
-        }
+        $this->accesEvalFlashcardSeconde = $accesEvalFlashcardSeconde;
 
         return $this;
     }
-    public function __toString() {
-        return $this->Namedomaine;
+
+    public function setAccesEvalFlashcardPremiere(bool $accesEvalFlashcardPremiere): static
+    {
+        $this->accesEvalFlashcardPremiere = $accesEvalFlashcardPremiere;
+
+        return $this;
     }
-   
+
+    public function setAccesEvalFlashcardTerminale(bool $accesEvalFlashcardTerminale): static
+    {
+        $this->accesEvalFlashcardTerminale = $accesEvalFlashcardTerminale;
+
+        return $this;
+    }
+
+    public function setAccesEvalFlashcardFac(bool $accesEvalFlashcardFac): static
+    {
+        $this->accesEvalFlashcardFac = $accesEvalFlashcardFac;
+
+        return $this;
+    }
+
+    public function setAccesEvalFlashcardSpecial(bool $accesEvalFlashcardSpecial): static
+    {
+        $this->accesEvalFlashcardSpecial = $accesEvalFlashcardSpecial;
+
+        return $this;
+    }
+
+    public function setAccesFlashCardOutilGestion(bool $accesFlashcardOutilGestion): static
+    {
+        $this->accesFlashcardOutilGestion = $accesFlashcardOutilGestion;
+
+        return $this;
+    }
+
+    public function setAccesFlashCardEcoDroit(bool $accesFlashcardEcoDroit): static
+    {
+        $this->accesFlashcardEcoDroit = $accesFlashcardEcoDroit;
+
+        return $this;
+    }
+
+
 }

@@ -31,12 +31,15 @@ class ClassStudentCrudController extends AbstractCrudController
     {
         return [
             IdField::new('name_class')->setLabel('Niveau'),
-            IntegerField::new('moyenne_activity'),
+            
             BooleanField::new('acces_chevaux'),
             BooleanField::new('acces_compta'),
             BooleanField::new('acces_facture'),
-            BooleanField::new('acces_motcroise'),
-
+            BooleanField::new('acces_motcroise','Accès mots-croisés'),
+            BooleanField::new('acces_flashcardeco'),
+            BooleanField::new('acces_flashcardgestion'),
+            BooleanField::new('acces_eval_flashcard'),
+            IntegerField::new('moyenne_activity'),
         ];
     }
 

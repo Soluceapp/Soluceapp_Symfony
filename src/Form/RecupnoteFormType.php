@@ -22,7 +22,7 @@ class RecupnoteFormType extends AbstractType
             ->add('classe', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Niveau','class'=>ClassStudent::class, 
             'choice_label'=>function(ClassStudent $classe){return $classe->getNameClass();}])
             ->add('id_domain', EntityType::class,['attr'=> ['class' =>'style26'],'label' =>'Classe','class'=>DomaineStudent::class, 
-            'choice_label'=>function(DomaineStudent $domaine){return $domaine->getNamedomaine();}]) 
+            'choice_label'=>function(DomaineStudent $domaine){return $domaine->getNameDomaine();}]) 
             ->add('submit', SubmitType::class,['attr'=> ['class' =>'btn btn-primary btn-lg'],'label' =>'Valider'])   ;
     }
 
