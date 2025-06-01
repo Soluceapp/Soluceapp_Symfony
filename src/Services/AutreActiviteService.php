@@ -7,6 +7,9 @@ use App\Entity\Dutil;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Scenario;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Request;
+use App\Security\Nettoyeur;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AutreActiviteService extends AbstractController 
 {
@@ -136,6 +139,49 @@ class AutreActiviteService extends AbstractController
         ];
     }
     
+    public function prepareMotCroise(
+        Request $request,
+        SessionInterface $session,
+        EntityManagerInterface $entityManager,
+        UserInterface $user
+    ): array|string {
+        // Récupérer l'ID du scénario depuis le formulaire et nettoyage
+        $idScenario = Nettoyeur::nettoyeurInt(intval($request->request->get('id_scenario')));
+        if (!$idScenario) {
+            return 'missing_scenario';
+        }
+
+        // Charger le scénario correspondant
+        $scenario = $entityManager->getRepository(Scenario::class)->find($idScenario);
+        if (!$scenario) {
+            return 'scenario_not_found';
+        }
+
+        // Récupération de l'objet utilisateur Dutil
+        $dutil = $entityManager->getRepository(Dutil::class)->find($user);
+        $motCroiseFait = $dutil->getMotCroiseFait();
+
+        if ($idScenario > 0 && $idScenario < 100) {
+            $indexScenario = $motCroiseFait[$idScenario] ?? 0;
+        } else {
+            return 'invalid_id';
+        }
+
+        if ($indexScenario == 1) {
+            return 'already_done';
+        }
+
+        // Mise en session de l’ID du scénario
+        $session->set("id_scenario", $idScenario);
+
+        // Préparer les données à transmettre à la vue
+        return [
+            'nameScenario' => $scenario->getNameScenario(),
+            'lienMotCroise' => $scenario->getLienMotCroise(),
+            'reponseMotCroise' => $scenario->getReponseMotCroise(),
+        ];
+    }
+
     public function donneNote(EntityManagerInterface $entityManager):void
     {
         $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
@@ -155,5 +201,260 @@ class AutreActiviteService extends AbstractController
         $entityManager->flush();    
     }
 
-   
+    //
+    //Méthode complète de modification de base (récupération et affectation).
+    //
+    public function pointDansBase(Dutil $dutil,EntityManagerInterface $entityManager,AutreActiviteService $note):void
+    {
+        $dutil = new Dutil();
+        $dutil=$entityManager->getRepository(Dutil::class)->find($this->getUser());
+        $dutil->getId();
+        $points=$dutil->getPoints();
+        $points=$points+1;
+        $dutil->setPoints($points);
+        $entityManager->persist($dutil);
+        $entityManager->flush();
+        $note->donneNote($entityManager);
+        $this->addFlash('success',"Vous gagnez un point");
+    }
+
+    public function prepareFactureMystereResultat(
+        SessionInterface $session,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserInterface $user
+    ): array {
+        $solution = Nettoyeur::nettoyeurInt($session->get('solution'));
+        $montant = Nettoyeur::nettoyeurInt($request->get('montant'));
+
+        $solutionToken = 0;
+
+        $dutil = $entityManager->getRepository(Dutil::class)->find($user);
+
+        if ($solution === $montant) {
+            $arrayLim = $dutil->getLimParticipation();
+
+            if ($arrayLim[0] >= 5) {
+                return [
+                    'redirect' => 'app_activities',
+                    'flash_type' => 'success',
+                    'flash_message' => 'Vous avez gagné le maximum de 5 points pour cette activité.',
+                ];
+            }
+
+            $dutil->setPoints($dutil->getPoints() + 1);
+            $dutil->setResetToken($solution);
+
+            $arrayLim[0] += 1; // index 0 = facture mystère
+            $dutil->setLimparticipation($arrayLim);
+
+            $entityManager->persist($dutil);
+            $entityManager->flush();
+
+            $solutionToken = $dutil->getResetToken();
+
+            $session->clear();
+
+            return [
+                'flash_type' => 'success',
+                'flash_message' => 'Vous gagnez un point',
+                'solution_token' => $solutionToken
+            ];
+        } else {
+            // Si la réponse est incorrecte, pas de changement, juste afficher le résultat
+            return ['solution_token' => $solutionToken];
+        }
+    }
+
+    public function prepareResultatChevaux(
+        SessionInterface $session,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserInterface $user
+    ): array {
+        $id = htmlspecialchars($session->get('id_scenario'));
+        if (!$id) {
+            return ['redirect' => 'app_activities', 'flash_type' => 'danger', 'flash_message' => 'ID du scénario introuvable.'];
+        }
+
+        $scenario = $entityManager->getRepository(Scenario::class)->find($id);
+        if (!$scenario) {
+            return ['redirect' => 'app_activities', 'flash_type' => 'danger', 'flash_message' => 'Scénario introuvable.'];
+        }
+
+        // Réponses nettoyées
+        $reponses = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $reponses[$i] = Nettoyeur::nettoyeurStr($request->get("reponse$i"));
+        }
+
+        // Solutions du scénario
+        $solutions = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $method = "getSolution$i";
+            $solutions[$i] = $scenario->$method();
+        }
+
+        // Calcul du score
+        $tot = 0;
+        for ($i = 1; $i <= 6; $i++) {
+            if ($reponses[$i] === $solutions[$i]) {
+                $tot++;
+            }
+        }
+
+        $solOk = $tot >= 4 ? 1 : 0;
+
+        if ($solOk) {
+            $dutil = $entityManager->getRepository(Dutil::class)->find($user);
+            $scenarioFait = $dutil->getScenarioFait();
+            $indexScenario = $scenarioFait[$id] ?? 0;
+
+            if ($indexScenario === 1) {
+                return [
+                    'redirect' => 'app_chevaux',
+                    'flash_type' => 'success',
+                    'flash_message' => 'Scénario déjà réalisé ou impossible.',
+                    'solution' => $solOk
+                ];
+            }
+
+            $scenarioFait[$id] = 1;
+            $dutil->setScenarioFait($scenarioFait);
+
+            $entityManager->persist($dutil);
+            $entityManager->flush();
+
+            return [
+                'solution' => $solOk,
+                'flash_type' => 'success',
+                'flash_message' => 'Félicitations ! Vous avez réussi.'
+            ];
+        }
+
+        return [
+            'solution' => 0,
+            'flash_type' => 'warning',
+            'flash_message' => 'Pas assez de bonnes réponses.'
+        ];
+    }
+
+    public function prepareResultatMotCroise(
+        SessionInterface $session,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserInterface $user
+    ): array {
+        $id = Nettoyeur::nettoyeurStr($session->get('id_scenario'));
+    
+        if (!$id) {
+            return [
+                'redirect' => 'app_activities',
+                'flash_type' => 'success',
+                'flash_message' => 'Tu as déjà gagné un point sur ce mot croisé.',
+            ];
+        }
+    
+        $scenario = $entityManager->getRepository(Scenario::class)->find($id);
+        if (!$scenario) {
+            return [
+                'redirect' => 'app_activities',
+                'flash_type' => 'danger',
+                'flash_message' => 'Scénario introuvable.',
+            ];
+        }
+    
+        $reponseAttendue = $scenario->getReponseMotCroise();
+        $reponseUtilisateur = Nettoyeur::nettoyeurStr(trim(strtolower($request->get('montant'))));
+    
+        if ($reponseUtilisateur === $reponseAttendue) {
+            $dutil = $entityManager->getRepository(Dutil::class)->find($user);
+            $motcroiseFait = $dutil->getMotCroiseFait();
+            $dejaFait = $motcroiseFait[$id] ?? 0;
+    
+            if ($dejaFait === 1) {
+                return [
+                    'redirect' => 'app_activities',
+                    'flash_type' => 'success',
+                    'flash_message' => 'Mot croisé déjà réalisé ou impossible.',
+                ];
+            }
+    
+            AutreActiviteService::pointDansBase($dutil, $entityManager, $this);
+    
+            $motcroiseFait[$id] = 1;
+            $dutil->setMotCroiseFait($motcroiseFait);
+            $entityManager->persist($dutil);
+            $entityManager->flush();
+    
+            $session->clear();
+    
+            return [
+                'solution' => $reponseAttendue,
+            ];
+        }
+    
+        return [
+            'solution' => $reponseAttendue,
+        ];
+    }
+
+    public function prepareResultatCours(
+        SessionInterface $session,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserInterface $user
+    ): array {
+        $id = Nettoyeur::nettoyeurStr($session->get('id_scenario'));
+    
+        if (!$id) {
+            return [
+                'redirect' => 'app_activities',
+                'flash_type' => 'success',
+                'flash_message' => 'Tu as déjà gagné un point sur ce cours.',
+            ];
+        }
+    
+        $scenario = $entityManager->getRepository(Scenario::class)->find($id);
+        if (!$scenario) {
+            return [
+                'redirect' => 'app_activities',
+                'flash_type' => 'danger',
+                'flash_message' => 'Scénario introuvable.',
+            ];
+        }
+    
+        $reponseAttendue = $scenario->getReponseMotCroise(); 
+        $reponseUtilisateur = htmlspecialchars($request->get('montant'));
+    
+        if ($reponseUtilisateur === $reponseAttendue) {
+            $dutil = $entityManager->getRepository(Dutil::class)->find($user);
+            $coursFait = $dutil->getMotCroiseFait(); 
+            $dejaFait = $coursFait[$id] ?? 0;
+    
+            if ($dejaFait === 1) {
+                return [
+                    'redirect' => 'app_activities',
+                    'flash_type' => 'success',
+                    'flash_message' => 'Mot croisé déjà réalisé ou impossible.',
+                ];
+            }
+    
+            AutreActiviteService::pointDansBase($dutil, $entityManager, $this);
+    
+            $coursFait[$id] = 1;
+            $dutil->setMotCroiseFait($coursFait);
+            $entityManager->persist($dutil);
+            $entityManager->flush();
+    
+            $session->clear();
+        }
+    
+        return [
+            'solution' => $reponseAttendue,
+        ];
+    }
+    
+
+
 }
