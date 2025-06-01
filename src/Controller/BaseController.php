@@ -11,13 +11,6 @@ use App\Services\BaseService;
 //
 class BaseController extends AbstractController
 { 
-   // Constructeur du service du controller
-   private $baseService;
-   public function __construct(BaseService $baseService)
-   {
-       $this->baseService=$baseService;
-   }
-
 
     #[Route('/', name: 'home')]
     public function home(){return $this->render('base/index.html.twig');}
