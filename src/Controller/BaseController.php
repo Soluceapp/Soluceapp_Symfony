@@ -21,5 +21,5 @@ class BaseController extends AbstractController
 
     #[Route('/menu_y', name: 'route_menu_y')]
     public function menu2(){return $this->render('partials/_footer.html.twig');}
- 
+   
 }

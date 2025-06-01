@@ -294,7 +294,7 @@ class FlashCardController extends AbstractController
     }
 
 // Crée activité flashcard outil de gestion
-#[Route('/flashcard/outil_gestion', name: 'app_flashcard_outil_gestion')]
+#[Route('/flashcard/outil-gestion', name: 'app_flashcard_outil_gestion')]
 public function flashcardoutilgestion(
     Request $request,
     FlashCardOutilGestionRepository $flashCardOutilGestionRepository,
@@ -394,7 +394,7 @@ public function flashcardoutilgestion(
 // Evaluation des flashcards
 
 
-#[Route('activities/eval_flashcard', name: 'app_eval_flashcard')]
+#[Route('activities/eval-flashcard', name: 'app_eval_flashcard')]
 public function evalFlashCard(
     Request $request,
     FlashCardService $flashCardService,
@@ -426,7 +426,7 @@ public function evalFlashCard(
     ]);
 }
 
-#[Route('activities/eval_flashcard_detail', name: 'app_eval_flashcard_detail')]
+#[Route('activities/eval-flashcard-detail', name: 'app_eval_flashcard_detail')]
 public function evalFlashCardDetail(
 Request $request,
 FlashCardService $flashCardService,

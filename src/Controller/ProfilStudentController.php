@@ -33,7 +33,7 @@ class ProfilStudentController extends AbstractController
     }
    
 
-    #[Route('/profile_student', name: 'app_profil_student')]
+    #[Route('/profile-student', name: 'app_profil_student')]
     public function index(Dutil $dutil,EntityManagerInterface $entityManager,Request $request): Response
     {$this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         //Méthode complète de modification du pseudo
@@ -53,7 +53,7 @@ class ProfilStudentController extends AbstractController
         ]);
     }
 
-    #[Route('/profile_student/change_pseudo', name: 'app_change_pseudo')]
+    #[Route('/profile-student/change-pseudo', name: 'app_change_pseudo')]
     public function changePseudo(): Response
     {
         return $this->render('profile_student/change_pseudo.html.twig', [
@@ -61,7 +61,7 @@ class ProfilStudentController extends AbstractController
         ]);
     }
 
-    #[Route('/profile_student/ancien_cours', name: 'app_ancien_cours')]
+    #[Route('/profile-student/ancien-cours', name: 'app_ancien_cours')]
     public function ancienCours(EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
@@ -105,7 +105,7 @@ class ProfilStudentController extends AbstractController
         ]);
     }
     
-    #[Route('/profile_student/change_classe', name: 'app_change_classe')]
+    #[Route('/profile-student/change-classe', name: 'app_change_classe')]
     public function changeClasse(Request $request,EntityManagerInterface $entityManager, Dutil $dutil): Response
     {$this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 

@@ -59,7 +59,7 @@ class AutreActiviteController extends AbstractController
     }
 
     // Permet d'afficher la liste des questions des petits chevaux
-    #[Route('/activities/question_petit_chevaux', name: 'app_question')]
+    #[Route('/activities/question-petit-chevaux', name: 'app_question')]
     public function question(
         Request $request, 
         EntityManagerInterface $entityManager, 
@@ -116,7 +116,7 @@ class AutreActiviteController extends AbstractController
     }
 
 
-    #[Route('/activities/facture_mystere', name: 'app_facture')]
+    #[Route('/activities/facture-mystere', name: 'app_facture')]
   
     public function facturemystere(SessionInterface $session): Response
     { 
@@ -223,7 +223,7 @@ class AutreActiviteController extends AbstractController
     }
 
     // Permet de choisir le scénario des mots croisés
-    #[Route('/activities/mot_croise', name: 'app_mot_croise')]
+    #[Route('/activities/mot-croise', name: 'app_mot_croise')]
     public function index2(
         EntityManagerInterface $entityManager): Response
     {    
@@ -247,7 +247,7 @@ class AutreActiviteController extends AbstractController
     }
 
     // Permet de faire le mots croisés
-    #[Route('/activities/mot_croise/mot_croise', name: 'app_mot_croise_2')]
+    #[Route('/activities/mot-croise/mot-croise', name: 'app_mot_croise_2')]
     public function motCroise2(
         Dutil $dutil,
         SessionInterface $session,
@@ -310,7 +310,7 @@ class AutreActiviteController extends AbstractController
         ]);
     }
 
-    #[Route('/resultat/facture_mystere', name: 'app_resultatfacture')]
+    #[Route('/resultat/facture-mystere', name: 'app_resultatfacture')]
     public function resultFacture( Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request,AutreActiviteService $note): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         // Récupère la solution et la réponse.
@@ -436,7 +436,7 @@ class AutreActiviteController extends AbstractController
         'SOL' => htmlspecialchars($tot >= 4 ? 1 : 0),
     ]);
 }
-    #[Route('/resultat/mot_croise', name: 'app_resultatmotcroise')]
+    #[Route('/resultat/mot-croise', name: 'app_resultatmotcroise')]
     public function resultMotcroise(Scenario $Scenario,Dutil $dutil,SessionInterface $session,EntityManagerInterface $entityManager,Request $request,AutreActiviteService $note): Response
     {  $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         
