@@ -190,10 +190,7 @@ public function flashcardoutilgestion(
     ]);
 }
 
-
 // Evaluation des flashcards
-
-
 #[Route('activities/eval-flashcard', name: 'app_eval_flashcard')]
 public function evalFlashCard(
     Request $request,
