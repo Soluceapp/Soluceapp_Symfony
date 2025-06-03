@@ -9,17 +9,118 @@ use App\Entity\Dutil;
 use App\Entity\FlashCardEco;
 use App\Entity\FlashCardGestion;
 use App\Entity\FlashCardOutilGestion;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Repository\FlashCardEcoRepository;
+use App\Security\Nettoyeur;
 use Symfony\Component\HttpFoundation\Response;
 class FlashCardService
 {
     private UserFlashCardRepository $userFlashCardRepository;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(UserFlashCardRepository $userFlashCardRepository, EntityManagerInterface $entityManager)
+    public function __construct(UserFlashCardRepository $userFlashCardRepository, EntityManagerInterface $entityManager,private FlashCardEcoRepository $flashCardEcoRepository)
     {
         $this->userFlashCardRepository = $userFlashCardRepository;
         $this->entityManager = $entityManager;
     }
+
+    public function prepareFlashcardActivity(
+        Request $request,
+        SessionInterface $session,
+        callable $cleanCardFn, // ex: [Nettoyeur::class, 'cleanCardEco']
+        callable $repositoryFindFn // ex: fn($idClasse) => $repo->findAllByClassId($idClasse)
+    ): array {
+        $id = intval($request->query->get('id', ''));
+        if (!empty($id)) {
+            $session->set('idclasse', $id);
+        }
+
+        $idClasse = Nettoyeur::nettoyeurInt(intval($session->get('idclasse')));
+
+        if (!$idClasse) {
+            return ['redirect' => 'app_flashcard'];
+        }
+
+        $randomCards = call_user_func($cleanCardFn, $session->get('randomCards', null));
+        if (!$randomCards) {
+            $randomCards = call_user_func($repositoryFindFn, $idClasse);
+        }
+
+        $randomCard = reset($randomCards);
+        if (!$randomCard) {
+            return ['redirect' => 'home'];
+        }
+
+        $randomCards = array_slice($randomCards, 1);
+        $resultatFlash = intval(Nettoyeur::nettoyeurStr($request->query->get('resultatflash', '')));
+        $countFlashCorrect = intval(Nettoyeur::nettoyeurStr($session->get('countflashcorrect', 0)));
+
+        switch ($resultatFlash) {
+            case null:
+                $resultatFlash = "";
+                $countFlashCorrect = "";
+                $randomCardModif = $randomCard;
+                $session->set('randomCards', $randomCards);
+                $session->set('randomCard', $randomCard);
+                break;
+
+            case 1:
+                if ($countFlashCorrect < 8) {
+                    $countFlashCorrect = 8;
+                }
+                $countFlashCorrect++;
+                $countFlashCorrect = min($countFlashCorrect, 20);
+
+                $session->set('countflashcorrect', $countFlashCorrect);
+                $randomCards = $session->get('randomCards', null);
+                $randomCardModif = reset($randomCards);
+                $randomCards = array_slice($randomCards, 1);
+                $session->set('randomCards', $randomCards);
+                $session->set('randomCard', $randomCardModif);
+
+                if (!$randomCardModif) {
+                    return ['redirect' => 'app_flashcard', 'flash' => 'Félicitation ! Révision terminée.'];
+                }
+                break;
+
+            case 2:
+                if ($countFlashCorrect < 8) {
+                    $countFlashCorrect = 8;
+                }
+                $session->set('countflashcorrect', $countFlashCorrect);
+                $randomCards = $session->get('randomCards', []);
+                $randomCard = $session->get('randomCard', []);
+
+                if (!$randomCard) {
+                    return ['redirect' => 'app_flashcard', 'flash' => 'Félicitations ! Révision terminée.'];
+                }
+
+                if (!is_array($randomCards)) {
+                    $randomCards = [];
+                }
+
+                $randomCards = array_merge(
+                    array_slice($randomCards, 1, 1),
+                    [$randomCard],
+                    array_slice($randomCards, 2)
+                );
+
+                $session->set('randomCards', $randomCards);
+                $randomCardModif = reset($randomCards);
+                $session->set('randomCard', $randomCardModif);
+                break;
+
+            default:
+                $randomCardModif = $randomCard;
+        }
+
+        return [
+            'randomCard' => $randomCardModif ?? null,
+            'countFlashCorrect' => $countFlashCorrect
+        ];
+    }
+
 ///
 // Fonctions utiles pour l'évaluation des flashcards.
 ///

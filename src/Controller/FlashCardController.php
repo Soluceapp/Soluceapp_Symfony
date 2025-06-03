@@ -29,8 +29,6 @@ class FlashCardController extends AbstractController
        $this->flashCardService=$flashCardService;
    }
 
-
-
     // Accueil : Acceuil la réponse du header et demande niveau de classe de l'élève
     #[Route('/flash/card', name: 'app_flashcard')]
     public function index(
@@ -97,299 +95,101 @@ class FlashCardController extends AbstractController
         ]);
     }
     
-    // Crée activité flashcard eco
     #[Route('/flashcard/eco', name: 'app_flashcard_eco')]
     public function flashcardeco(
         Request $request,
-        FlashCardEcoRepository $flashCardEcoRepository,
-        SessionInterface $session): Response
-    {
-        // Récupérer l'id de la classe choisie si elle exite (spécial 1 template)
+        SessionInterface $session,
+        FlashcardService $flashcardService,
+        FlashCardEcoRepository $flashCardEcoRepository
+    ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        $id = intval($request->query->get('id', ''));
-        if(!empty($id)) {$session->set('idclasse', $id);}
-        $idClasse = Nettoyeur::nettoyeurInt(intval($session->get('idclasse')));
-
-        // Récupérer une flashcard aléatoire néttoyée pour cette classe (vérifie si en session)
-        if (!$idClasse) {  return $this->redirectToRoute('app_flashcard'); }
-        $randomCards = Nettoyeur::cleanCardEco($session->get('randomCards', Null));
-        if (!$randomCards) { $randomCards = $flashCardEcoRepository->findAllByClassId($idClasse);}
-
-        // Premier passage : reset : récupère premier élément, array_slice : garde le reste + mise en session (gestion assynchrone)
-        $randomCard = reset($randomCards); 
-        if(!$randomCard) {return $this->redirectToRoute('home');} 
-        $randomCards = array_slice($randomCards, 1);
-        
-        // Récupère le résultat par les boutons correct et à revoir. Nettoyeur::nettoyeur_str évite injection (utilise un int).
-        $resultatFlash = intval(Nettoyeur::nettoyeurStr($request->query->get('resultatflash', '')));
-
-        // In(dé)crémente la variable countflashcorrect en fonction de resultatflash (note mini 8/20)
-        if (empty($countFlashCorrect)) {$countFlashCorrect = 0;}
-        $countFlashCorrect = intval(Nettoyeur::nettoyeurStr($session->get('countflashcorrect',0)));       
-        switch($resultatFlash){
-            case Null : 
-                // Traitement du premier affichage
-                $resultatFlash="";
-                $countFlashCorrect="";
-                $randomCardModif = $randomCard;
-                $session->set('randomCards', $randomCards);
-                $session->set('randomCard', $randomCard);
-                break;
-            case "1": // "correct"
-                // Traitement du décompte de points
-                if($countFlashCorrect<8){$countFlashCorrect=8;}
-                $countFlashCorrect++;
-                if($countFlashCorrect>20){$countFlashCorrect=20;}
-                $session->set('countflashcorrect', $countFlashCorrect);
-                // Traitement de l'affichage et algorythme profond des Flashcards
-                $randomCards = $session->get('randomCards', Null);
-                $randomCardModif = reset($randomCards);
-                $randomCards = array_slice($randomCards, 1);
-                $session->set('randomCards', $randomCards);
-                $session->set('randomCard', $randomCardModif);
-                if (!$randomCardModif) {$this->addFlash('success', 'Félicitation ! Révision terminée.');
-                    return $this->redirectToRoute('app_flashcard');}
-                break;
-                case "2": // "À revoir"
-                    // Le montant minimum du score d'entraînement est 8.
-                    if ($countFlashCorrect < 8) {
-                        $countFlashCorrect = 8;
-                    }
-                    $session->set('countflashcorrect', $countFlashCorrect);
-                
-                    // Récupérer la liste actuelle des cartes en session
-                    $randomCards = $session->get('randomCards', []);
-                    $randomCard = $session->get('randomCard', []);
-                
-                    if (!$randomCard) {
-                        $this->addFlash('success', 'Félicitations ! Révision terminée.');
-                        return $this->redirectToRoute('app_flashcard');
-                    }
-                
-                    // S'assurer que $randomCards est bien un tableau
-                    if (!is_array($randomCards)) {
-                        $randomCards = [];
-                    }
-                
-                    // Insérer $randomCard en deuxième position
-                    $randomCards = array_merge(
-                        array_slice($randomCards, 1, 1), 
-                        [$randomCard],                   
-                        array_slice($randomCards, 2)     
-                    );
-                    
-                
-                    // Mettre à jour la session
-                    $session->set('randomCards', $randomCards);
-                    $randomCardModif = reset($randomCards);
-                    $session->set('randomCard', $randomCardModif); // Garder le premier élément en affichage
-                    break;
-                            default:
-                echo "";}
-
+    
+        $result = $flashcardService->prepareFlashcardActivity(
+            $request,
+            $session,
+            [Nettoyeur::class, 'cleanCardEco'], // fonction de nettoyage
+            fn($idClasse) => $flashCardEcoRepository->findAllByClassId($idClasse) // récupération des cartes
+        );
+    
+        if (isset($result['redirect'])) {
+            if (isset($result['flash'])) {
+                $this->addFlash('success', $result['flash']);
+            }
+            return $this->redirectToRoute($result['redirect']);
+        }
+    
         return $this->render('activities/flashcard.html.twig', [
-            'randomCard' => $randomCardModif,
+            'randomCard' => $result['randomCard'],
             'choixCard' => 'eco',
-            'ClasseSelectionType' => Null,
-            'resultatFlash' => htmlspecialchars($countFlashCorrect),
+            'ClasseSelectionType' => null,
+            'resultatFlash' => htmlspecialchars($result['countFlashCorrect']),
         ]);
     }
     
-    // Crée activité flashcard gestion
+    
     #[Route('/flashcard/gestion', name: 'app_flashcard_gestion')]
-    public function flashcardgestion(
-        Request $request,
-        FlashCardGestionRepository $flashCardGestionRepository,
-        SessionInterface $session): Response
-    {
-    // Récupérer l'id de la classe choisie si elle exite (spécial 1 template)
+public function flashcardgestion(
+    Request $request,
+    SessionInterface $session,
+    FlashcardService $flashcardService,
+    FlashCardGestionRepository $flashCardGestionRepository
+): Response {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-    $id = intval($request->query->get('id', ''));
-    if(!empty($id)) {$session->set('idclasse', $id);}
-    $idClasse = Nettoyeur::nettoyeurInt(intval($session->get('idclasse')));
 
-    // Récupérer une flashcard aléatoire néttoyée pour cette classe (vérifie si en session)
-    if (!$idClasse) {  return $this->redirectToRoute('app_flashcard'); }
-    $randomCards = Nettoyeur::cleanCardGestion($session->get('randomCards', Null));
-    if (!$randomCards) { $randomCards = $flashCardGestionRepository->findAllByClassId($idClasse);}
+    $result = $flashcardService->prepareFlashcardActivity(
+        $request,
+        $session,
+        [Nettoyeur::class, 'cleanCardGestion'], // fonction de nettoyage propre à "gestion"
+        fn($idClasse) => $flashCardGestionRepository->findAllByClassId($idClasse) // récupération des cartes
+    );
 
-    // Premier passage : reset : récupère premier élément, array_slice : garde le reste + mise en session (gestion assynchrone)
-    $randomCard = reset($randomCards); 
-    if(!$randomCard) {return $this->redirectToRoute('home');} 
-    $randomCards = array_slice($randomCards, 1);
-    
-    // Récupère le résultat par les boutons correct et à revoir. Nettoyeur::nettoyeur_str évite injection (utilise un int).
-    $resultatFlash = intval(Nettoyeur::nettoyeurStr($request->query->get('resultatflash', '')));
-
-    // In(dé)crémente la variable countflashcorrect en fonction de resultatflash (note mini 8/20)
-    if (empty($countFlashCorrect)) {$countFlashCorrect = 0;}
-    $countFlashCorrect = intval(Nettoyeur::nettoyeurStr($session->get('countflashcorrect',0)));       
-    switch($resultatFlash){
-        case Null : 
-            // Traitement du premier affichage
-            $resultatFlash="";
-            $countFlashCorrect="";
-            $randomCardModif = $randomCard;
-            $session->set('randomCards', $randomCards);
-            $session->set('randomCard', $randomCard);
-            break;
-        case "1": // "correct"
-            // Traitement du décompte de points
-            if($countFlashCorrect<8){$countFlashCorrect=8;}
-            $countFlashCorrect++;
-            if($countFlashCorrect>20){$countFlashCorrect=20;}
-            $session->set('countflashcorrect', $countFlashCorrect);
-            // Traitement de l'affichage et algorythme profond des Flashcards
-            $randomCards = $session->get('randomCards', Null);
-            $randomCardModif = reset($randomCards);
-            $randomCards = array_slice($randomCards, 1);
-            $session->set('randomCards', $randomCards);
-            $session->set('randomCard', $randomCardModif);
-            if (!$randomCardModif) {$this->addFlash('success', 'Félicitation ! Révision terminée.');
-                return $this->redirectToRoute('app_flashcard');}
-            break;
-            case "2": // "À revoir"
-                // Le montant minimum du score d'entraînement est 8.
-                if ($countFlashCorrect < 8) {
-                    $countFlashCorrect = 8;
-                }
-                $session->set('countflashcorrect', $countFlashCorrect);
-            
-                // Récupérer la liste actuelle des cartes en session
-                $randomCards = $session->get('randomCards', []);
-                $randomCard = $session->get('randomCard', []);
-            
-                if (!$randomCard) {
-                    $this->addFlash('success', 'Félicitations ! Révision terminée.');
-                    return $this->redirectToRoute('app_flashcard');
-                }
-            
-                // S'assurer que $randomCards est bien un tableau
-                if (!is_array($randomCards)) {
-                    $randomCards = [];
-                }
-            
-                // Insérer $randomCard en deuxième position
-                $randomCards = array_merge(
-                    array_slice($randomCards, 1, 1), 
-                    [$randomCard],                   
-                    array_slice($randomCards, 2)     
-                );
-                
-            
-                // Mettre à jour la session
-                $session->set('randomCards', $randomCards);
-                $randomCardModif = reset($randomCards);
-                $session->set('randomCard', $randomCardModif); // Garder le premier élément en affichage
-                break;
-                        default:
-            echo "";}
-
-        return $this->render('activities/flashcard.html.twig', [
-            'randomCard' => $randomCard,
-            'choixCard' => 'gestion',
-            'ClasseSelectionType' => Null,
-            'resultatFlash' => htmlspecialchars($countFlashCorrect),
-        ]);
+    if (isset($result['redirect'])) {
+        if (isset($result['flash'])) {
+            $this->addFlash('success', $result['flash']);
+        }
+        return $this->redirectToRoute($result['redirect']);
     }
+
+    return $this->render('activities/flashcard.html.twig', [
+        'randomCard' => $result['randomCard'],
+        'choixCard' => 'gestion',
+        'ClasseSelectionType' => null,
+        'resultatFlash' => htmlspecialchars($result['countFlashCorrect']),
+    ]);
+}
 
 // Crée activité flashcard outil de gestion
 #[Route('/flashcard/outil-gestion', name: 'app_flashcard_outil_gestion')]
 public function flashcardoutilgestion(
     Request $request,
-    FlashCardOutilGestionRepository $flashCardOutilGestionRepository,
-    SessionInterface $session): Response
-{
-    // Récupérer l'id de la classe choisie si elle exite (spécial 1 template)
+    SessionInterface $session,
+    FlashcardService $flashcardService,
+    FlashCardOutilGestionRepository $flashCardOutilGestionRepository
+): Response {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-    $id = intval($request->query->get('id', ''));
-    if(!empty($id)) {$session->set('idclasse', $id);}
-    $idClasse = Nettoyeur::nettoyeurInt(intval($session->get('idclasse')));
 
-    // Récupérer une flashcard aléatoire néttoyée pour cette classe (vérifie si en session)
-    if (!$idClasse) {  return $this->redirectToRoute('app_flashcard'); }
-    $randomCards = Nettoyeur::cleanCardOutilGestion($session->get('randomCards', Null));
-    if (!$randomCards) { $randomCards = $flashCardOutilGestionRepository->findAllByClassId($idClasse);}
+    $result = $flashcardService->prepareFlashcardActivity(
+        $request,
+        $session,
+        [Nettoyeur::class, 'cleanCardOutilGestion'], // nettoyage spécifique
+        fn($idClasse) => $flashCardOutilGestionRepository->findAllByClassId($idClasse) // repo spécifique
+    );
 
-    // Premier passage : reset : récupère premier élément, array_slice : garde le reste + mise en session (gestion assynchrone)
-    $randomCard = reset($randomCards); 
-    if(!$randomCard) {return $this->redirectToRoute('home');} 
-    $randomCards = array_slice($randomCards, 1);
-    
-    // Récupère le résultat par les boutons correct et à revoir. Nettoyeur::nettoyeur_str évite injection (utilise un int).
-    $resultatFlash = intval(Nettoyeur::nettoyeurStr($request->query->get('resultatflash', '')));
-
-    // In(dé)crémente la variable countflashcorrect en fonction de resultatflash (note mini 8/20)
-    if (empty($countFlashCorrect)) {$countFlashCorrect = 0;}
-    $countFlashCorrect = intval(Nettoyeur::nettoyeurStr($session->get('countflashcorrect',0)));       
-    switch($resultatFlash){
-        case Null : 
-            // Traitement du premier affichage
-            $resultatFlash="";
-            $countFlashCorrect="";
-            $randomCardModif = $randomCard;
-            $session->set('randomCards', $randomCards);
-            $session->set('randomCard', $randomCard);
-            break;
-        case "1": // "correct"
-            // Traitement du décompte de points
-            if($countFlashCorrect<8){$countFlashCorrect=8;}
-            $countFlashCorrect++;
-            if($countFlashCorrect>20){$countFlashCorrect=20;}
-            $session->set('countflashcorrect', $countFlashCorrect);
-            // Traitement de l'affichage et algorythme profond des Flashcards
-            $randomCards = $session->get('randomCards', Null);
-            $randomCardModif = reset($randomCards);
-            $randomCards = array_slice($randomCards, 1);
-            $session->set('randomCards', $randomCards);
-            $session->set('randomCard', $randomCardModif);
-            if (!$randomCardModif) {$this->addFlash('success', 'Félicitation ! Révision terminée.');
-                return $this->redirectToRoute('app_flashcard');}
-            break;
-            case "2": // "À revoir"
-                // Le montant minimum du score d'entraînement est 8.
-                if ($countFlashCorrect < 8) {
-                    $countFlashCorrect = 8;
-                }
-                $session->set('countflashcorrect', $countFlashCorrect);
-            
-                // Récupérer la liste actuelle des cartes en session
-                $randomCards = $session->get('randomCards', []);
-                $randomCard = $session->get('randomCard', []);
-            
-                if (!$randomCard) {
-                    $this->addFlash('success', 'Félicitations ! Révision terminée.');
-                    return $this->redirectToRoute('app_flashcard');
-                }
-            
-                // S'assurer que $randomCards est bien un tableau
-                if (!is_array($randomCards)) {
-                    $randomCards = [];
-                }
-            
-                // Insérer $randomCard en deuxième position
-                $randomCards = array_merge(
-                    array_slice($randomCards, 1, 1), 
-                    [$randomCard],                   
-                    array_slice($randomCards, 2)     
-                );
-                
-            
-                // Mettre à jour la session
-                $session->set('randomCards', $randomCards);
-                $randomCardModif = reset($randomCards);
-                $session->set('randomCard', $randomCardModif); // Garder le premier élément en affichage
-                break;
-                        default:
-            echo "";}
+    if (isset($result['redirect'])) {
+        if (isset($result['flash'])) {
+            $this->addFlash('success', $result['flash']);
+        }
+        return $this->redirectToRoute($result['redirect']);
+    }
 
     return $this->render('activities/flashcard.html.twig', [
-        'randomCard' => $randomCard,
+        'randomCard' => $result['randomCard'],
         'choixCard' => 'outilgestion',
-        'ClasseSelectionType' => Null,
-        'resultatFlash' => htmlspecialchars($countFlashCorrect),
+        'ClasseSelectionType' => null,
+        'resultatFlash' => htmlspecialchars($result['countFlashCorrect']),
     ]);
 }
+
 
 // Evaluation des flashcards
 
