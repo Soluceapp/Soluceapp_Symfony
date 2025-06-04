@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Repository\FlashCardEcoRepository;
 use App\Security\Nettoyeur;
-use Symfony\Component\HttpFoundation\Response;
 class FlashCardService
 {
     private UserFlashCardRepository $userFlashCardRepository;
@@ -36,12 +35,14 @@ class FlashCardService
             $session->set('idclasse', $id);
         }
 
+        // Récupération sécurisée de la classe choisie pour la révision de flashcard
         $idClasse = Nettoyeur::nettoyeurInt(intval($session->get('idclasse')));
 
         if (!$idClasse) {
             return ['redirect' => 'app_flashcard'];
         }
 
+        // Récupération des flashcards mis en session (sécurisation à améliorer)
         $randomCards = call_user_func($cleanCardFn, $session->get('randomCards', null));
         if (!$randomCards) {
             $randomCards = call_user_func($repositoryFindFn, $idClasse);
@@ -52,6 +53,7 @@ class FlashCardService
             return ['redirect' => 'home'];
         }
 
+        // Récupération de l'id du flashcard et de si elle est réussie ou pas ainsi que le décompte de point.
         $randomCards = array_slice($randomCards, 1);
         $resultatFlash = intval(Nettoyeur::nettoyeurStr($request->query->get('resultatflash', '')));
         $countFlashCorrect = intval(Nettoyeur::nettoyeurStr($session->get('countflashcorrect', 0)));
@@ -162,15 +164,6 @@ class FlashCardService
     
         // Récupérer les identifiants
         return $queryBuilder->getQuery()->getArrayResult();
-    }
-    
-    public function getNextFlashCardId(Dutil $user, string $context): ?int
-    {
-        // Récupère les IDs des flashcards non encore tentées
-        $flashCardIds = $this->getIdFlashCardsByUserAndClass($user, $context);
-    
-        // Retourne le premier ID ou null si la liste est vide
-        return $flashCardIds[0] ?? null;
     }
 
     // Pour l'évaluation limitation du nombre de flascard utilisé à 13 (12 visé en controller)
