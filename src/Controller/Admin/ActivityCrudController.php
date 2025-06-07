@@ -28,7 +28,7 @@ class ActivityCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('name_activity'),
+            IdField::new('name_activity','Nom de l\'activité'),
             IntegerField::new('coefficient'),
         ];
     }
