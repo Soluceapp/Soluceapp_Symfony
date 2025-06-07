@@ -9,19 +9,20 @@
 
     <div class="container-flex-onglets">
     {% if app.user==false %}
-    <!--<div class="item-flex order1" class="style8" class="dropdown"><button onclick="sub_menu42()" class="dropbtn">Activités<br>sans connexion</button><div id="myDropdown6" class="dropdown-content"></div></div>  -->  
+ <!--<div class="item-flex order1" class="style8" class="dropdown"><a href="https://palissy.soluceapp.com" class="btn">Activités<br>sans connexion</a><div id="myDropdown6" class="dropdown-content"></div></div> --> 
     {%endif%} 
 
     {% if app.user %}
-    <div class="item-flex order5" class="style8" class="dropdown" ><button onclick="sub_menu10()" class="dropbtn">Se<br>déconnecter</button><div id="myDropdown6" class="dropdown-content"></div></div>
+    <div class="item-flex order5 style8 dropdown" ><a href="{{ path('app_logout')}}" class="btn">Se<br>déconnecter</a><div id="myDropdown6" class="dropdown-content"></div></div>
     {%else%}
-    <div class="item-flex order5" class="style8" class="dropdown"><button onclick="sub_menu7()" class="dropbtn">Se<br>connecter</button><div id="myDropdown7" class="dropdown-content"></div></div></div>
-    {%endif%} 
+    {% if home is defined %}{%else%}
+    <div class="item-flex order5 style8 dropdown"><a href="{{ path('app_login')}}" class="btn" class="dropbtn">Se<br>connecter</a><div id="myDropdown7" class="dropdown-content"></div></div></div>
+    {%endif%}{%endif%} 
 
   
     {% if app.user and app.user.isVerified == true%}{% for role in app.user.roles %}
         {% if role == "ROLE_ADMIN" %}
-   <div class="item-flex order3" class="style8" class="dropdown"><button onclick="sub_menu36()" class="dropbtn">Accéder à<br>l'administration</button><div id="myDropdown6" class="dropdown-content"></div></div>
+   <div class="item-flex order3 style8 dropdown"><a href="{{ path('admin')}}" class="btn">Accéder à<br>l'administration</a><div id="myDropdown6" class="dropdown-content"></div></div>
         {% endif %}
     {% endfor %}{%endif%} 
 
@@ -32,10 +33,10 @@
   <div class="item-flex order0 style8 dropdown">
       <button class="dropbtn" data-dropdown-target="myDropdownTest">Gagner des<br>points</button>
       <div id="myDropdownTest" class="dropdown-content">
-        {% if app.user.classe.accesMotCroise == true %}<a onclick="sub_menu33()" class="style12">Mots croisés</a>{% endif %}
-            {% if app.user.classe.accesChevaux == true %}<a onclick="sub_menu14()" class="style12">Petits Chevaux</a>{% endif %}
-            {% if app.user.classe.accesCompta == true %}<a onclick="sub_menu34()" class="style12">Comptafacil</a>{% endif %}
-            {% if app.user.classe.accesFacture == true %}<a onclick="sub_menu16()" class="style12">Facture Mystère</a>{% endif %}
+        {% if app.user.classe.accesMotCroise == true %}<a href="{{ path('app_choix_mot_croise')}}" class="style12">Mots croisés</a>{% endif %}
+            {% if app.user.classe.accesChevaux == true %}<a href="{{ path('app_choix_chevaux')}}" class="style12">Petits Chevaux</a>{% endif %}
+            {% if app.user.classe.accesCompta == true %}<a href="{{ path('app_compta_facile')}}" class="style12">Comptafacile</a>{% endif %}
+            {% if app.user.classe.accesFacture == true %}<a href="{{ path('app_facture')}}" class="style12">Facture Mystère</a>{% endif %}
             {% if app.user.noteEvalEco == 0 %}
               {% if app.user.classe.accesEvalFlashcard == true and app.user.iddomain.accesFlashcardEcoDroit == true %}<a href="{{ path('app_eval_flashcard', { 'context': 'eco' }) }}" class="style12">Eval Flaschcard Eco</a>{% endif %}
             {% endif %}
@@ -55,10 +56,10 @@
     </div>
   </div>
 
-  <div class="item-flex order4" class="style8" class="dropdown"><button onclick="sub_menu37()" class="dropbtn">Accès à<br>mon profil</button><div id="myDropdown5" class="dropdown-content"></div></div>
+  <div class="item-flex order4 style8 dropdown"><a href="{{ path('app_profil_student')}}" class="btn">Accès à<br>mon profil</a><div id="myDropdown5" class="dropdown-content"></div></div>
 
   {% elseif app.user and app.user.isVerified == false%}
-    <div class="item-flex order0" class="style8" class="dropdown"><button onclick="sub_menu35()" class="dropbtn">Accéder aux<br>activités</button><div id="myDropdown6" class="dropdown-content"></div></div>
+    <div class="item-flex order0 style8 dropdown"><a href="{{ path('app_activities')}}" class="btn">Accéder aux<br>activités</a><div id="myDropdown6" class="dropdown-content"></div></div>
   {% endif %} 
     
 

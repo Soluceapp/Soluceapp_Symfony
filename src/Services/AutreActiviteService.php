@@ -5,11 +5,13 @@ namespace App\Services;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Dutil;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Scenario;
+use App\Entity\Scenario;use App\Entity\ClassStudent;
+use App\Form\TestForm;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Security\Nettoyeur;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class AutreActiviteService extends AbstractController 
 {
@@ -18,7 +20,7 @@ class AutreActiviteService extends AbstractController
     private $session;
 
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager,private FormFactoryInterface $formFactory)
     {
         $this->entityManager = $entityManager;
     }
@@ -455,6 +457,43 @@ class AutreActiviteService extends AbstractController
         ];
     }
     
+    public function prepareComptaFacile(
+        SessionInterface $session,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserInterface $user
+    ): array {
+        // Récupération des données utiles des bases (en prenant en compte les non nullable pour l'enregistrement)
+        $scenario = new Scenario();
+        $defaultClass = $entityManager->getRepository(ClassStudent::class)->find(1);
+        if ($defaultClass) {$scenario->setClasse($defaultClass);}
 
+        // Création du formulaire
+        $form = $this->formFactory->create(TestForm::class, $scenario);
+        $form->handleRequest($request);
+    
+        // Vérification du formulaire 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($scenario);
+            $entityManager->flush();
+    
+            return [
+                'flash_type' => 'success',
+                'flash_message' => 'Scénario enregistré',
+                'redirect' => 'app_test_view', // ou null pour rester sur place
+            ];
+        }
+    
+        $scenarios = $entityManager->getRepository(Scenario::class)
+            ->findBy([], ['id' => 'DESC']);
+    
+        return [
+            'contexte' => [
+                'scenarios' => $scenarios,
+                'form' => $form->createView(),
+            ]
+        ];
+    }
+    
 
 }

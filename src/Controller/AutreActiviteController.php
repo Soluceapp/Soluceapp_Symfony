@@ -295,6 +295,37 @@ public function resultCours(
     ]);
 }
 
+#[Route('/compta/facile', name: 'app_compta_facile')]
+public function viewTest(
+    SessionInterface $session,
+    EntityManagerInterface $entityManager,
+    Request $request,
+    AutreActiviteService $contexte
+): Response {
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+    $user = $this->getUser();
+
+    // Appel au service
+    $contexte = $contexte->prepareComptaFacile($session, $request, $entityManager, $user);
+
+    // Gestion du flash message
+    if (isset($contexte['flash_message'])) {
+        $this->addFlash($contexte['flash_type'], $contexte['flash_message']);
+    }
+
+    // Redirection si besoin (après POST)
+    if (isset($contexte['redirect'])) {
+        return $this->redirectToRoute($contexte['redirect']);
+    }
+
+    // Affichage normal
+    return $this->render('activities/view_compta_facile.html.twig', [
+        'contexte' => $contexte['contexte'],
+    ]);
+}
+
+
+
 
 }
 
