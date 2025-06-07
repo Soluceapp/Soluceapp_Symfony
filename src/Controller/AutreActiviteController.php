@@ -270,7 +270,7 @@ class AutreActiviteController extends AbstractController
         ]);
     }
     
-    #[Route('/resultat/cours', name: 'app_resultatcours')]
+    #[Route('/resultat-cours', name: 'app_resultatcours')]
 public function resultCours(
     SessionInterface $session,
     EntityManagerInterface $entityManager,
@@ -295,7 +295,7 @@ public function resultCours(
     ]);
 }
 
-#[Route('/compta/facile', name: 'app_compta_facile')]
+#[Route('/compta-facile', name: 'app_compta_facile')]
 public function viewTest(
     SessionInterface $session,
     EntityManagerInterface $entityManager,
