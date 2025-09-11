@@ -339,7 +339,7 @@ class AutreActiviteService extends AbstractController
             $session->clear();
     
             return [
-                'solution' => $reponseAttendue1,
+                'solution' => 1,
             ];
         }
     
