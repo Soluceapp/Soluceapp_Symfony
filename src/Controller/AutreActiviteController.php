@@ -38,7 +38,7 @@ class AutreActiviteController extends AbstractController
 
     // Permet de choisir un jeu de petit chevaux en fonction d'un scénario
     #[Route('/activities/choix-chevaux', name: 'app_choix_chevaux')]
-    public function choixPetitChevaux(): Response
+    public function choixPetitChevaux(EntityManagerInterface $entityManager): Response
     {
         // Vérifie si l'utilisateur est authentifié
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
@@ -49,8 +49,11 @@ class AutreActiviteController extends AbstractController
         // Appel du service pour récupérer les scénarios
         $scenarios = $this->autreActiviteService->getScenariosByUser($user);
 
-        // Récupère la classe de l'utilisateur (elle peut aussi être passée par le service)
-        $classe = $user->getClasse();
+        // Récupère l'utilisateur connecté
+        $dutil = $entityManager->getRepository(Dutil::class)->find($this->getUser());
+
+       // Récupère la classe de l'utilisateur
+       $classe = $dutil->getClasse();
 
         // Passe les scénarios au template
         return $this->render('activities/petit_chevaux_choix.html.twig', [
@@ -237,11 +240,8 @@ class AutreActiviteController extends AbstractController
             return $this->redirectToRoute($result['redirect']);
         }
 
-        // Nettoyage session seulement si pas déjà fait dans le service
-        $session->clear();
-
         return $this->render('activities/resultat.html.twig', [
-            'SOL' => htmlspecialchars($result['solution'] ?? 0),
+            'SOL' => htmlspecialchars($result['solution'] ?? ''),
         ]);
     }
 

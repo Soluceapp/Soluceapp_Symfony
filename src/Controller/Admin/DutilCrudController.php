@@ -43,6 +43,7 @@ class DutilCrudController extends AbstractCrudController
             AssociationField::new('classe')->setLabel('Niveau'),//->setFormTypeOption('disabled', true),
             AssociationField::new('id_domain')->setLabel('Classe'),
             IntegerField::new('points'),
+            IntegerField::new('note'),
             IntegerField::new('noteevaleco'),
             IntegerField::new('noteevalgestion'),
             IntegerField::new('noteevaloutilgestion'),
